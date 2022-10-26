@@ -19,7 +19,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 
 // CommentManage
-public class P_13 extends JFrame {
+public class ComManageComment extends JFrame {
 
 	private JPanel contentPane;
 	private JTable tableCommentList;
@@ -35,7 +35,7 @@ public class P_13 extends JFrame {
 		
 		// Font Setting
 		try {
-            String classPath = P_13.class.getResource("").getPath();
+            String classPath = ComManageComment.class.getResource("").getPath();
             String path = URLDecoder.decode(classPath, "UTF-8");
             inputStream = new BufferedInputStream(
                     new FileInputStream(path + "/font/NanumBarunGothic.ttf"));
@@ -69,7 +69,7 @@ public class P_13 extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					P_13 frame = new P_13();
+					ComManageComment frame = new ComManageComment();
 					frame.setVisible(true);
 					frame.setFont();
 				} catch (Exception e) {
@@ -82,7 +82,7 @@ public class P_13 extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public P_13() {
+	public ComManageComment() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, Size.SCREEN_W, Size.SCREEN_H);
 		this.setLocationRelativeTo(null);
@@ -129,7 +129,7 @@ public class P_13 extends JFrame {
 		contentPane.add(scCommentList);
 		
 		lblYellowCat = new JLabel("");
-		lblYellowCat.setIcon(new ImageIcon(P_13.class.getResource("/img/YellowCat.png")));
+		lblYellowCat.setIcon(new ImageIcon(ComManageComment.class.getResource("/img/YellowCat.png")));
 		lblYellowCat.setBounds(710, 50, 230, 80);
 		contentPane.add(lblYellowCat);
 		

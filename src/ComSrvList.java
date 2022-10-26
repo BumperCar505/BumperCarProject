@@ -20,7 +20,7 @@ import java.awt.Color;
 import javax.swing.table.DefaultTableCellRenderer;
 
 // ComServiceList
-public class P_8 extends JFrame {
+public class ComSrvList extends JFrame {
 	private JPanel contentPane;
 	private JTable tableSrvList;
 	private JScrollPane scSrvList;
@@ -36,7 +36,7 @@ public class P_8 extends JFrame {
 		
 		// Font Setting
 		try {
-            String classPath = P_8.class.getResource("").getPath();
+            String classPath = ComSrvList.class.getResource("").getPath();
             String path = URLDecoder.decode(classPath, "UTF-8");
             inputStream = new BufferedInputStream(
                     new FileInputStream(path + "/font/NanumBarunGothic.ttf"));
@@ -71,7 +71,7 @@ public class P_8 extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					P_8 frame = new P_8();
+					ComSrvList frame = new ComSrvList();
 					frame.setVisible(true);
 					frame.setFont();
 				} catch (Exception e) {
@@ -95,7 +95,7 @@ public class P_8 extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public P_8() {
+	public ComSrvList() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, Size.SCREEN_W, Size.SCREEN_H);
 		this.setLocationRelativeTo(null);
@@ -169,7 +169,7 @@ public class P_8 extends JFrame {
 		contentPane.add(btnBackMain);
 		
 		lblYellowCat = new JLabel("");
-		lblYellowCat.setIcon(new ImageIcon(P_8.class.getResource("/img/YellowCat.png")));
+		lblYellowCat.setIcon(new ImageIcon(ComSrvList.class.getResource("/img/YellowCat.png")));
 		lblYellowCat.setBounds(710, 50, 230, 80);
 		contentPane.add(lblYellowCat);
 	}

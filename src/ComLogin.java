@@ -18,7 +18,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 
 // ComLogin
-public class P_1 extends JFrame {
+public class ComLogin extends JFrame {
 	private JPanel contentPane;
 	private JTextField comPw;
 	private JTextField comId;
@@ -30,7 +30,7 @@ public class P_1 extends JFrame {
 		
 		// Font Setting
 		try {
-            String classPath = P_1.class.getResource("").getPath();
+            String classPath = ComLogin.class.getResource("").getPath();
             String path = URLDecoder.decode(classPath, "UTF-8");
             inputStream = new BufferedInputStream(
                     new FileInputStream(path + "/font/NanumBarunGothic.ttf"));
@@ -62,7 +62,7 @@ public class P_1 extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					P_1 frame = new P_1();
+					ComLogin frame = new ComLogin();
 					frame.setVisible(true);
 					frame.setFont();
 				} catch (Exception e) {
@@ -87,7 +87,7 @@ public class P_1 extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public P_1() {
+	public ComLogin() {
 		setTitle("다고쳐카센터");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -133,7 +133,7 @@ public class P_1 extends JFrame {
 		contentPane.add(btnComJoin);
 		
 		JLabel lblYellowCat = new JLabel("");
-		lblYellowCat.setIcon(new ImageIcon(P_1.class.getResource("/img/YellowCat.png")));
+		lblYellowCat.setIcon(new ImageIcon(ComLogin.class.getResource("/img/YellowCat.png")));
 		lblYellowCat.setBounds(714, 215, 230, 80);
 		contentPane.add(lblYellowCat);
 	}

@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JList;
 
-public class P_8_1 extends JFrame {
+public class ComSrvListSub1 extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textFieldSrvName;
@@ -28,7 +28,7 @@ public class P_8_1 extends JFrame {
 		
 		// Font Setting
 		try {
-            String classPath = P_8.class.getResource("").getPath();
+            String classPath = ComSrvList.class.getResource("").getPath();
             String path = URLDecoder.decode(classPath, "UTF-8");
             inputStream = new BufferedInputStream(
                     new FileInputStream(path + "/font/NanumBarunGothic.ttf"));
@@ -61,7 +61,7 @@ public class P_8_1 extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					P_8_1 frame = new P_8_1();
+					ComSrvListSub1 frame = new ComSrvListSub1();
 					frame.setVisible(true);
 					frame.setFont();
 				} catch (Exception e) {
@@ -74,7 +74,7 @@ public class P_8_1 extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public P_8_1() {
+	public ComSrvListSub1() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 600);
 		contentPane = new JPanel();
