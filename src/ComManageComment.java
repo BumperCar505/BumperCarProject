@@ -83,9 +83,11 @@ public class ComManageComment extends JFrame {
 	 * Create the frame.
 	 */
 	public ComManageComment() {
+		setTitle("다고쳐카센터 - 코멘트관리");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, Size.SCREEN_W, Size.SCREEN_H);
 		this.setLocationRelativeTo(null);
+		this.setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 

@@ -88,11 +88,11 @@ public class ComLogin extends JFrame {
 	 * Create the frame.
 	 */
 	public ComLogin() {
-		setTitle("다고쳐카센터");
-		setResizable(false);
+		setTitle("다고쳐카센터 - 로그인");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, Size.SCREEN_W, Size.SCREEN_H);
 		this.setLocationRelativeTo(null);
+		this.setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
