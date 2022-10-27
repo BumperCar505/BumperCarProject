@@ -1,5 +1,7 @@
 import java.awt.EventQueue;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -10,6 +12,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
+
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JTextField;
@@ -18,12 +23,13 @@ import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 
 // ComLogin
-public class ComLogin extends JFrame {
+public class ComLogin extends JFrame implements ActionListener, CaretListener {
 	private JPanel contentPane;
 	private JTextField comPw;
 	private JTextField comId;
 	private JButton btnComLogin;
 	private JButton btnComJoin;
+	private String pwd; // 패스워드 임시 저장공간
 
 	public void setFont() {
 		InputStream inputStream = null;
@@ -83,7 +89,22 @@ public class ComLogin extends JFrame {
 //		btnComLogin.updateUI();
 //		btnComJoin.updateUI();
 //	}
-
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+	}
+	
+	@Override
+	public void caretUpdate(CaretEvent e) {
+		// TODO Auto-generated method stub
+		Object obj = e.getSource();
+		
+		if(obj == comId && comId.getText().equals("아이디")) {
+			comId.setText("");
+		}
+	}
+	
 	/**
 	 * Create the frame.
 	 */
@@ -106,6 +127,7 @@ public class ComLogin extends JFrame {
 		comId.setColumns(10);
 		comId.setBorder(new BevelBorder(BevelBorder.RAISED, Color.red, Color.red, 
 				Color.red, Color.red));
+		comId.addCaretListener(this);
 		contentPane.add(comId);
 		
 		comPw = new JTextField();
