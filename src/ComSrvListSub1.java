@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.io.BufferedInputStream;
@@ -7,10 +8,13 @@ import java.net.URLDecoder;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.JList;
+import javax.swing.JButton;
 
 public class ComSrvListSub1 extends JFrame {
 
@@ -20,15 +24,17 @@ public class ComSrvListSub1 extends JFrame {
 	private JLabel lblSrvName;
 	private JLabel lblProvideTechnicianList;
 	private JLabel lblSrvPrice;
-	private JList listProvideTechnician;
-	private final int FONT_SIZE = 21;
+	private JList listProvideTech;
+	private JButton btnSrvReg; // 등록
+	private JButton btnSrvSave; // 저장
+	private final int FONT_SIZE = 20;
 	
 	public void setFont() {
 		InputStream inputStream = null;
 		
 		// Font Setting
 		try {
-            String classPath = ComSrvList.class.getResource("").getPath();
+            String classPath = ComSrvListSub1.class.getResource("").getPath();
             String path = URLDecoder.decode(classPath, "UTF-8");
             inputStream = new BufferedInputStream(
                     new FileInputStream(path + "/font/NanumBarunGothic.ttf"));
@@ -40,7 +46,7 @@ public class ComSrvListSub1 extends JFrame {
             lblSrvName.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             lblProvideTechnicianList.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             lblSrvPrice.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
-            listProvideTechnician.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
+            listProvideTech.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -76,7 +82,9 @@ public class ComSrvListSub1 extends JFrame {
 	 */
 	public ComSrvListSub1() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 600, 600);
+		setBounds(100, 100, 466, 518);
+		this.setLocationRelativeTo(null);
+		this.setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -84,29 +92,33 @@ public class ComSrvListSub1 extends JFrame {
 		contentPane.setLayout(null);
 		
 		lblSrvName = new JLabel("서비스 명");
-		lblSrvName.setBounds(102, 49, 57, 15);
+		lblSrvName.setBounds(40, 18, 100, 40);
 		contentPane.add(lblSrvName);
 		
 		lblProvideTechnicianList = new JLabel("제공된 정비사 목록");
-		lblProvideTechnicianList.setBounds(102, 135, 57, 15);
+		lblProvideTechnicianList.setBounds(40, 88, 200, 40);
 		contentPane.add(lblProvideTechnicianList);
 		
 		lblSrvPrice = new JLabel("서비스 가격");
-		lblSrvPrice.setBounds(102, 374, 57, 15);
+		lblSrvPrice.setBounds(40, 337, 100, 40);
 		contentPane.add(lblSrvPrice);
 		
 		textFieldSrvName = new JTextField();
-		textFieldSrvName.setBounds(268, 46, 116, 21);
-		contentPane.add(textFieldSrvName);
+		textFieldSrvName.setBounds(208, 17, 200, 40);
+		textFieldSrvName.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldSrvName.setColumns(10);
+		contentPane.add(textFieldSrvName);
 		
-		listProvideTechnician = new JList();
-		listProvideTechnician.setBounds(284, 259, 166, -134);
-		contentPane.add(listProvideTechnician);
+		String[] tempDatas = new String[] {"홍길동", "박나나"};
+		listProvideTech = new JList(tempDatas);
+		listProvideTech.setBounds(207, 97, 200, 200);
+		listProvideTech.setVisible(true);
+		contentPane.add(listProvideTech);
 		
 		textFieldSrvPrice = new JTextField();
 		textFieldSrvPrice.setColumns(10);
-		textFieldSrvPrice.setBounds(268, 371, 116, 21);
+		textFieldSrvPrice.setBounds(208, 337, 200, 40);
+		textFieldSrvPrice.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(textFieldSrvPrice);
 	}
 }
