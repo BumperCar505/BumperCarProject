@@ -102,6 +102,8 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 		
 		if(obj == comId && comId.getText().equals("아이디")) {
 			comId.setText("");
+		} else if(obj == comPw && comPw.getText().equals("비밀번호")) {
+			comPw.setText("");
 		}
 	}
 	
@@ -137,6 +139,7 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 		comPw.setColumns(10);
 		comPw.setBorder(new BevelBorder(BevelBorder.RAISED, Color.red, Color.red, 
 				Color.red, Color.red));
+		comPw.addCaretListener(this);
 		contentPane.add(comPw);
 		
 		btnComLogin = new JButton("로그인");
