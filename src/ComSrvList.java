@@ -1,9 +1,12 @@
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,7 +23,7 @@ import java.awt.Color;
 import javax.swing.table.DefaultTableCellRenderer;
 
 // ComServiceList
-public class ComSrvList extends JFrame {
+public class ComSrvList extends JFrame implements ActionListener {
 	private JPanel contentPane;
 	private JTable tableSrvList;
 	private JScrollPane scSrvList;
@@ -91,7 +94,25 @@ public class ComSrvList extends JFrame {
 //		btnEditSrv.updateUI();
 //		btnDelSrv.updateUI();
 //	}
-
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		Object obj = e.getSource();
+		
+		if(obj == btnAddsrv) {
+			new ComSrvListSub1("신규 서비스 등록").setFont();
+		} else if(obj == btnEditSrv) {
+			ArrayList<String> techList = new ArrayList<>();
+			techList.add("정비사1");
+			techList.add("정비사2");
+			techList.add("정비사3");
+			// new ComSrvListSub1("기존 서비스 수정", "테스트 서비스", "테스트 가격", techList).setFont();
+		} else if(obj == btnDelSrv) {
+			new ComSrvListSub2().setFont();
+		}
+	}
+	
 	/**
 	 * Create the frame.
 	 */
@@ -147,6 +168,7 @@ public class ComSrvList extends JFrame {
 		btnAddsrv.setBounds(100, 70, Size.BTN_S_W, Size.BTN_S_H);
 		btnAddsrv.setBorder(new BevelBorder(BevelBorder.RAISED, Color.red, Color.red, 
 				Color.red, Color.red));
+		btnAddsrv.addActionListener(this);
 		contentPane.add(btnAddsrv);
 		
 		btnEditSrv = new JButton("수정");
@@ -154,6 +176,7 @@ public class ComSrvList extends JFrame {
 		btnEditSrv.setBounds(275, 70, Size.BTN_S_W, Size.BTN_S_H);
 		btnEditSrv.setBorder(new BevelBorder(BevelBorder.RAISED, Color.red, Color.red, 
 				Color.red, Color.red));
+		btnEditSrv.addActionListener(this);
 		contentPane.add(btnEditSrv);
 		
 		btnDelSrv = new JButton("삭제");
@@ -161,6 +184,7 @@ public class ComSrvList extends JFrame {
 		btnDelSrv.setBounds(450, 70, Size.BTN_S_W, Size.BTN_S_H);
 		btnDelSrv.setBorder(new BevelBorder(BevelBorder.RAISED, Color.red, Color.red, 
 				Color.red, Color.red));
+		btnDelSrv.addActionListener(this);
 		contentPane.add(btnDelSrv);
 		
 		btnBackMain = new JButton("돌아가기");
