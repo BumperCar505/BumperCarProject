@@ -21,7 +21,7 @@ public class ComSrvListSub2 extends JFrame {
 	private JButton btnDelSrvN;
 	private final int FONT_SIZE = 20;
 
-	public void setFont() {
+	public ComSrvListSub2 setFont() {
 		InputStream inputStream = null;
 		
 		// Font Setting
@@ -47,6 +47,8 @@ public class ComSrvListSub2 extends JFrame {
         		}
         	}
         }
+		
+		return this;
 	}
 	
 	/**
@@ -71,10 +73,11 @@ public class ComSrvListSub2 extends JFrame {
 	 */
 	public ComSrvListSub2() {
 		setTitle("다고쳐카센터 - 서비스 목록 삭제");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
+		this.setVisible(true);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
