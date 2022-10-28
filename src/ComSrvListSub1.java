@@ -1,10 +1,13 @@
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URLDecoder;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,7 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JList;
 import javax.swing.JButton;
 
-public class ComSrvListSub1 extends JFrame {
+public class ComSrvListSub1 extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField textFieldSrvName;
@@ -25,11 +28,11 @@ public class ComSrvListSub1 extends JFrame {
 	private JLabel lblProvideTechnicianList;
 	private JLabel lblSrvPrice;
 	private JList listProvideTech;
-	private JButton btnSrvReg; // 등록
-	private JButton btnSrvSave; // 저장
+	private JButton btnSrvReg;
+	private JButton btnSrvSave;
 	private final int FONT_SIZE = 20;
 	
-	public void setFont() {
+	public ComSrvListSub1 setFont() {
 		InputStream inputStream = null;
 		
 		// Font Setting
@@ -47,6 +50,8 @@ public class ComSrvListSub1 extends JFrame {
             lblProvideTechnicianList.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             lblSrvPrice.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             listProvideTech.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
+            btnSrvReg.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
+            btnSrvSave.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -58,6 +63,8 @@ public class ComSrvListSub1 extends JFrame {
         		}
         	}
         }
+		
+		return this;
 	}
 	
 	/**
@@ -76,15 +83,27 @@ public class ComSrvListSub1 extends JFrame {
 			}
 		});
 	}
-
+	
+	// 테스트 코드입니다.
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		Object obj = e.getSource();
+		
+		if(obj == btnSrvReg || obj == btnSrvSave) {
+			System.out.println("이벤트 작동함");
+		}
+	}
+	
 	/**
 	 * Create the frame.
 	 */
 	public ComSrvListSub1() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 466, 518);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
+		this.setVisible(true);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -120,5 +139,38 @@ public class ComSrvListSub1 extends JFrame {
 		textFieldSrvPrice.setBounds(208, 337, 200, 40);
 		textFieldSrvPrice.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(textFieldSrvPrice);
+		
+		btnSrvReg = new JButton("추가");
+		btnSrvReg.setBorder(new BevelBorder(BevelBorder.RAISED, Color.red, Color.red, Color.red, Color.red));
+		btnSrvReg.setBackground(new Color(244, 204, 204));
+		btnSrvReg.setBounds(150, 408, Size.BTN_S_W, Size.BTN_S_H);
+		btnSrvReg.setVisible(false);
+		btnSrvReg.addActionListener(this);
+		contentPane.add(btnSrvReg);
+		
+		btnSrvSave = new JButton("저장");
+		btnSrvSave.setBorder(new BevelBorder(BevelBorder.RAISED, Color.red, Color.red, Color.red, Color.red));
+		btnSrvSave.setBackground(new Color(244, 204, 204));
+		btnSrvSave.setBounds(150, 408, Size.BTN_S_W, Size.BTN_S_H);
+		btnSrvSave.setVisible(false);
+		btnSrvSave.addActionListener(this);
+		contentPane.add(btnSrvSave);
+	}
+	
+	// 서비스 목록 창에서 등록을 눌렀을때 이 생성자 호출
+	public ComSrvListSub1(String titleName) {
+		this();
+		this.setTitle(titleName);
+		btnSrvReg.setVisible(true);
+	}
+	
+	// 테이블에서 셀 선택후 수정버튼을 클릭했을때 이 생성자 호출
+	public ComSrvListSub1(String titleName, String srvName, String srvPrice, List<String> srvTechList) {
+		this();
+		this.setTitle(titleName);
+		lblSrvName.setText(srvName);
+		lblSrvPrice.setText(srvPrice);
+		String[] list = (String[]) srvTechList.toArray();
+		listProvideTech = new JList(list);
 	}
 }
