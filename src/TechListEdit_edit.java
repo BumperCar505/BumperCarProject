@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class SrvListEditPage extends JFrame {
+public class TechListEdit_edit extends JFrame {
 
 	private JPanel contentPane;
 
@@ -15,7 +15,7 @@ public class SrvListEditPage extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SrvListEditPage frame = new SrvListEditPage();
+					TechListEdit_edit frame = new TechListEdit_edit();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -27,12 +27,13 @@ public class SrvListEditPage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public SrvListEditPage() {
+	public TechListEdit_edit() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		
+		setLocationRelativeTo(null);
 		setContentPane(contentPane);
 	}
 
