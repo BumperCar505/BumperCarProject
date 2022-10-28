@@ -18,6 +18,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JList;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.AbstractListModel;
+import javax.swing.JScrollBar;
 
 public class ComSrvListSub1 extends JFrame implements ActionListener {
 
@@ -30,6 +33,7 @@ public class ComSrvListSub1 extends JFrame implements ActionListener {
 	private JList listProvideTech;
 	private JButton btnSrvReg;
 	private JButton btnSrvSave;
+	private JComboBox comboBoxTech;
 	private final int FONT_SIZE = 20;
 	
 	public ComSrvListSub1 setFont() {
@@ -128,9 +132,9 @@ public class ComSrvListSub1 extends JFrame implements ActionListener {
 		textFieldSrvName.setColumns(10);
 		contentPane.add(textFieldSrvName);
 		
-		String[] tempDatas = new String[] {"홍길동", "박나나"};
-		listProvideTech = new JList(tempDatas);
-		listProvideTech.setBounds(207, 97, 200, 200);
+		// String[] tempDatas = new String[] {"홍길동", "박나나"};
+		listProvideTech = new JList();
+		listProvideTech.setBounds(208, 137, 200, 167);
 		listProvideTech.setVisible(true);
 		contentPane.add(listProvideTech);
 		
@@ -155,9 +159,13 @@ public class ComSrvListSub1 extends JFrame implements ActionListener {
 		btnSrvSave.setVisible(false);
 		btnSrvSave.addActionListener(this);
 		contentPane.add(btnSrvSave);
+		
+		comboBoxTech = new JComboBox();
+		comboBoxTech.setBounds(208, 92, 200, 32);
+		contentPane.add(comboBoxTech);
 	}
 	
-	// 서비스 목록 창에서 등록을 눌렀을때 이 생성자 호출
+	// 서비스 목록 창에서 추가를 눌렀을때 이 생성자 호출
 	public ComSrvListSub1(String titleName) {
 		this();
 		this.setTitle(titleName);
