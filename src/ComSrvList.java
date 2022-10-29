@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -84,31 +85,45 @@ public class ComSrvList extends JFrame implements ActionListener {
 		});
 	}
 	
-//	@Override
-//	public void paint(Graphics g) {
-//		Toolkit tool = Toolkit.getDefaultToolkit();
-//		Image img = tool.getImage("img/grayCat.png");
-//		g.drawImage(img, 770, 50, 305, 153, this);
-//		tableSrvList.updateUI();
-//		btnAddsrv.updateUI();
-//		btnEditSrv.updateUI();
-//		btnDelSrv.updateUI();
-//	}
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object obj = e.getSource();
 		
-		if(obj == btnAddsrv) {
-			new ComSrvListSub1("신규 서비스 등록").setFont();
-		} else if(obj == btnEditSrv) {
-			ArrayList<String> techList = new ArrayList<>();
-			techList.add("정비사1");
-			techList.add("정비사2");
-			techList.add("정비사3");
-			// new ComSrvListSub1("기존 서비스 수정", "테스트 서비스", "테스트 가격", techList).setFont();
-		} else if(obj == btnDelSrv) {
+		// 테스트를 위해서 넣은 코드입니다.
+		ArrayList<String> techAllList = new ArrayList<>();
+		techAllList.add("정비사1");
+		techAllList.add("정비사2");
+		techAllList.add("정비사3");
+		techAllList.add("정비사4");
+		techAllList.add("정비사5");
+		techAllList.add("정비사6");
+		
+		if(obj == btnAddsrv) { // 서비스 신규 추가
+			new ComSrvListSub1(techAllList).setFont();
+		} else if(obj == btnEditSrv) { // 기존 서비스 수정
+			int selectedRow = tableSrvList.getSelectedRow();
+			
+			if(selectedRow == -1) {
+				new Notice("선택된 셀이 존재하지않습니다.").setFont();
+				return;
+			}
+			
+			String selectedSrvName = tableSrvList.getValueAt(selectedRow, 1).toString();
+			String[] selectedTechNames = tableSrvList.getValueAt(selectedRow, 2).toString().trim().split(", ");
+			String selectedSrvPrice = tableSrvList.getValueAt(selectedRow, 3).toString();
+			
+			ArrayList<String> techList = new ArrayList<>(List.of(selectedTechNames));
+			
+			new ComSrvListSub1(selectedSrvName, selectedSrvPrice, techAllList, techList).setFont();
+		} else if(obj == btnDelSrv) { // 기존 서비스 삭제
+			int selectedRow = tableSrvList.getSelectedRow();
+			
+			if(selectedRow == -1) {
+				new Notice("선택된 셀이 존재하지않습니다.").setFont();
+				return;
+			}
+			
 			new ComSrvListSub2().setFont();
 		}
 	}
