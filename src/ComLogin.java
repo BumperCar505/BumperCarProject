@@ -1,5 +1,4 @@
 import java.awt.EventQueue;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
@@ -77,18 +76,6 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 			}
 		});
 	}
-	
-	// Image & Component Draw
-//	@Override
-//	public void paint(Graphics g) {
-//		Toolkit tool = Toolkit.getDefaultToolkit();
-//		Image img = tool.getImage("img/grayCat.png");
-//		g.drawImage(img, 800, 215, 305, 153, this);
-//		comId.updateUI();
-//		comPw.updateUI();
-//		btnComLogin.updateUI();
-//		btnComJoin.updateUI();
-//	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
