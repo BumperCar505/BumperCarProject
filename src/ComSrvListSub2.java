@@ -72,7 +72,7 @@ public class ComSrvListSub2 extends JFrame {
 	 * Create the frame.
 	 */
 	public ComSrvListSub2() {
-		setTitle("다고쳐카센터 - 서비스 목록 삭제");
+		setTitle("서비스 목록 삭제");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		this.setLocationRelativeTo(null);
