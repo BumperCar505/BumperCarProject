@@ -7,6 +7,7 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -19,8 +20,8 @@ import javax.swing.SwingConstants;
 import javax.swing.JList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.AbstractListModel;
-import javax.swing.JScrollBar;
+import javax.swing.DefaultListModel;
+import javax.swing.JScrollPane;
 
 public class ComSrvListSub1 extends JFrame implements ActionListener {
 
@@ -28,13 +29,16 @@ public class ComSrvListSub1 extends JFrame implements ActionListener {
 	private JTextField textFieldSrvName;
 	private JTextField textFieldSrvPrice;
 	private JLabel lblSrvName;
-	private JLabel lblProvideTechnicianList;
+	private JLabel lblProvideTechList;
 	private JLabel lblSrvPrice;
-	private JList listProvideTech;
+	private JLabel lblRegTechList;
+	private JList<String> listProvideTech;
 	private JButton btnSrvReg;
 	private JButton btnSrvSave;
-	private JComboBox comboBoxTech;
+	private JComboBox<String> comboBoxTech;
+	private JScrollPane sc;
 	private final int FONT_SIZE = 20;
+	private boolean comboBoxInitFlag = false; // 생성자 호출시 리스트에 값 들어가는거 방지
 	
 	public ComSrvListSub1 setFont() {
 		InputStream inputStream = null;
@@ -51,11 +55,13 @@ public class ComSrvListSub1 extends JFrame implements ActionListener {
             textFieldSrvName.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             textFieldSrvPrice.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             lblSrvName.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
-            lblProvideTechnicianList.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
+            lblProvideTechList.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             lblSrvPrice.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             listProvideTech.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             btnSrvReg.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             btnSrvSave.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
+            comboBoxTech.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
+            lblRegTechList.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -94,9 +100,49 @@ public class ComSrvListSub1 extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		Object obj = e.getSource();
 		
-		if(obj == btnSrvReg || obj == btnSrvSave) {
+		if(obj == btnSrvReg) {
 			System.out.println("이벤트 작동함");
+		} else if(obj == btnSrvSave) { 
+			System.out.println("이벤트 작동함");
+		} else if (obj == comboBoxTech) {
+			if(comboBoxInitFlag == false) {
+				return;
+			}
+			
+			// 현재 설정되어있는 정비사 목록을 가져온다.
+			ArrayList<String> list = new ArrayList<>();
+			for(int i = 0; i < listProvideTech.getModel().getSize(); ++i) {
+				list.add(listProvideTech.getModel().getElementAt(i).toString());
+			}
+			
+			// 선택되어있는 정비사가 목록에 이미 존재하는지 확인
+			if(list.contains(comboBoxTech.getSelectedItem().toString()) == false) { 
+				list.add(comboBoxTech.getSelectedItem().toString());
+			} else {
+				new Notice("이미 목록에 존재하는 정비사입니다.").setFont();
+				return;
+			}
+			
+			list.sort(null);
+			addListData(list);
 		}
+	}
+	
+	private void addListData(List<String> list) {
+		DefaultListModel<String> listModel = new DefaultListModel<>();
+		
+		for(int i = 0; i < list.size(); ++i) {
+			listModel.addElement(list.get(i));
+		}
+		
+		listProvideTech.setModel(listModel);
+	}
+	
+	private void addComboBoxData(List<String> list) {
+		for(int i = 0; i < list.size(); ++i) {
+			comboBoxTech.addItem(list.get(i));
+		}
+		comboBoxInitFlag = true;
 	}
 	
 	/**
@@ -118,9 +164,9 @@ public class ComSrvListSub1 extends JFrame implements ActionListener {
 		lblSrvName.setBounds(40, 18, 100, 40);
 		contentPane.add(lblSrvName);
 		
-		lblProvideTechnicianList = new JLabel("제공된 정비사 목록");
-		lblProvideTechnicianList.setBounds(40, 88, 200, 40);
-		contentPane.add(lblProvideTechnicianList);
+		lblProvideTechList = new JLabel("제공된 정비사 목록");
+		lblProvideTechList.setBounds(40, 130, 200, 40);
+		contentPane.add(lblProvideTechList);
 		
 		lblSrvPrice = new JLabel("서비스 가격");
 		lblSrvPrice.setBounds(40, 337, 100, 40);
@@ -132,11 +178,12 @@ public class ComSrvListSub1 extends JFrame implements ActionListener {
 		textFieldSrvName.setColumns(10);
 		contentPane.add(textFieldSrvName);
 		
-		// String[] tempDatas = new String[] {"홍길동", "박나나"};
-		listProvideTech = new JList();
-		listProvideTech.setBounds(208, 137, 200, 167);
-		listProvideTech.setVisible(true);
-		contentPane.add(listProvideTech);
+		sc = new JScrollPane(listProvideTech);
+		sc.setBounds(208, 137, 200, 167);
+		sc.setVisible(true);
+		contentPane.add(sc);
+		listProvideTech = new JList<>();
+		sc.setViewportView(listProvideTech);
 		
 		textFieldSrvPrice = new JTextField();
 		textFieldSrvPrice.setColumns(10);
@@ -160,25 +207,32 @@ public class ComSrvListSub1 extends JFrame implements ActionListener {
 		btnSrvSave.addActionListener(this);
 		contentPane.add(btnSrvSave);
 		
-		comboBoxTech = new JComboBox();
+		comboBoxTech = new JComboBox<>();
 		comboBoxTech.setBounds(208, 92, 200, 32);
+		comboBoxTech.addActionListener(this);
 		contentPane.add(comboBoxTech);
+		
+		lblRegTechList = new JLabel("등록된 정비사 목록");
+		lblRegTechList.setBounds(40, 88, 200, 40);
+		contentPane.add(lblRegTechList);
 	}
 	
 	// 서비스 목록 창에서 추가를 눌렀을때 이 생성자 호출
-	public ComSrvListSub1(String titleName) {
+	public ComSrvListSub1(List<String> srvTechAllList) {
 		this();
-		this.setTitle(titleName);
+		this.setTitle("신규 서비스 등록");
 		btnSrvReg.setVisible(true);
+		addComboBoxData(srvTechAllList);
 	}
 	
 	// 테이블에서 셀 선택후 수정버튼을 클릭했을때 이 생성자 호출
-	public ComSrvListSub1(String titleName, String srvName, String srvPrice, List<String> srvTechList) {
+	public ComSrvListSub1(String srvName, String srvPrice, List<String> srvTechAllList, List<String> srvTechList) {
 		this();
-		this.setTitle(titleName);
-		lblSrvName.setText(srvName);
-		lblSrvPrice.setText(srvPrice);
-		String[] list = (String[]) srvTechList.toArray();
-		listProvideTech = new JList(list);
+		this.setTitle("기존 서비스 수정");
+		textFieldSrvName.setText(srvName);
+		textFieldSrvPrice.setText(srvPrice);
+		btnSrvSave.setVisible(true);
+		addComboBoxData(srvTechAllList);
+		addListData(srvTechList);
 	}
 }
