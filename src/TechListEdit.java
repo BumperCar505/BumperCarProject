@@ -26,6 +26,7 @@ public class TechListEdit extends JFrame {
 	private JTable table;
 	private JButton btnEditTech;
 	private JButton btnDelTech;
+	private JButton btnBackMain;
 
 	/**
 	 * Launch the application.
@@ -72,8 +73,8 @@ public class TechListEdit extends JFrame {
 			},
 			new String[] {
 				"num", "techName", "techTel", "techLv"
-			}
-		) {
+			})
+		 {
 			boolean[] columnEditables = new boolean[] {
 				false, true, true, true
 			};
@@ -90,7 +91,7 @@ public class TechListEdit extends JFrame {
 //		테이블에 열 제목 나오게 하는 코드. 참고 : https://yyman.tistory.com/550
 		JScrollPane scrollPane = new JScrollPane(table);
 		//--
-		scrollPane.setBounds(239, 236, 1186, 679);
+		scrollPane.setBounds(239, 236, 1186, 533);
 		scrollPane.setAutoscrolls(true);
 		contentPane.add (scrollPane) ; 
 //		테이블 행 높이 조절
@@ -117,6 +118,12 @@ public class TechListEdit extends JFrame {
 		lblNewLabel.setBounds(704, 29, 255, 112);
 		contentPane.add(lblNewLabel);
 		
+		// 돌아가기 버튼
+		btnBackMain = new JButton("돌아가기");
+		btnBackMain.setFont(new Font("나눔바른고딕", Font.PLAIN, 21));
+		btnBackMain.setBounds(687, 824, Size.BTN_B_W, Size.BTN_B_H);
+		contentPane.add(btnBackMain);
+		
 		
 		//추가 버튼 누르면 실행됨 -> 새 폼 띄우기
 		btnAddTech.addActionListener(new ActionListener() {
@@ -142,6 +149,16 @@ public class TechListEdit extends JFrame {
 				del.setVisible(true);
 			}
 		});
+		
+		// 돌아가기 버튼 누르면 실행됨 -> 현재 화면 닫고 메인화면 띄우기
+		btnDelTech.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// 메인화면은 visible true, 현재화면은 false
+-
+			}
+		});
+		
+		
 		
 		
 	}

@@ -41,7 +41,7 @@ public class TechListEdit_add extends JFrame {
 	 * Create the frame.
 	 */
 	public TechListEdit_add() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 //		폼 크기 : 600 * 500
 		setBounds(100, 100, 600, 550);
 		contentPane = new JPanel();

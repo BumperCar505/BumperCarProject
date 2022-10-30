@@ -3,6 +3,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.JButton;
 
 public class TechListEdit_del extends JFrame {
 
@@ -28,13 +31,30 @@ public class TechListEdit_del extends JFrame {
 	 * Create the frame.
 	 */
 	public TechListEdit_del() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
-		setLocationRelativeTo(null);
-		setContentPane(contentPane);
-	}
 
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		// 삭제하시겠습니까? 폼
+		JLabel lblDelForm = new JLabel("삭제하시겠습니까?");
+		lblDelForm.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
+		lblDelForm.setBounds(127, 49, 179, 60);
+		contentPane.add(lblDelForm);
+		
+		// "예"
+		JButton btnDelTechY = new JButton("예");
+		btnDelTechY.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
+		btnDelTechY.setBounds(47, 153, 153, 47);
+		contentPane.add(btnDelTechY);
+		
+		// "아니오"
+		JButton btnDelTechN = new JButton("아니오");
+		btnDelTechN.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
+		btnDelTechN.setBounds(236, 153, 153, 47);
+		contentPane.add(btnDelTechN);
+	}
 }
