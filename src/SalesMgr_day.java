@@ -25,11 +25,14 @@ import javax.swing.border.BevelBorder;
 import java.awt.Color;
 
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.JScrollBar;
+import javax.swing.table.DefaultTableModel;
 
 // ComServiceList
 public class SalesMgr_day extends JFrame {
 	private JPanel getContentPane;
 	private JTable tableSalesD;
+	private JTable table;
 	private JScrollPane scSalesDList;
 	private JButton btnAddSalesD;
 	private JButton btnEditSalesD;
@@ -43,7 +46,7 @@ public class SalesMgr_day extends JFrame {
 		
 		// Font Setting
 		try {
-            String classPath = CusMgr.class.getResource("").getPath();
+            String classPath = SalesMgr_day.class.getResource("").getPath();
             String path = URLDecoder.decode(classPath, "UTF-8");
             inputStream = new BufferedInputStream(
                     new FileInputStream(path + "/font/NanumBarunGothic.ttf"));
@@ -122,15 +125,7 @@ public class SalesMgr_day extends JFrame {
 		TextField tf = new TextField();
 		
 		
-//		addPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-//
-//		setContentPane(addPanel);
-		
-//		addPanel.setLayout(null);
-//		new TextField();
-//	
-		
-		// Num, Service Name, Provide Technician, Service Price
+
 		Object[] columns = {"Num", "직원명", "고객명", "서비스명", "건수", "총 금액", "내용","금액"};
 		Object[][] rowNames = {
 				{"1", "김가나", "이나라", "타이어교체", "2건","50000","볼트구입","30000"}
@@ -142,6 +137,21 @@ public class SalesMgr_day extends JFrame {
 		render.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		tableSalesD = new JTable(rowNames, columns);
+		tableSalesD.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"1", "\uAE40\uAC00\uB098", "\uC774\uB098\uB77C", "\uD0C0\uC774\uC5B4\uAD50\uCCB4", "2\uAC74", "50000", "\uBCFC\uD2B8\uAD6C\uC785", "30000"},
+			},
+			new String[] {
+				"Num", "\uC9C1\uC6D0\uBA85", "\uACE0\uAC1D\uBA85", "\uC11C\uBE44\uC2A4\uBA85", "\uAC74\uC218", "\uCD1D \uAE08\uC561", "\uB0B4\uC6A9", "\uAE08\uC561"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
 		tableSalesD.setFont(new Font("나눔바른고딕", Font.PLAIN, 20));
 		tableSalesD.getColumn("Num").setCellRenderer(render);
 		tableSalesD.getColumn("직원명").setCellRenderer(render);
@@ -151,50 +161,52 @@ public class SalesMgr_day extends JFrame {
 		tableSalesD.getColumn("총 금액").setCellRenderer(render);
 		tableSalesD.getColumn("내용").setCellRenderer(render);
 		tableSalesD.getColumn("금액").setCellRenderer(render);
-//		tableCusList.getColumn("주소").setCellRenderer(render);
-//		tableCusList.getColumn("전화번호").setCellRenderer(render);
-//		tableCusList.getColumn("가입날짜").setCellRenderer(render);
+
+		
 		
 		// Column Not Move
 		tableSalesD.getTableHeader().setReorderingAllowed(false);
 		
 		// Column Change Width
-		tableSalesD.getColumn("전화번호").setPreferredWidth(200);
-		tableSalesD.getColumn("가입날짜").setPreferredWidth(200);
+//		tableSalesD.getColumn("전화번호").setPreferredWidth(200);
+//		tableSalesD.getColumn("가입날짜").setPreferredWidth(200);
 		
 		// Row Change Height 
 		tableSalesD.setRowHeight(50);
 		
 		// Table Set Area
 		scSalesDList = new JScrollPane(tableSalesD);
-		scSalesDList.setBounds(100, 145, 1462, 750);
+		scSalesDList.setBounds(100, 145, 1462, 462);
 		scSalesDList.setVisible(true);
 		getContentPane.setLayout(null);
 		
 		getContentPane.add(scSalesDList);
 		
-		// Button Create
+		// 버튼모음
 		btnAddSalesD = new JButton("추가");
-		btnAddSalesD.setBounds(100, 70, 150, 50);
-
+		btnAddSalesD.setBounds(100, 70, Size.BTN_S_W, Size.BTN_S_H);
 		getContentPane.add(btnAddSalesD);
 		
 		btnEditSalesD = new JButton("수정");
-		btnEditSalesD.setBounds(275, 70, 150, 50);
+		btnEditSalesD.setBounds(275, 70, Size.BTN_S_W, Size.BTN_S_H);
 		getContentPane.add(btnEditSalesD);
 		
 		btnDelSalesD = new JButton("삭제");
-		btnDelSalesD.setBounds(450, 70, 150, 50);
+		btnDelSalesD.setBounds(450, 70, Size.BTN_S_W, Size.BTN_S_H);
 		getContentPane.add(btnDelSalesD);
 		
 		btnBackSales = new JButton("돌아가기");
-		btnBackSales.setBounds(690, 918, 290, 65);
+		btnBackSales.setBounds(648, 635, Size.BTN_B_W, Size.BTN_B_H);
 		getContentPane.add(btnBackSales);
 		
 		lblYellowCat = new JLabel("");
 		lblYellowCat.setBounds(710, 50, 230, 80);
 		lblYellowCat.setIcon(new ImageIcon(CusMgr.class.getResource("/img/YellowCat.png")));
 		getContentPane.add(lblYellowCat);
+		
+		JScrollBar scrollBar = new JScrollBar();
+		scrollBar.setBounds(1558, 145, 17, 463);
+		getContentPane.add(scrollBar);
 //		JFrame.getContentPanel().add(addPanel);
 		
 		
@@ -223,7 +235,7 @@ public class SalesMgr_day extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false); 
-				new Main();
+				new SalesMgr();
 
 			}
 		});
@@ -233,7 +245,7 @@ public class SalesMgr_day extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-//				new 
+
 				
 			}
 		});

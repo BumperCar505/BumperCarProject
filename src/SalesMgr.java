@@ -37,8 +37,8 @@ public class SalesMgr extends JFrame {
 	private JTable table;
 	private JPanel getContentPane;
 	private JPanel addPanel;
-	private JTable tableCusList;
-	private JScrollPane scCusList;
+	private JTable tableSalesList;
+	private JScrollPane scSalesList;
 //	private JButton btnAddCus;
 //	private JButton btnEditCus;
 //	private JButton btnDelCus;
@@ -63,7 +63,7 @@ public class SalesMgr extends JFrame {
 		
 		// Font Setting
 		try {
-            String classPath = CusMgr.class.getResource("").getPath();
+            String classPath = SalesMgr.class.getResource("").getPath();
             String path = URLDecoder.decode(classPath, "UTF-8");
             inputStream = new BufferedInputStream(
                     new FileInputStream(path + "/font/NanumBarunGothic.ttf"));
@@ -143,7 +143,7 @@ public class SalesMgr extends JFrame {
 		setContentPane(getContentPane);
 		TextField tf = new TextField();
 		
-		addPanel = new JPanel();
+//		addPanel = new JPanel();
 
 	
 		
@@ -168,9 +168,9 @@ public class SalesMgr extends JFrame {
 		DefaultTableCellRenderer render = new DefaultTableCellRenderer();
 		render.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		tableCusList = new JTable(rowNames, columns);
-		tableCusList.setFont(new Font("나눔바른고딕", Font.PLAIN, 21));
-		tableCusList.setModel(new DefaultTableModel(
+		tableSalesList = new JTable(rowNames, columns);
+		tableSalesList.setFont(new Font("나눔바른고딕", Font.PLAIN, 21));
+		tableSalesList.setModel(new DefaultTableModel(
 			new Object[][] {
 				{"1", "1,100,000", "1,300,000"},
 				{"2", "1,100,000", "1,300,000"},
@@ -216,29 +216,31 @@ public class SalesMgr extends JFrame {
 				return columnEditables[column];
 			}
 		});
-		tableCusList.getColumn("일").setCellRenderer(render);
-		tableCusList.getColumn("수입").setCellRenderer(render);
-		tableCusList.getColumn("지출").setCellRenderer(render);
+		
+		
+		tableSalesList.getColumn("일").setCellRenderer(render);
+		tableSalesList.getColumn("수입").setCellRenderer(render);
+		tableSalesList.getColumn("지출").setCellRenderer(render);
 	
 		
 		// Column Not Move
-		tableCusList.getTableHeader().setReorderingAllowed(false);
+		tableSalesList.getTableHeader().setReorderingAllowed(false);
 		
 		// Column Change Width
-		tableCusList.getColumn("수입").setPreferredWidth(200);
-		tableCusList.getColumn("지출").setPreferredWidth(200);
+		tableSalesList.getColumn("수입").setPreferredWidth(200);
+		tableSalesList.getColumn("지출").setPreferredWidth(200);
 		
 		// Row Change Height 
-		tableCusList.setRowHeight(55);
+		tableSalesList.setRowHeight(55);
 		
 		// Table Set Area
-		scCusList = new JScrollPane(tableCusList);
-		scCusList.setBounds(86, 140, 1462, 453);
-		scCusList.setFont(new Font("나눔바른고딕", Font.PLAIN, 21));
-		scCusList.setVisible(true);
+		scSalesList = new JScrollPane(tableSalesList);
+		scSalesList.setBounds(86, 140, 1462, 453);
+		scSalesList.setFont(new Font("나눔바른고딕", Font.PLAIN, 21));
+		scSalesList.setVisible(true);
 		getContentPane.setLayout(null);
 		
-		getContentPane.add(scCusList);
+		getContentPane.add(scSalesList);
 		
 
 		
@@ -250,11 +252,6 @@ public class SalesMgr extends JFrame {
 		lblYellowCat.setBounds(710, 50, 230, 80);
 		lblYellowCat.setIcon(new ImageIcon(CusMgr.class.getResource("/img/YellowCat.png")));
 		getContentPane.add(lblYellowCat);
-		
-//		스크롤바 추가
-		JScrollPane scrollSales = new JScrollPane();
-		scrollSales.setBounds(1560, 211, 2, 685);
-		getContentPane.add(scrollSales);
 
 		
 		
@@ -298,11 +295,11 @@ public class SalesMgr extends JFrame {
 //		});
 		
 		//더블클릭하면 화면 넘어가게(일일매출관리페이지로) 우헤헤헤 성공했다~! 근데 여기서 든 문제점... 일마다 해야 하는데,, 난 다 만들어야 하는가.. 아님 데이터베이스 연결로 가능한가...
-		tableCusList.addMouseListener(new java.awt.event.MouseAdapter() {
+		tableSalesList.addMouseListener(new java.awt.event.MouseAdapter() {
 		    @Override
 		    public void mouseClicked(java.awt.event.MouseEvent evt) {
-		        int row = tableCusList.rowAtPoint(evt.getPoint());
-		        int col = tableCusList.columnAtPoint(evt.getPoint());
+		        int row = tableSalesList.rowAtPoint(evt.getPoint());
+		        int col = tableSalesList.columnAtPoint(evt.getPoint());
 		        if (evt.getClickCount() == 2) {
 		        	setVisible(false);
 				new SalesMgr_day();
