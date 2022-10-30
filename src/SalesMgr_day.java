@@ -29,16 +29,14 @@ import javax.swing.table.DefaultTableCellRenderer;
 // ComServiceList
 public class SalesMgr_day extends JFrame {
 	private JPanel getContentPane;
-	private JPanel addPanel;
 	private JTable tableSalesD;
-	private JScrollPane scCusList;
+	private JScrollPane scSalesDList;
 	private JButton btnAddSalesD;
 	private JButton btnEditSalesD;
 	private JButton btnDelSalesD;
 	private JButton btnBackSales;
 	private JLabel lblYellowCat;
 	private final int FONT_SIZE = 21;
-	private JPanel mainPanel;
 	
 	public void setFont() {
 		InputStream inputStream = null;
@@ -80,7 +78,7 @@ public class SalesMgr_day extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CusMgr frame = new CusMgr();
+					SalesMgr_day frame = new SalesMgr_day();
 //					frame.setVisible(true);
 					frame.setFont();
 //					 JFrame jFrame = new JFrame();
@@ -123,7 +121,7 @@ public class SalesMgr_day extends JFrame {
 		setContentPane(getContentPane);
 		TextField tf = new TextField();
 		
-		addPanel = new JPanel();
+		
 //		addPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 //
 //		setContentPane(addPanel);
@@ -136,7 +134,7 @@ public class SalesMgr_day extends JFrame {
 		Object[] columns = {"Num", "직원명", "고객명", "서비스명", "건수", "총 금액", "내용","금액"};
 		Object[][] rowNames = {
 				{"1", "김가나", "이나라", "타이어교체", "2건","50000","볼트구입","30000"}
-//				{"2", "엔진오일 교체", "김하하, 조마마", "공임비1"},
+
 		};
 		
 		// Text Align Center
@@ -168,50 +166,41 @@ public class SalesMgr_day extends JFrame {
 		tableSalesD.setRowHeight(50);
 		
 		// Table Set Area
-		scCusList = new JScrollPane(tableSalesD);
-		scCusList.setBounds(100, 145, 1462, 750);
-		scCusList.setVisible(true);
+		scSalesDList = new JScrollPane(tableSalesD);
+		scSalesDList.setBounds(100, 145, 1462, 750);
+		scSalesDList.setVisible(true);
 		getContentPane.setLayout(null);
 		
-		getContentPane.add(scCusList);
+		getContentPane.add(scSalesDList);
 		
 		// Button Create
-		btnAddCus = new JButton("추가");
-		btnAddCus.setBounds(100, 70, 150, 50);
+		btnAddSalesD = new JButton("추가");
+		btnAddSalesD.setBounds(100, 70, 150, 50);
 
-		getContentPane.add(btnAddCus);
+		getContentPane.add(btnAddSalesD);
 		
-		btnEditCus = new JButton("수정");
-		btnEditCus.setBounds(275, 70, 150, 50);
-		getContentPane.add(btnEditCus);
+		btnEditSalesD = new JButton("수정");
+		btnEditSalesD.setBounds(275, 70, 150, 50);
+		getContentPane.add(btnEditSalesD);
 		
-		btnDelCus = new JButton("삭제");
-		btnDelCus.setBounds(450, 70, 150, 50);
-		getContentPane.add(btnDelCus);
+		btnDelSalesD = new JButton("삭제");
+		btnDelSalesD.setBounds(450, 70, 150, 50);
+		getContentPane.add(btnDelSalesD);
 		
-		btnBackCusMain = new JButton("돌아가기");
-		btnBackCusMain.setBounds(690, 918, 290, 65);
-		getContentPane.add(btnBackCusMain);
+		btnBackSales = new JButton("돌아가기");
+		btnBackSales.setBounds(690, 918, 290, 65);
+		getContentPane.add(btnBackSales);
 		
 		lblYellowCat = new JLabel("");
 		lblYellowCat.setBounds(710, 50, 230, 80);
 		lblYellowCat.setIcon(new ImageIcon(CusMgr.class.getResource("/img/YellowCat.png")));
 		getContentPane.add(lblYellowCat);
-		
-		JPanel addPanel = new JPanel();
-		addPanel.setBounds(22, 75, 10, 10);
-		getContentPane.add(addPanel);
-		
-		mainPanel = new JPanel();
-		mainPanel.setBounds(0, 10, 1666, 1027);
-		getContentPane.add(mainPanel);
-		mainPanel.setLayout(null);
 //		JFrame.getContentPanel().add(addPanel);
 		
 		
 		//팝업창으로 삭제버튼 넣기. 받은 값으로 삭제 여부 결정 가능해 보임.
 //		이겁니다 여러분!!!!! 이거 복사해가세요!!
-		btnDelCus.addActionListener(new ActionListener() {
+		btnDelSalesD.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -229,7 +218,7 @@ public class SalesMgr_day extends JFrame {
 		}); 
 		
 		
-		btnBackCusMain.addActionListener(new ActionListener() {
+		btnBackSales.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -239,7 +228,7 @@ public class SalesMgr_day extends JFrame {
 			}
 		});
 		
-		btnAddCus.addActionListener(new ActionListener() {
+		btnAddSalesD.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {

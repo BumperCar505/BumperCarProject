@@ -233,8 +233,8 @@ public class SalesMgr extends JFrame {
 		
 		// Table Set Area
 		scCusList = new JScrollPane(tableCusList);
+		scCusList.setBounds(86, 140, 1462, 453);
 		scCusList.setFont(new Font("나눔바른고딕", Font.PLAIN, 21));
-		scCusList.setBounds(100, 211, 1462, 685);
 		scCusList.setVisible(true);
 		getContentPane.setLayout(null);
 		
@@ -243,7 +243,7 @@ public class SalesMgr extends JFrame {
 
 		
 		btnBackSalesMain = new JButton("돌아가기");
-		btnBackSalesMain.setBounds(690, 918, Size.BTN_B_W, Size.BTN_B_H);
+		btnBackSalesMain.setBounds(650, 614, 290, 65);
 		getContentPane.add(btnBackSalesMain);
 		
 		lblYellowCat = new JLabel("");
