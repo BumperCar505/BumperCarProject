@@ -5,6 +5,8 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,6 +19,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 // CommentManage
 public class ComManageComment extends JFrame {
@@ -30,7 +34,7 @@ public class ComManageComment extends JFrame {
 	private JButton btnHideComment;
 	private final int FONT_SIZE = 21;
 	
-	public void setFont() {
+	public ComManageComment setFont() {
 		InputStream inputStream = null;
 		
 		// Font Setting
@@ -48,6 +52,7 @@ public class ComManageComment extends JFrame {
             btnBackCommentMain.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
     		// Table Font	
             tableCommentList.setFont(font.deriveFont(Font.PLAIN, FONT_SIZE));
+            tableCommentList.getTableHeader().setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,6 +65,20 @@ public class ComManageComment extends JFrame {
         		}
         	}
         }
+		
+		return this;
+	}
+	
+	private void setTableHeader(JTable table) {
+		TableColumnModel columnModel = table.getColumnModel();
+		String prefix = "<html><body><table><tr><td height=50>";
+		String suffix = "</td></tr></table></body><html>";
+		
+		for (int col = 0; col < columnModel.getColumnCount(); col++) {
+		    TableColumn column = columnModel.getColumn(col);
+		    String text = prefix + columnModel.getColumn(col).getHeaderValue().toString() + suffix;
+		    column.setHeaderValue(text);
+		}
 	}
 	
 	/**
@@ -94,7 +113,8 @@ public class ComManageComment extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null); // 이거 없으면 정상적으로 레이아웃 안그려진다..
 		
-		Object[] columns = {"Num", "고객명", "방문날짜", "서비스내용", "별점", "코멘트"};
+		// 값은 임의로 집어넣은것으로 추후 DB에서 가져와야함
+		Object[] columns = {"번호", "고객명", "방문날짜", "서비스내용", "별점", "코멘트"};
 		Object[][] rowNames = {
 				{"1", "홍길동", "2022-02-11", "타이어교체", "★★★", "수리하는데 시간이 너무 오래걸림"},
 				{"2", "김홍도", "2022-02-13", "엔진오일교체", "★★★★★", "가성비있게 교체한 것 같습니다..."
@@ -107,7 +127,8 @@ public class ComManageComment extends JFrame {
 		
 		tableCommentList = new JTable(rowNames, columns);
 		tableCommentList.setDefaultEditor(Object.class, null); // 테이블 값 수정 안되게
-		tableCommentList.getColumn("Num").setCellRenderer(render);
+		tableCommentList.getTableHeader().setResizingAllowed(false);
+		tableCommentList.getColumn("번호").setCellRenderer(render);
 		tableCommentList.getColumn("고객명").setCellRenderer(render);
 		tableCommentList.getColumn("방문날짜").setCellRenderer(render);
 		tableCommentList.getColumn("서비스내용").setCellRenderer(render);
@@ -121,8 +142,11 @@ public class ComManageComment extends JFrame {
 		tableCommentList.getColumn("서비스내용").setPreferredWidth(200);
 		tableCommentList.getColumn("코멘트").setPreferredWidth(500);
 		
-		// Row Change Height 
+		// Change Row Height 
 		tableCommentList.setRowHeight(50);
+		
+		// Set Row Header
+		setTableHeader(tableCommentList);
 		
 		// Table Set Area
 		scCommentList = new JScrollPane(tableCommentList);
