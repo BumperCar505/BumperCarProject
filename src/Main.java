@@ -58,12 +58,12 @@ public class Main {
 		
 		JButton btnEditComInfo = new JButton("업체정보 수정");
 		btnEditComInfo.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
-		btnEditComInfo.setBounds(648, 114, Size.BTN_B_W, 45);
+		btnEditComInfo.setBounds(498, 114, Size.BTN_B_W, 45);
 		frame.getContentPane().add(btnEditComInfo);
 		
 		JButton btnEditTechList = new JButton("정비사 목록 수정");
 		btnEditTechList.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
-		btnEditTechList.setBounds(648, 177, Size.BTN_B_W, 45);
+		btnEditTechList.setBounds(498, 177, Size.BTN_B_W, 45);
 		frame.getContentPane().add(btnEditTechList);
 		
 		
@@ -73,37 +73,37 @@ public class Main {
 			}
 		});
 		btnEditSrvInfo.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
-		btnEditSrvInfo.setBounds(648, 246, Size.BTN_B_W, 45);
+		btnEditSrvInfo.setBounds(498, 246, Size.BTN_B_W, 45);
 		frame.getContentPane().add(btnEditSrvInfo);
 		
 		JButton btnMgrUnitStock = new JButton("부품 재고 관리");
 		btnMgrUnitStock.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
-		btnMgrUnitStock.setBounds(648, 308, Size.BTN_B_W, 45);
+		btnMgrUnitStock.setBounds(498, 308, Size.BTN_B_W, 45);
 		frame.getContentPane().add(btnMgrUnitStock);
 		
 		JButton btnMgrBook = new JButton("예약 관리");
 		btnMgrBook.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
-		btnMgrBook.setBounds(648, 373, Size.BTN_B_W, 45);
+		btnMgrBook.setBounds(498, 363, Size.BTN_B_W, 45);
 		frame.getContentPane().add(btnMgrBook);
 		
 		JButton btnMgrCustomer = new JButton("고객 관리");
 		btnMgrCustomer.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
-		btnMgrCustomer.setBounds(648, 428,Size.BTN_B_W, 45);
+		btnMgrCustomer.setBounds(498, 418,Size.BTN_B_W, 45);
 		frame.getContentPane().add(btnMgrCustomer);
 		
 		JButton btnMgrSales = new JButton("매출 관리");
 		btnMgrSales.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
-		btnMgrSales.setBounds(648, 483,Size.BTN_B_W, 45);
+		btnMgrSales.setBounds(498, 473,Size.BTN_B_W, 45);
 		frame.getContentPane().add(btnMgrSales);
 		
 		JButton btnMgrComment = new JButton("코멘트 관리");
 		btnMgrComment.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
-		btnMgrComment.setBounds(648, 538, Size.BTN_B_W, 45);
+		btnMgrComment.setBounds(498, 538, Size.BTN_B_W, 45);
 		frame.getContentPane().add(btnMgrComment);
 		
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setIcon(new ImageIcon(Main.class.getResource("/img/YellowCat.png")));
-		lblNewLabel.setBounds(673, 24, 237, 80);
+		lblNewLabel.setBounds(524, 24, 237, 80);
 		frame.getContentPane().add(lblNewLabel);
 		
 		

@@ -58,8 +58,8 @@ public class CusMgr extends JFrame {
             btnDelCus.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             btnBackCusMain.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             
-    		// Table Font
-            tableCusList.setFont(font.deriveFont(Font.PLAIN, FONT_SIZE));
+//    		// Table Font
+//            tableCusList.setFont(font.deriveFont(Font.PLAIN, FONT_SIZE));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -134,7 +134,7 @@ public class CusMgr extends JFrame {
 		setContentPane(getContentPane);
 		TextField tf = new TextField();
 		
-		addPanel = new JPanel();
+//		addPanel = new JPanel(); 이거 필요없지 않나?? 나중에 보고 삭제하도록 하자.
 //		addPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 //
 //		setContentPane(addPanel);
@@ -144,52 +144,85 @@ public class CusMgr extends JFrame {
 //	
 		
 		// Num, Service Name, Provide Technician, Service Price
-		Object[] columns = {"Num", "고객이름", "차번호", "브랜드", "차종", "주행거리","우편번호","주소","전화번호", "가입날짜"};
-		Object[][] rowNames = {
-				{"1", "김땡땡", "63하 2234", "현대","소나타","3000km","11223","부산광역시","010-1111-1111","2022-02-23"}
-//				{"2", "엔진오일 교체", "김하하, 조마마", "공임비1"},
+//		여기서부터 잠깐 놔둔다.
+//		Object[] columns = {"Num", "고객이름", "차번호", "브랜드", "차종", "주행거리","우편번호","주소","전화번호", "가입날짜"};
+//		Object[][] rowNames = {
+//				{"1", "김땡땡", "63하 2234", "현대","소나타","3000km","11223","부산광역시","010-1111-1111","2022-02-23"}
+////				{"2", "엔진오일 교체", "김하하, 조마마", "공임비1"},
+//		};
+//		
+//		// Text Align Center
+//		DefaultTableCellRenderer render = new DefaultTableCellRenderer();
+//		render.setHorizontalAlignment(SwingConstants.CENTER);
+//		
+//		tableCusList = new JTable(rowNames, columns);
+//		tableCusList.setModel(new DefaultTableModel(
+//			new Object[][] {
+//				{"1", "\uAE40\uB561\uB561", "63\uD558 2234", "\uD604\uB300", "\uC18C\uB098\uD0C0", "3000km", "11223", "\uBD80\uC0B0\uAD11\uC5ED\uC2DC", "010-1111-1111", "2022-02-23"},
+//			},
+//			new String[] {
+//				"Num", "\uACE0\uAC1D\uC774\uB984", "\uCC28\uBC88\uD638", "\uBE0C\uB79C\uB4DC", "\uCC28\uC885", "\uC8FC\uD589\uAC70\uB9AC", "\uC6B0\uD3B8\uBC88\uD638", "\uC8FC\uC18C", "\uC804\uD654\uBC88\uD638", "\uAC00\uC785\uB0A0\uC9DC"
+//			}
+//		) {
+//			boolean[] columnEditables = new boolean[] {
+//				false, false, false, false, false, false, false, false, false, false
+//			};
+//			public boolean isCellEditable(int row, int column) {
+//				return columnEditables[column];
+//			}
+//		});
+//		tableCusList.getColumn("Num").setCellRenderer(render);
+//		tableCusList.getColumn("고객이름").setCellRenderer(render);
+//		tableCusList.getColumn("차번호").setCellRenderer(render);
+//		tableCusList.getColumn("브랜드").setCellRenderer(render);
+//		tableCusList.getColumn("차종").setCellRenderer(render);
+//		tableCusList.getColumn("주행거리").setCellRenderer(render);
+//		tableCusList.getColumn("우편번호").setCellRenderer(render);
+//		tableCusList.getColumn("주소").setCellRenderer(render);
+//		tableCusList.getColumn("전화번호").setCellRenderer(render);
+//		tableCusList.getColumn("가입날짜").setCellRenderer(render);
+//		
+//		// Column Not Move
+//		tableCusList.getTableHeader().setReorderingAllowed(false);
+//		
+//		// Column Change Width
+//		tableCusList.getColumn("전화번호").setPreferredWidth(200);
+//		tableCusList.getColumn("가입날짜").setPreferredWidth(200);
+//		
+//		// Row Change Height 
+//		tableCusList.setRowHeight(50);
+		
+		
+		
+		
+//		여기서부터 테이블 수정 부분
+		String header[]= { "num", "고객이름", "차번호","브랜드","차종","주행거리","우편번호","주소","전화번호","가입날짜"};
+		String contents[][] = {
+				{ "1", "김땡땡", "63하2234","현대","소나타","3000km","11223","부산광역시","010-2222-2222","2010-12-30"}
+			
 		};
+		DefaultTableModel model = new DefaultTableModel(contents,header);
+		JTable tableCusList = new JTable(model);
+		JScrollPane scrollpane = new JScrollPane(table);
+//		tableCusList.setBounds(994, 71, 548, 506);
+		getContentPane.add(tableCusList);
+		JLabel lblRegTec = new JLabel("");
+		lblRegTec.setFont(new Font("나눔바른고딕", Font.BOLD, 20));
 		
-		// Text Align Center
-		DefaultTableCellRenderer render = new DefaultTableCellRenderer();
-		render.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		tableCusList = new JTable(rowNames, columns);
-		tableCusList.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"1", "\uAE40\uB561\uB561", "63\uD558 2234", "\uD604\uB300", "\uC18C\uB098\uD0C0", "3000km", "11223", "\uBD80\uC0B0\uAD11\uC5ED\uC2DC", "010-1111-1111", "2022-02-23"},
-			},
-			new String[] {
-				"Num", "\uACE0\uAC1D\uC774\uB984", "\uCC28\uBC88\uD638", "\uBE0C\uB79C\uB4DC", "\uCC28\uC885", "\uC8FC\uD589\uAC70\uB9AC", "\uC6B0\uD3B8\uBC88\uD638", "\uC8FC\uC18C", "\uC804\uD654\uBC88\uD638", "\uAC00\uC785\uB0A0\uC9DC"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false, false, false, false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		tableCusList.getColumn("Num").setCellRenderer(render);
-		tableCusList.getColumn("고객이름").setCellRenderer(render);
-		tableCusList.getColumn("차번호").setCellRenderer(render);
-		tableCusList.getColumn("브랜드").setCellRenderer(render);
-		tableCusList.getColumn("차종").setCellRenderer(render);
-		tableCusList.getColumn("주행거리").setCellRenderer(render);
-		tableCusList.getColumn("우편번호").setCellRenderer(render);
-		tableCusList.getColumn("주소").setCellRenderer(render);
-		tableCusList.getColumn("전화번호").setCellRenderer(render);
-		tableCusList.getColumn("가입날짜").setCellRenderer(render);
 		
-		// Column Not Move
-		tableCusList.getTableHeader().setReorderingAllowed(false);
 		
-		// Column Change Width
-		tableCusList.getColumn("전화번호").setPreferredWidth(200);
-		tableCusList.getColumn("가입날짜").setPreferredWidth(200);
 		
-		// Row Change Height 
-		tableCusList.setRowHeight(50);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		// Table Set Area
 		scCusList = new JScrollPane(tableCusList);
@@ -256,25 +289,23 @@ public class CusMgr extends JFrame {
 //
 //		table.setModel(tableModel);
 		
-		
-		//팝업창으로 삭제버튼 넣기. 받은 값으로 삭제 여부 결정 가능해 보임.
-//		이겁니다 여러분!!!!! 이거 복사해가세요!!
-		btnDelCus.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int result = JOptionPane.showConfirmDialog(null, "삭제하시겠습니까?","삭제", JOptionPane.YES_NO_OPTION);
-				
-				if(result == JOptionPane.CLOSED_OPTION)
-					tf.setText("Just Closed");
-				else if(result == JOptionPane.YES_OPTION)
-//					tf.setText("Y");
-					System.out.println("Y");
-				else
-//					tf.setText("N");
-					System.out.println("N");
-			}
-		}); 
+	
+//		btnDelCus.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				int result = JOptionPane.showConfirmDialog(null, "삭제하시겠습니까?","삭제", JOptionPane.YES_NO_OPTION);
+//				
+//				if(result == JOptionPane.CLOSED_OPTION)
+//					tf.setText("Just Closed");
+//				else if(result == JOptionPane.YES_OPTION)
+////					tf.setText("Y");
+//					System.out.println("Y");
+//				else
+////					tf.setText("N");
+//					System.out.println("N");
+//			}
+//		}); 
 		
 		//돌아가기 버튼 누르면 메인화면으로 간다.
 		btnBackCusMain.addActionListener(new ActionListener() {
@@ -298,6 +329,71 @@ public class CusMgr extends JFrame {
 //				
 //			}
 //		});
+		
+//		추가부분 누르면 페이지 넘어가게 ok!
+		btnAddCus.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new CusMgr_add();
+				
+			}
+		});
+		
+//		삭제 버튼 실행
+//		btnTechDel.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				if(listTech.getSelectedRow() == -1) {
+//					return;
+//				}
+//				else {
+//					model.removeRow(listTech.getSelectedRow());
+//				}
+//			}
+//		});
+//		btnDelCus.addActionListener(new ActionListener() {				
+//				@Override
+//				public void actionPerformed(ActionEvent e) {
+//					int result = JOptionPane.showConfirmDialog(null, "삭제하시겠습니까?","삭제", JOptionPane.YES_NO_OPTION);
+//					
+//					if(result == JOptionPane.CLOSED_OPTION)
+//						tf.setText("Just Closed");
+//					else if(result == JOptionPane.YES_OPTION) {
+//						
+//						if(tableCusList.getSelectedRow() == -1) {
+//							return;
+//					}
+//						
+//				}
+//					else {
+////						tf.setText("N");
+//						System.out.println("N");
+//						model.removeRow(tableCusList.getSelectedRow());
+//				}
+//				}
+//			}); 
+		
+			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				if(tableCusList.getSelectedRow() == -1) {
+//					return;
+//				}
+//				else {
+//					model.removeRow(tableCusList.getSelectedRow());
+//				}
+//			}
+//		});
+		
+		
+		
+		
+		
+			
+		
 			
 			
 	}

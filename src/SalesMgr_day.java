@@ -21,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import java.awt.Color;
 
@@ -125,47 +126,56 @@ public class SalesMgr_day extends JFrame {
 		TextField tf = new TextField();
 		
 		
+		
 
 		Object[] columns = {"Num", "직원명", "고객명", "서비스명", "건수", "총 금액", "내용","금액"};
 		Object[][] rowNames = {
 				{"1", "김가나", "이나라", "타이어교체", "2건","50000","볼트구입","30000"}
 
 		};
+//		DefaultTableModel model = new DefaultTableModel(columns, rowNames);
+//		JTable table = new Jtable(model);
+//		JScrollPane scrollpane = new JScrollPane(table);
 		
-		// Text Align Center
+//		 Text Align Center
 		DefaultTableCellRenderer render = new DefaultTableCellRenderer();
 		render.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		tableSalesD = new JTable(rowNames, columns);
-		tableSalesD.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"1", "\uAE40\uAC00\uB098", "\uC774\uB098\uB77C", "\uD0C0\uC774\uC5B4\uAD50\uCCB4", "2\uAC74", "50000", "\uBCFC\uD2B8\uAD6C\uC785", "30000"},
-			},
-			new String[] {
-				"Num", "\uC9C1\uC6D0\uBA85", "\uACE0\uAC1D\uBA85", "\uC11C\uBE44\uC2A4\uBA85", "\uAC74\uC218", "\uCD1D \uAE08\uC561", "\uB0B4\uC6A9", "\uAE08\uC561"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false, false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		tableSalesD.setFont(new Font("나눔바른고딕", Font.PLAIN, 20));
-		tableSalesD.getColumn("Num").setCellRenderer(render);
-		tableSalesD.getColumn("직원명").setCellRenderer(render);
-		tableSalesD.getColumn("고객명").setCellRenderer(render);
-		tableSalesD.getColumn("서비스명").setCellRenderer(render);
-		tableSalesD.getColumn("건수").setCellRenderer(render);
-		tableSalesD.getColumn("총 금액").setCellRenderer(render);
-		tableSalesD.getColumn("내용").setCellRenderer(render);
-		tableSalesD.getColumn("금액").setCellRenderer(render);
+//		tableSalesD = new JTable(rowNames, columns);
+//		tableSalesD.setModel(new DefaultTableModel(
+//			new Object[][] {
+//				{"1", "\uAE40\uAC00\uB098", "\uC774\uB098\uB77C", "\uD0C0\uC774\uC5B4\uAD50\uCCB4", "2\uAC74", "50000", "\uBCFC\uD2B8\uAD6C\uC785", "30000"},
+//			},
+//			new String[] {
+//				"Num", "\uC9C1\uC6D0\uBA85", "\uACE0\uAC1D\uBA85", "\uC11C\uBE44\uC2A4\uBA85", "\uAC74\uC218", "\uCD1D \uAE08\uC561", "\uB0B4\uC6A9", "\uAE08\uC561"
+//			}
+//		) {
+//			boolean[] columnEditables = new boolean[] {
+//				false, false, false, false, false, false, false, false
+//			};
+//			public boolean isCellEditable(int row, int column) {
+//				return columnEditables[column];
+//			}
+//		});
+//		tableSalesD.setFont(new Font("나눔바른고딕", Font.PLAIN, 20));
+//		tableSalesD.getColumn("Num").setCellRenderer(render);
+//		tableSalesD.getColumn("직원명").setCellRenderer(render);
+//		tableSalesD.getColumn("고객명").setCellRenderer(render);
+//		tableSalesD.getColumn("서비스명").setCellRenderer(render);
+//		tableSalesD.getColumn("건수").setCellRenderer(render);
+//		tableSalesD.getColumn("총 금액").setCellRenderer(render);
+//		tableSalesD.getColumn("내용").setCellRenderer(render);
+//		tableSalesD.getColumn("금액").setCellRenderer(render);
 
+//		
+//		
+//		// Column Not Move
+//		tableSalesD.getTableHeader().setReorderingAllowed(false);
 		
 		
-		// Column Not Move
-		tableSalesD.getTableHeader().setReorderingAllowed(false);
+		
+		
+		
 		
 		// Column Change Width
 //		tableSalesD.getColumn("전화번호").setPreferredWidth(200);
@@ -210,22 +220,40 @@ public class SalesMgr_day extends JFrame {
 //		JFrame.getContentPanel().add(addPanel);
 		
 		
-		//팝업창으로 삭제버튼 넣기. 받은 값으로 삭제 여부 결정 가능해 보임.
-//		이겁니다 여러분!!!!! 이거 복사해가세요!!
-		btnDelSalesD.addActionListener(new ActionListener() {
+	
+		   btnDelSalesD.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int result = JOptionPane.showConfirmDialog(null, "삭제하시겠습니까?","삭제", JOptionPane.YES_NO_OPTION);
+//				과정...
+//				int result = JOptionPane.showConfirmDialog(null, "삭제하시겠습니까?","삭제", JOptionPane.YES_NO_OPTION);
+//				Font f1 = new Font("맑은 고딕", Font.PLAIN, 24); 
+//				UIManager.put("result.messageFont", f1);
+//				UIManager.put("result.buttonFont", f1);
+
+//				은비언니가 찾아준 알림창 중앙배열
+//				String message = "<html><body><div width='100px' align='center'>삭제하시겠습니까</div></body></html>";
+//				JLabel messageLabel = new JLabel(message);
+//				JOptionPane.showConfirmDialog(null, messageLabel, "삭제", JOptionPane.PLAIN_MESSAGE);
+//				
+			    try {
+		               JLabel label = new JLabel("<html><center><br>XXX님 환영합니다.");
+		               String classPath = SalesMgr_day.class.getResource("").getPath();
+		                  String path = URLDecoder.decode(classPath, "UTF-8");
+		                  path += "\\img\\YellowCat.png";
+		                  ImageIcon icon = new ImageIcon(path);
+		               label.setIcon(icon);
+		               label.setHorizontalAlignment(SwingConstants.CENTER);
+		               int answer = JOptionPane.showConfirmDialog(null, label, "title",//라벨에 이미지와 글을 넣음.
+		               JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+		               
+		               if(answer ==JOptionPane.YES_OPTION) {
+		            	   model.removeRow(table.getSelectedRow());
+		               }
+		            } catch(Exception ex) {
+		               
+		            }
 				
-				if(result == JOptionPane.CLOSED_OPTION)
-					tf.setText("Just Closed");
-				else if(result == JOptionPane.YES_OPTION)
-//					tf.setText("Y");
-					System.out.println("Y");
-				else
-//					tf.setText("N");
-					System.out.println("N");
 			}
 		}); 
 		

@@ -38,7 +38,8 @@ public class CusMgr_add {
 			public void run() {
 				try {
 					CusMgr_add window = new CusMgr_add();
-					window.frame.setVisible(true);
+//					window.frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -53,6 +54,7 @@ public class CusMgr_add {
 //		frame.setVisible(true);
 //		frame.setVisible(true);
 		initialize();
+		frame.setVisible(true);
 	}
 
 	/**

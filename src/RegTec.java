@@ -1,7 +1,20 @@
 
 
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.ScrollPane;
+import java.awt.TextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
+import javax.swing.JTextPane;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollBar;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -11,21 +24,11 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
-import java.awt.Font;
-import java.awt.ScrollPane;
 
-import javax.swing.JTextPane;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Vector;
-import java.awt.event.ActionEvent;
-import java.awt.Color;
-import javax.swing.JScrollBar;
+
+
 
 public class RegTec extends JFrame {
 //	여기에도 삭제, 수정 버튼이 있어야 할 것같다..
@@ -41,6 +44,7 @@ public class RegTec extends JFrame {
 	private JTable listTech;
 	private static int n;
 	private int flag = 0;
+	TextField tf = new TextField();
 
 	/**
 	 * Launch the application.
@@ -72,7 +76,7 @@ public class RegTec extends JFrame {
 		
 		
 //		좌측부분 라벨 사용해서 외곽에 선 넣어주기
-		LineBorderRegTec1 = new LineBorder(Color.black, 1, true);
+//		LineBorderRegTec1 = new LineBorder(Color.black, 1, true);
 		JLabel lblNewLabel_4 = new JLabel("");
 		lblNewLabel_4.setBounds(958, 93, 545, 545);		
 		
@@ -83,7 +87,7 @@ public class RegTec extends JFrame {
 //		
 		
 		JPanel panel = new JPanel();
-		panel.setForeground(new Color(255, 0, 0));
+//		panel.setForeground(new Color(255, 0, 0));
 		panel.setBounds(57, 93, 535, 565);
 		
 		JPanel panel_1 = new JPanel();
@@ -160,15 +164,27 @@ public class RegTec extends JFrame {
 		};
 		DefaultTableModel model = new DefaultTableModel(contents,header);
 		JTable listTech = new JTable(model);
-		JScrollPane scrollpane = new JScrollPane(table);
+//		JTable listTech = new JTable(new DefaultTableModel(
+//			new Object[][] {
+//				{"\uC774\uC774\uC774", "010-111-1111", "\uB300\uB9AC"},
+//			},
+//			new String[] {
+//				"\uC815\uBE44\uC0AC \uC774\uB984", "\uC815\uBE44\uC0AC\uC804\uD654\uBC88\uD638", "\uC815\uBE44\uC0AC \uC9C1\uAE09"
+//			}
+//		) {
+//			boolean[] columnEditables = new boolean[] {
+//				false, false, false
+//			};
+//			public boolean isCellEditable(int row, int column) {
+//				return columnEditables[column];
+//			}
+//		});
 		
-
-		listTech.getColumnModel().getColumn(0).setPreferredWidth(52);
-		listTech.getColumnModel().getColumn(2).setPreferredWidth(104);
+		JScrollPane scrollpane = new JScrollPane(table);
 		listTech.setBounds(994, 71, 548, 506);
 		contentPane.add(listTech);
 		JLabel lblRegTec = new JLabel("");
-		lblRegTec.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		lblRegTec.setFont(new Font("나눔바른고딕", Font.BOLD, 15));
 		
 		lblRegTec.setBorder(LineBorderRegTec1);    //원하는 라벨에 사용
 		lblRegTec.setBounds(57, 93, 535, 565);
@@ -229,27 +245,89 @@ public class RegTec extends JFrame {
 				inputStr[2] = techLv.getText();
 				
 				model.addRow(inputStr);
+				
+//				등록하고 난 뒤 다시 칸 비워주기
+				techName.setText("");
+				techTel.setText("");
+				techLv.setText("");
+//				sbj3.setText("");
 			}
 		});
 		
+//	btnTechDel.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+////				String inputStr[] = new String[3];
+////				
+////				inputStr[0] = techName.getText();
+////				inputStr[1] = techTel.getText();
+////				inputStr[2] = techLv.getText();
+//				
+//				int num = table.getSelectedRow();
+//				model.removeRow(num);
+//			}
+//		});
 		
 		
 		
 		
 //		이거 삭제하는거.
+//		삭제 버튼 누르면 알림창 뜨기
 //		btnTechDel.addActionListener(new ActionListener() {
 //			
 //			@Override
 //			public void actionPerformed(ActionEvent e) {
-//				if(table.getSelectedRow() == -1) {
-//					return;
+//				int result = JOptionPane.showConfirmDialog(null, "삭제하시겠습니까?","삭제", JOptionPane.YES_NO_OPTION);
+//				
+//				if(result == JOptionPane.CLOSED_OPTION)
+//					tf.setText("Just Closed");
+//				else if(result == JOptionPane.YES_OPTION) {
+////					tf.setText("Y");
+////					System.out.println("Y");
+//					int n = table.getSelectedRow();
+//					model.removeRow(n);
 //				}
 //				else {
-//					model.removeRow(table.getSelectedRow());
-//				}
-//			}
+//					tf.setText("N");
+//					System.out.println("N");
+//			
+//				};
+//		
 //		});
+		
+//		btnTechDel.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				 int index = table.getSelectedRow();
+//			        if(index < 0){
+//			            
+//			        }else{
+//			            model.removeRow(index);
+//			        }
+//			    }
+//			}
+//		}
+		
+		
+//		}
+//	}
+//	
+		
+//		삭제 버튼 작동하기
+		btnTechDel.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(listTech.getSelectedRow() == -1) {
+					return;
+				}
+				else {
+					model.removeRow(listTech.getSelectedRow());
+				}
+			}
+		});
 
-	
 	}
 }
+
