@@ -65,6 +65,11 @@ public class EditComInfo extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
+		JLabel lblNewLabel_1_4 = new JLabel("사업자등록번호");
+		lblNewLabel_1_4.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
+		lblNewLabel_1_4.setBounds(128, 76, 166, 41);
+		panel.add(lblNewLabel_1_4);
+		
 		JLabel lblNewLabel_1_1 = new JLabel("비밀번호");
 		lblNewLabel_1_1.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
 		lblNewLabel_1_1.setBounds(158, 139, 136, 41);
@@ -79,6 +84,11 @@ public class EditComInfo extends JFrame {
 		lblNewLabel_1_3.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
 		lblNewLabel_1_3.setBounds(158, 267, 136, 41);
 		panel.add(lblNewLabel_1_3);
+		
+		JLabel lblNewLabel_1_3_1 = new JLabel("이메일");
+		lblNewLabel_1_3_1.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
+		lblNewLabel_1_3_1.setBounds(158, 332, 136, 41);
+		panel.add(lblNewLabel_1_3_1);
 		
 		JLabel lblNewLabel_1_5 = new JLabel("우편번호");
 		lblNewLabel_1_5.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
@@ -153,14 +163,5 @@ public class EditComInfo extends JFrame {
 		btnFixedComInfo.setBounds(281, 622, Size.BTN_B_W, Size.BTN_B_H);
 		panel.add(btnFixedComInfo);
 		
-		JLabel lblNewLabel_1_4 = new JLabel("사업자등록번호");
-		lblNewLabel_1_4.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
-		lblNewLabel_1_4.setBounds(128, 76, 166, 41);
-		panel.add(lblNewLabel_1_4);
-		
-		JLabel lblNewLabel_1_3_1 = new JLabel("이메일");
-		lblNewLabel_1_3_1.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
-		lblNewLabel_1_3_1.setBounds(158, 332, 136, 41);
-		panel.add(lblNewLabel_1_3_1);
 	}
 }
