@@ -22,6 +22,8 @@ import javax.swing.border.BevelBorder;
 import java.awt.Color;
 
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 // ComServiceList
 public class ComSrvList extends JFrame implements ActionListener {
@@ -54,6 +56,7 @@ public class ComSrvList extends JFrame implements ActionListener {
             
     		// Table Font
     		tableSrvList.setFont(font.deriveFont(Font.PLAIN, FONT_SIZE));
+    		tableSrvList.getTableHeader().setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -66,6 +69,18 @@ public class ComSrvList extends JFrame implements ActionListener {
         		}
         	}
         }
+	}
+	
+	private void setTableHeader(JTable table) {
+		TableColumnModel columnModel = table.getColumnModel();
+		String prefix = "<html><body><table><tr><td height=50>";
+		String suffix = "</td></tr></table></body><html>";
+		
+		for (int col = 0; col < columnModel.getColumnCount(); col++) {
+		    TableColumn column = columnModel.getColumn(col);
+		    String text = prefix + columnModel.getColumn(col).getHeaderValue().toString() + suffix;
+		    column.setHeaderValue(text);
+		}
 	}
 	
 	/**
@@ -144,7 +159,7 @@ public class ComSrvList extends JFrame implements ActionListener {
 		contentPane.setLayout(null);
 		
 		// Num, Service Name, Provide Technician, Service Price
-		Object[] columns = {"Num", "서비스 명", "제공 정비사", "서비스 가격"};
+		Object[] columns = {"번호", "서비스 명", "제공 정비사", "서비스 가격"};
 		Object[][] rowNames = {
 				{"1", "타이어 교체", "김하하, 박나나", "공임비2"},
 				{"2", "엔진오일 교체", "김하하, 조마마", "공임비1"},
@@ -156,7 +171,8 @@ public class ComSrvList extends JFrame implements ActionListener {
 		
 		tableSrvList = new JTable(rowNames, columns);
 		tableSrvList.setDefaultEditor(Object.class, null); // 테이블 수정 안되게
-		tableSrvList.getColumn("Num").setCellRenderer(render);
+		tableSrvList.getTableHeader().setResizingAllowed(false);
+		tableSrvList.getColumn("번호").setCellRenderer(render);
 		tableSrvList.getColumn("서비스 명").setCellRenderer(render);
 		tableSrvList.getColumn("제공 정비사").setCellRenderer(render);
 		tableSrvList.getColumn("서비스 가격").setCellRenderer(render);
@@ -170,6 +186,8 @@ public class ComSrvList extends JFrame implements ActionListener {
 		
 		// Row Change Height 
 		tableSrvList.setRowHeight(50);
+		
+		setTableHeader(tableSrvList);
 		
 		// Table Set Area
 		scSrvList = new JScrollPane(tableSrvList);
