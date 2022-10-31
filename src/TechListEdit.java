@@ -31,7 +31,8 @@ public class TechListEdit extends JFrame {
 	private JButton btnEditTech;
 	private JButton btnDelTech;
 	private JButton btnBackMain;
-
+	MemberMgr mgr;
+	MemberBean bean;
 
 	
 	/**
