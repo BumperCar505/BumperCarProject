@@ -11,7 +11,7 @@ public class MFrame extends Frame{
 	}
 	public MFrame(int w, int h) {
 		this(w,h,new Color(220,220,220),false);
-	}
+	}////
 	public MFrame(Color c) {
 		this(300,300,c,false);
 	}
