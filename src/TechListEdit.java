@@ -24,6 +24,7 @@ import java.net.URLDecoder;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 
+
 public class TechListEdit extends JFrame {
 
 	private JPanel contentPane;
@@ -31,9 +32,10 @@ public class TechListEdit extends JFrame {
 	private JButton btnEditTech;
 	private JButton btnDelTech;
 	private JButton btnBackMain;
+/////////////////////////////////////////////
 	MemberMgr mgr;
 	MemberBean bean;
-
+////////////////////////////////////////////
 	
 	/**
 	 * Launch the application.
@@ -136,6 +138,8 @@ public class TechListEdit extends JFrame {
 			}
 		});
 		
+		
+		
 		// 수정 버튼 누르면 실행됨 -> 새 폼 띄우기 
 		btnEditTech.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -145,7 +149,8 @@ public class TechListEdit extends JFrame {
 			}
 		});
 		
-		// 삭제 버튼 누르면 실행됨 -> 새 폼 띄우기
+		
+		// 삭제 버튼 누르면 실행됨
 		btnDelTech.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -157,15 +162,17 @@ public class TechListEdit extends JFrame {
 				
 		        else {
 		        	try {
-		        		JLabel label = new JLabel("<html><center><h3>삭제하시겠습니까?</h3>");
-			            String classPath = UnitStockMgr.class.getResource("").getPath();
-			            String path = URLDecoder.decode(classPath, "UTF-8");
-			            path += "\\img\\trash (1).png";
-			            ImageIcon icon = new ImageIcon(path);
-			            label.setIcon(icon);
-			            label.setHorizontalAlignment(SwingConstants.CENTER);
-			            
-			            int result = JOptionPane.showConfirmDialog(null, label, "삭제", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+						/*
+						 * JLabel label = new JLabel("<html><center><h3>삭제하시겠습니까?</h3>"); String
+						 * classPath = UnitStockMgr.class.getResource("").getPath(); String path =
+						 * URLDecoder.decode(classPath, "UTF-8"); path += "\\img\\trash (1).png";
+						 * ImageIcon icon = new ImageIcon(path); label.setIcon(icon);
+						 * label.setHorizontalAlignment(SwingConstants.CENTER);
+						 * int result = JOptionPane.showConfirmDialog(null, label, "삭제", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+						 */
+		        		
+		        		int result = DialogManager.createMsgDialog("<html><h3>삭제하시겠습니까?</h3>", "/img/trash.png", "삭제", JOptionPane.YES_NO_OPTION);
+   
 			            if (result == 0) {
 			            	model.removeRow(index);
 			            } else if (result == 1) {

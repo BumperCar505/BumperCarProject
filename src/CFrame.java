@@ -5,20 +5,22 @@ import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class MFrame extends Frame{
-	public MFrame() {
+import javax.swing.JFrame;
+
+public class CFrame extends JFrame{
+	public CFrame() {
 		this(300,300,new Color(220,220,220),false);
 	}
-	public MFrame(int w, int h) {
+	public CFrame(int w, int h) {
 		this(w,h,new Color(220,220,220),false);
 	}////
-	public MFrame(Color c) {
+	public CFrame(Color c) {
 		this(300,300,c,false);
 	}
-	public MFrame(int w, int h,Color c ) {
+	public CFrame(int w, int h,Color c ) {
 		this(w,h,c,false);
 	}
-	public MFrame(int w, int h, Color c, boolean flag) {
+	public CFrame(int w, int h, Color c, boolean flag) {
 		//setLayout(new FlowLayout());
 		setSize(w, h);
 		setBackground(c);
