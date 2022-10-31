@@ -32,6 +32,8 @@ public class TechListEdit extends JFrame {
 	private JButton btnDelTech;
 	private JButton btnBackMain;
 
+
+	
 	/**
 	 * Launch the application.
 	 */
@@ -59,6 +61,7 @@ public class TechListEdit extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setEnabled(true);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
 
 //		폼 창이 화면 가운데서 뜨게 하는 기능
 		setLocationRelativeTo(null); //--
