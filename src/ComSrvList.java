@@ -50,7 +50,7 @@ public class ComSrvList extends JFrame implements ActionListener {
                     new FileInputStream(path + "/font/NanumBarunGothic.ttf"));
 
             Font font = Font.createFont(Font.TRUETYPE_FONT, inputStream);
-            
+
             btnAddsrv.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             btnEditSrv.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             btnDelSrv.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
@@ -87,16 +87,16 @@ public class ComSrvList extends JFrame implements ActionListener {
             
             if(option == JOptionPane.PLAIN_MESSAGE) {
     			JOptionPane.showMessageDialog(this, lblDialog, title, JOptionPane.PLAIN_MESSAGE);
-    			return 0;
+    			return -1;
             } else if(option == JOptionPane.YES_NO_OPTION) {
-            	JOptionPane.showConfirmDialog(this, lblDialog, title, JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
-            	return 1;
+            	// YES => 0, NO => 1 Return
+            	return JOptionPane.showConfirmDialog(this, lblDialog, title, JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
             }
 		} catch(Exception ex) {
 			createMsgDialog("에러", "다이얼로그를 생성하는 과정에 문제가 발생했습니다.", null, JOptionPane.PLAIN_MESSAGE); // 이미지 추가 필요
 		}
 		
-		return -1; // 비정상적 작동
+		return -2; // 비정상적 작동
 	}
 	
 	
@@ -169,7 +169,12 @@ public class ComSrvList extends JFrame implements ActionListener {
 				return;
 			}
 			
-			createMsgDialog("알림", "정말로 삭제하시겠습니까?", "\\img\\YellowCat.png", JOptionPane.YES_NO_OPTION);
+			int result = createMsgDialog("알림", "정말로 삭제하시겠습니까?", "\\img\\YellowCat.png", JOptionPane.YES_NO_OPTION);
+			if(result == 0) {
+				createMsgDialog("알림", "삭제 되었습니다.", "\\img\\YellowCat.png", JOptionPane.PLAIN_MESSAGE);
+			} else {
+				createMsgDialog("알림", "삭제가 취소되었습니다.", "\\img\\YellowCat.png", JOptionPane.PLAIN_MESSAGE);
+			}
 		}
 	}
 	
