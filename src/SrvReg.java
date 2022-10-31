@@ -1,73 +1,55 @@
-
-
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Objects;
+import java.util.Vector;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+import javax.accessibility.Accessible;
+import javax.swing.AbstractAction;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.ComboPopup;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
+import javax.swing.JTable;
 import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import java.awt.Panel;
-import java.awt.Font;
-import java.awt.GridLayout;
-
+import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.ListModel;
 import javax.swing.SwingUtilities;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JList;
-import javax.accessibility.Accessible;
-import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.awt.event.ActionEvent;
 
 public class SrvReg extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField srvName;
-	private JTextField srvPrice;
-	private LineBorder LineBorderRegTec1;
 	private JTable table;
-	private JTable table_1;
 	
-	
-	String header[] = {"서비스명", "서비스제공 정비사", "서비스가격" };
-	Object contents[][];
-	String selectedItems[];
-	private JTable table_2;
-	private final JScrollPane scrollPane = new JScrollPane(table_2);
-	
-//	서비스제공 정비사 목록 -> DB랑 연결해야함
-	private static ComboBoxModel<CheckableItem> makeModel() {
+	DefaultTableModel dtm;
+    Vector<String> list;
+    Vector<String> colName;
+    private JTextField srvName;
+    private JTextField srvPrice;
+
+    
+    private static ComboBoxModel<CheckableItem> makeModel() {
 	    CheckableItem[] m = {
 	        new CheckableItem("김하하", false),
 	        new CheckableItem("이나나", false),
@@ -76,8 +58,8 @@ public class SrvReg extends JFrame {
 	    };
 	    return new DefaultComboBoxModel<>(m);
 	  }
-	
-
+    
+    
 	/**
 	 * Launch the application.
 	 */
@@ -94,116 +76,103 @@ public class SrvReg extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public SrvReg() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, Size.SCREEN_W, Size.SCREEN_H);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
+	SrvReg()
+    {
+
+        setBounds(300, 300, Size.SCREEN_W, Size.SCREEN_H);
+        
 //      폼 창이 화면 가운데서 뜨게 하는 기능
 		setLocationRelativeTo(null);
+        
+        /////////////////////////////////////////////
+        colName = new Vector<String>();
+        
+        colName.add("서비스명");
+        colName.add("서비스제공 정비사");
+        colName.add("서비스 가격");
+        
+        // 익명중첩 클래스로 테이블 편집 여부를 설정한다.
+        dtm = new DefaultTableModel(colName ,0){        // DefaultTableModel(Vector ColumnNames, int rowCount)
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(SrvReg.class.getResource("/img/YellowCat.png")));
+            @Override
+            public boolean isCellEditable(int row, int column)      // 테이블의 편집 가능 여부를 알려주는 메소드
+            {
+                return false;       // 편집이 안되도록 한다.
+            }
+        };
+        
+        
+        table = new JTable(dtm);
+        table.getTableHeader().setFont(new Font("NanumBarunGothic", Font.PLAIN, 18));
+        table.getTableHeader().setReorderingAllowed(false);     // JTable의 헤더를 고정시킨다. (true는 고정해제)
+        getContentPane().setLayout(null);
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(914, 234, 571, 579);
+        getContentPane().add(scrollPane);        // table을 담은 JScollPane을 JFrame에 부착 
+        
+     
+        setVisible(true);                       // table을 단순히 JFrame에 부착시 헤더가 나오지 않는다
+        
+        table.setRowHeight(25);
+		table.setFont(new Font("NanumBarunGothic", Font.PLAIN, 18));
+        
+        //////////////////////////////////////////
+        
+        JLabel lblNewLabel = new JLabel("");
+        lblNewLabel.setIcon(new ImageIcon(SrvReg.class.getResource("/img/YellowCat.png")));
 		lblNewLabel.setBounds(717, 57, 230, 94);
-		contentPane.add(lblNewLabel);
-
-		LineBorderRegTec1 = new LineBorder(Color.black, 1, true);
-		
-		Panel panel = new Panel();
-		panel.setBounds(121, 234, 626, 579);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		
-		JLabel lblNewLabel_1 = new JLabel("서비스명");
+        getContentPane().add(lblNewLabel);
+        
+        JPanel panel = new JPanel();
+        panel.setBounds(121, 182, 626, 631);
+        getContentPane().add(panel);
+        panel.setLayout(null);
+        
+        JLabel lblNewLabel_1 = new JLabel("서비스명");
 		lblNewLabel_1.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
 		lblNewLabel_1.setBounds(36, 43, 140, 55);
-		panel.add(lblNewLabel_1);
-		
-		JLabel lblNewLabel_1_1 = new JLabel("서비스 제공 정비사 선택");
-		lblNewLabel_1_1.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
-		lblNewLabel_1_1.setBounds(36, 201, 356, 55);
-		panel.add(lblNewLabel_1_1);
-		
-		JLabel lblNewLabel_1_1_1 = new JLabel("서비스 가격 (공임비)");
-		lblNewLabel_1_1_1.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
-		lblNewLabel_1_1_1.setBounds(36, 359, 259, 55);
-		panel.add(lblNewLabel_1_1_1);
-		
-		srvName = new JTextField();
-		srvName.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
+        panel.add(lblNewLabel_1);
+        
+        JLabel lblNewLabel_2 = new JLabel("서비스 제공 정비사 선택");
+        lblNewLabel_2.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
+        lblNewLabel_2.setBounds(36, 201, 356, 55);
+        panel.add(lblNewLabel_2);
+        
+        JLabel lblNewLabel_3 = new JLabel("서비스 가격 (공임비)");
+        lblNewLabel_3.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
+        lblNewLabel_3.setBounds(36, 359, 259, 55);
+        panel.add(lblNewLabel_3);
+        
+        srvName = new JTextField();
+        srvName.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
 		srvName.setBounds(37, 111, 546, 45);
-		panel.add(srvName);
-		srvName.setColumns(10);
-		
-		
-	    CheckedComboBox comboBox = new CheckedComboBox<>(makeModel());
+        panel.add(srvName);
+//        srvName.setColumns(10);
+        
+        srvPrice = new JTextField();
+        srvPrice.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
+		srvPrice.setBounds(37, 423, 546, 45);
+        panel.add(srvPrice);
+//        srvPrice.setColumns(10);
+        
+        CheckedComboBox comboBox = new CheckedComboBox<>(makeModel());
 	    comboBox.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
 		comboBox.setBounds(37, 267, 385, 45);
 		panel.add(comboBox);
 
 		
 		ComboBoxModel<CheckableItem> model = comboBox.getModel();
-
-		
-		srvPrice = new JTextField();
-		srvPrice.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
-		srvPrice.setColumns(10);
-		srvPrice.setBounds(37, 423, 546, 45);
-		panel.add(srvPrice);
-		
+        
 		JButton btnSrvReg = new JButton("등록");
 		btnSrvReg.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
 
 		btnSrvReg.setBounds(231, 493, Size.BTN_S_W, Size.BTN_S_H);
 		panel.add(btnSrvReg);
 		
-
-//		테이블 더블클릭 수정 불가
-		DefaultTableModel modelT = new DefaultTableModel(contents, header){
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
-		};
-//		modelT.setColumnIdentifiers(header);
-
-		JTable table_2 = new JTable(modelT);
-        
-		
-		Panel panel_1 = new Panel();
-		panel_1.setBounds(914, 234, 571, 579);
-		contentPane.add(panel_1);
-		panel_1.setLayout(null);
-
-		table_2.setBounds(0, 74, 571, 505);
-		panel_1.add(table_2);
-//		panel_1.add(scrollPane);
-		
-		table_2.setRowHeight(25);
-		table_2.setFont(new Font("NanumBarunGothic", Font.PLAIN, 18));
-		
-		modelT.addRow(header);
-//		TableCellRenderer render = table_2.getCellRenderer(0,0);
-//		((Component) render).setBackground(Color.LIGHT_GRAY);
-				
-				
-		JLabel lblNewLabel_2 = new JLabel("등록된 서비스 목록");
-		lblNewLabel_2.setBounds(197, 19, 177, 45);
-		panel_1.add(lblNewLabel_2);
-		lblNewLabel_2.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
-
-//		modelT.addRow(header);
-
-
-
-				
+		JLabel lblNewLabel_4 = new JLabel("등록된 서비스 목록");
+		lblNewLabel_4.setBounds(1106, 182, 169, 40);
+		getContentPane().add(lblNewLabel_4);
+		lblNewLabel_4.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
 		
 		JButton btnComSignUp = new JButton("회원가입 완료");
 		btnComSignUp.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
@@ -212,29 +181,36 @@ public class SrvReg extends JFrame {
 			}
 		});
 		btnComSignUp.setBounds(687, 862, Size.BTN_B_W, Size.BTN_B_H);
-		contentPane.add(btnComSignUp);
-		
+		getContentPane().add(btnComSignUp);
+        
 
-		
 		btnSrvReg.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String inputStr[] = new String[3];
+//				String inputStr[] = new String[3];
+//				
+//				inputStr[0] = srvName.getText();
+//				inputStr[1] = comboBox.getCheckedItemString(model);
+//				inputStr[2] = srvPrice.getText();
+//				
+//				dtm.addRow(inputStr);
 				
-				inputStr[0] = srvName.getText();
-				inputStr[1] = comboBox.getCheckedItemString(model);
-				inputStr[2] = srvPrice.getText();
+				Vector<String> list = new Vector<String>();
+				list.add(srvName.getText());
+				list.add(comboBox.getCheckedItemString(model));
+				list.add(srvPrice.getText());
+				dtm.addRow(list);
 				
-				modelT.addRow(inputStr);
 			}
 		});
 
-		
-	}
+
+    }
 }
 
-// Select multiple JCheckBox in JComboBox
+
+//Select multiple JCheckBox in JComboBox
 class CheckableItem {
 	  private final String text;
 	  private boolean selected;
@@ -352,4 +328,3 @@ class CheckedComboBox<E extends CheckableItem> extends JComboBox<E> {
 	        .collect(Collectors.joining(", "));
 	  }
 	}
-
