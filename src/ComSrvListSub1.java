@@ -18,9 +18,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 
 public class ComSrvListSub1 extends JFrame implements ActionListener {
@@ -32,6 +34,7 @@ public class ComSrvListSub1 extends JFrame implements ActionListener {
 	private JLabel lblProvideTechList;
 	private JLabel lblSrvPrice;
 	private JLabel lblRegTechList;
+	private JLabel lblDialog;
 	private JList<String> listProvideTech;
 	private JButton btnSrvReg;
 	private JButton btnSrvSave;
@@ -62,6 +65,7 @@ public class ComSrvListSub1 extends JFrame implements ActionListener {
             btnSrvSave.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             comboBoxTech.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             lblRegTechList.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
+            lblDialog.setFont(font.deriveFont(Font.BOLD, 21));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -75,6 +79,22 @@ public class ComSrvListSub1 extends JFrame implements ActionListener {
         }
 		
 		return this;
+	}
+	
+	private void createMsgDialog(String title, String msg, String imgPath) {
+		try {
+			lblDialog.setText("<html><center>" + msg);
+			String classPath = ComLogin.class.getResource("").getPath();
+            String path = URLDecoder.decode(classPath, "UTF-8");
+            path += imgPath;
+            
+            ImageIcon icon = new ImageIcon(path);
+            lblDialog.setIcon(icon);
+            lblDialog.setHorizontalAlignment(SwingConstants.CENTER);
+			JOptionPane.showMessageDialog(this, lblDialog, title, JOptionPane.PLAIN_MESSAGE);
+		} catch(Exception ex) {
+			createMsgDialog("에러", "다이얼로그를 생성하는 과정에 문제가 발생했습니다.", null); // 이미지 추가 필요
+		}
 	}
 	
 	/**
@@ -119,7 +139,7 @@ public class ComSrvListSub1 extends JFrame implements ActionListener {
 			if(list.contains(comboBoxTech.getSelectedItem().toString()) == false) { 
 				list.add(comboBoxTech.getSelectedItem().toString());
 			} else {
-				new Notice("이미 목록에 존재하는 정비사입니다.").setFont();
+				createMsgDialog("에러", "이미 목록에 존재하는 정비사입니다.", "\\img\\YellowCat.png");
 				return;
 			}
 			
@@ -215,6 +235,8 @@ public class ComSrvListSub1 extends JFrame implements ActionListener {
 		lblRegTechList = new JLabel("등록된 정비사 목록");
 		lblRegTechList.setBounds(40, 88, 200, 40);
 		contentPane.add(lblRegTechList);
+		
+		lblDialog = new JLabel("");
 	}
 	
 	// 서비스 목록 창에서 추가를 눌렀을때 이 생성자 호출
