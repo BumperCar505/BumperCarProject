@@ -155,6 +155,7 @@ public class ComSrvList extends JFrame implements ActionListener {
 		render.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		tableSrvList = new JTable(rowNames, columns);
+		tableSrvList.setDefaultEditor(Object.class, null); // 테이블 수정 안되게
 		tableSrvList.getColumn("Num").setCellRenderer(render);
 		tableSrvList.getColumn("서비스 명").setCellRenderer(render);
 		tableSrvList.getColumn("제공 정비사").setCellRenderer(render);

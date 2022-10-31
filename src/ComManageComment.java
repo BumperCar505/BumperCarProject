@@ -106,6 +106,7 @@ public class ComManageComment extends JFrame {
 		render.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		tableCommentList = new JTable(rowNames, columns);
+		tableCommentList.setDefaultEditor(Object.class, null); // 테이블 값 수정 안되게
 		tableCommentList.getColumn("Num").setCellRenderer(render);
 		tableCommentList.getColumn("고객명").setCellRenderer(render);
 		tableCommentList.getColumn("방문날짜").setCellRenderer(render);
