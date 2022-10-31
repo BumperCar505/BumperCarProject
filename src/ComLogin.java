@@ -9,6 +9,7 @@ import java.net.URLDecoder;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.CaretEvent;
@@ -20,15 +21,16 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 // ComLogin
 public class ComLogin extends JFrame implements ActionListener, CaretListener {
 	private JPanel contentPane;
-	private JTextField comPw;
 	private JTextField comId;
+	private JPasswordField comPw;
 	private JButton btnComLogin;
 	private JButton btnComJoin;
-	private String pwd; // 패스워드 임시 저장공간
+	private JLabel lblDialog;
 
 	public void setFont() {
 		InputStream inputStream = null;
@@ -39,13 +41,14 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
             String path = URLDecoder.decode(classPath, "UTF-8");
             inputStream = new BufferedInputStream(
                     new FileInputStream(path + "/font/NanumBarunGothic.ttf"));
-
+            
             Font font = Font.createFont(Font.TRUETYPE_FONT, inputStream);
             
             comPw.setFont(font.deriveFont(Font.BOLD, 24));
             comId.setFont(font.deriveFont(Font.BOLD, 24));
             btnComLogin.setFont(font.deriveFont(Font.BOLD, 24));
             btnComJoin.setFont(font.deriveFont(Font.BOLD, 24));
+            lblDialog.setFont(font.deriveFont(Font.BOLD, 21));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,9 +80,36 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 		});
 	}
 	
+	private void createMsgDialog(String title, String msg, String imgPath) {
+		try {
+			lblDialog.setText("<html><center>" + msg);
+			String classPath = ComLogin.class.getResource("").getPath();
+            String path = URLDecoder.decode(classPath, "UTF-8");
+            path += imgPath;
+            
+            ImageIcon icon = new ImageIcon(path);
+            lblDialog.setIcon(icon);
+            lblDialog.setHorizontalAlignment(SwingConstants.CENTER);
+			JOptionPane.showMessageDialog(this, lblDialog, title, JOptionPane.PLAIN_MESSAGE);
+		} catch(Exception ex) {
+			createMsgDialog("에러", "다이얼로그를 생성하는 과정에 문제가 발생했습니다.", null); // 이미지 추가 필요
+		}
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		Object obj = e.getSource();
+		boolean loginFlag = true; // 테스트중
 		
+		if(obj == btnComLogin) {
+			if(loginFlag == true) {
+				createMsgDialog("성공", "로그인에 성공했습니다.", "\\img\\YellowCat.png");
+				// 로그인 기능 필요
+			} else {
+				// 로그인 실패 했을때
+				createMsgDialog("실패", "로그인에 실패했습니다.<br>아이디나 암호를 확인하세요.", "\\img\\YellowCat.png");
+			}
+		}
 	}
 	
 	@Override
@@ -89,7 +119,7 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 		
 		if(obj == comId && comId.getText().equals("아이디")) {
 			comId.setText("");
-		} else if(obj == comPw && comPw.getText().equals("비밀번호")) {
+		} else if(obj == comPw && String.valueOf(comPw.getPassword()).equals("비밀번호")) {
 			comPw.setText("");
 		}
 	}
@@ -119,7 +149,7 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 		comId.addCaretListener(this);
 		contentPane.add(comId);
 		
-		comPw = new JTextField();
+		comPw = new JPasswordField();
 		comPw.setBounds(638, 409, 404, 66);
 		comPw.setText("비밀번호");
 		comPw.setHorizontalAlignment(SwingConstants.CENTER);
@@ -135,6 +165,7 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 		btnComLogin.setBackground(new Color(244, 204, 204));
 		btnComLogin.setBorder(new BevelBorder(BevelBorder.RAISED, Color.red, Color.red, 
 				Color.red, Color.red));
+		btnComLogin.addActionListener(this);
 		contentPane.add(btnComLogin);
 		
 		btnComJoin = new JButton("회원가입");
@@ -148,5 +179,7 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 		lblYellowCat.setIcon(new ImageIcon(ComLogin.class.getResource("/img/YellowCat.png")));
 		lblYellowCat.setBounds(714, 215, 230, 80);
 		contentPane.add(lblYellowCat);
+		
+		lblDialog = new JLabel("");
 	}
 }
