@@ -30,7 +30,6 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 	private JPasswordField comPw;
 	private JButton btnComLogin;
 	private JButton btnComJoin;
-	private JLabel lblDialog;
 
 	public void setFont() {
 		InputStream inputStream = null;
@@ -48,7 +47,6 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
             comId.setFont(font.deriveFont(Font.BOLD, 24));
             btnComLogin.setFont(font.deriveFont(Font.BOLD, 24));
             btnComJoin.setFont(font.deriveFont(Font.BOLD, 24));
-            lblDialog.setFont(font.deriveFont(Font.BOLD, 21));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,22 +78,6 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 		});
 	}
 	
-	private void createMsgDialog(String title, String msg, String imgPath) {
-		try {
-			lblDialog.setText("<html><center>" + msg);
-			String classPath = ComLogin.class.getResource("").getPath();
-            String path = URLDecoder.decode(classPath, "UTF-8");
-            path += imgPath;
-            
-            ImageIcon icon = new ImageIcon(path);
-            lblDialog.setIcon(icon);
-            lblDialog.setHorizontalAlignment(SwingConstants.CENTER);
-			JOptionPane.showMessageDialog(this, lblDialog, title, JOptionPane.PLAIN_MESSAGE);
-		} catch(Exception ex) {
-			createMsgDialog("에러", "다이얼로그를 생성하는 과정에 문제가 발생했습니다.", null); // 이미지 추가 필요
-		}
-	}
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
@@ -103,11 +85,12 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 		
 		if(obj == btnComLogin) {
 			if(loginFlag == true) {
-				createMsgDialog("성공", "로그인에 성공했습니다.", "\\img\\YellowCat.png");
+//				DialogManager.createMsgDialog("로그인에 성공했습니다.", "\\img\\YellowCat.png",
+//						"성공", JOptionPane.PLAIN_MESSAGE);
 				// 로그인 기능 필요
 			} else {
-				// 로그인 실패 했을때
-				createMsgDialog("실패", "로그인에 실패했습니다.<br>아이디나 암호를 확인하세요.", "\\img\\YellowCat.png");
+//				DialogManager.createMsgDialog("로그인에 실패했습니다.<br>아이디나 암호를 확인하세요.", 
+//						"\\img\\YellowCat.png", "실패", JOptionPane.PLAIN_MESSAGE);
 			}
 		}
 	}
@@ -179,7 +162,5 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 		lblYellowCat.setIcon(new ImageIcon(ComLogin.class.getResource("/img/YellowCat.png")));
 		lblYellowCat.setBounds(714, 215, 230, 80);
 		contentPane.add(lblYellowCat);
-		
-		lblDialog = new JLabel("");
 	}
 }
