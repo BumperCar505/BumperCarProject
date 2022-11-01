@@ -99,7 +99,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 			}
 			
 			int result = DialogManager.createMsgDialog("정말로 선택한 댓글을 숨길까요?", "\\img\\YellowCat.png",
-					"성공", JOptionPane.YES_NO_OPTION);
+					"알림", JOptionPane.YES_NO_OPTION);
 			if(result == 0) {
 				DialogManager.createMsgDialog("정상적으로 처리되었습니다.", "\\img\\YellowCat.png",
 						"알림", JOptionPane.PLAIN_MESSAGE);

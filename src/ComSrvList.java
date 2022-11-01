@@ -36,7 +36,6 @@ public class ComSrvList extends JFrame implements ActionListener {
 	private JButton btnDelSrv;
 	private JButton btnBackMain;
 	private JLabel lblYellowCat;
-	private JLabel lblDialog;
 	private final int FONT_SIZE = 21;
 	
 	public void setFont() {
@@ -55,7 +54,6 @@ public class ComSrvList extends JFrame implements ActionListener {
             btnEditSrv.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             btnDelSrv.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             btnBackMain.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
-            lblDialog.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             
     		// Table Font
     		tableSrvList.setFont(font.deriveFont(Font.PLAIN, FONT_SIZE));
@@ -73,33 +71,6 @@ public class ComSrvList extends JFrame implements ActionListener {
         	}
         }
 	}
-	
-	private int createMsgDialog(String title, String msg, String imgPath, int option) {
-		try {
-			lblDialog.setText("<html><center>" + msg);
-			String classPath = ComLogin.class.getResource("").getPath();
-            String path = URLDecoder.decode(classPath, "UTF-8");
-            path += imgPath;
-            
-            ImageIcon icon = new ImageIcon(path);
-            lblDialog.setIcon(icon);
-            lblDialog.setHorizontalAlignment(SwingConstants.CENTER);
-            
-            if(option == JOptionPane.PLAIN_MESSAGE) {
-    			JOptionPane.showMessageDialog(this, lblDialog, title, JOptionPane.PLAIN_MESSAGE);
-    			return -1;
-            } else if(option == JOptionPane.YES_NO_OPTION) {
-            	// YES => 0, NO => 1 Return
-            	return JOptionPane.showConfirmDialog(this, lblDialog, title, JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
-            }
-		} catch(Exception ex) {
-			createMsgDialog("에러", "다이얼로그를 생성하는 과정에 문제가 발생했습니다.", null, JOptionPane.PLAIN_MESSAGE); // 이미지 추가 필요
-		}
-		
-		return -2; // 비정상적 작동
-	}
-	
-	
 	
 	private void setTableHeader(JTable table) {
 		TableColumnModel columnModel = table.getColumnModel();
@@ -150,7 +121,8 @@ public class ComSrvList extends JFrame implements ActionListener {
 			int selectedRow = tableSrvList.getSelectedRow();
 			
 			if(selectedRow == -1) {
-				createMsgDialog("에러", "선택된 셀이 없습니다.", "\\img\\YellowCat.png", JOptionPane.PLAIN_MESSAGE);
+				DialogManager.createMsgDialog("선택된 셀이 없습니다.", "\\img\\YellowCat.png",
+						"에러", JOptionPane.PLAIN_MESSAGE);
 				return;
 			}
 			
@@ -165,15 +137,19 @@ public class ComSrvList extends JFrame implements ActionListener {
 			int selectedRow = tableSrvList.getSelectedRow();
 			
 			if(selectedRow == -1) {
-				createMsgDialog("에러", "선택된 셀이 없습니다.", "\\img\\YellowCat.png", JOptionPane.PLAIN_MESSAGE);
+				DialogManager.createMsgDialog("선택된 셀이 없습니다.", "\\img\\YellowCat.png",
+						"에러", JOptionPane.PLAIN_MESSAGE);
 				return;
 			}
 			
-			int result = createMsgDialog("알림", "정말로 삭제하시겠습니까?", "\\img\\YellowCat.png", JOptionPane.YES_NO_OPTION);
+			int result = DialogManager.createMsgDialog("정말로 삭제 할까요?", "\\img\\YellowCat.png",
+					"알림", JOptionPane.YES_NO_OPTION);
 			if(result == 0) {
-				createMsgDialog("알림", "삭제 되었습니다.", "\\img\\YellowCat.png", JOptionPane.PLAIN_MESSAGE);
+				DialogManager.createMsgDialog("삭제 되었습니다.", "\\img\\YellowCat.png",
+						"알림", JOptionPane.PLAIN_MESSAGE);
 			} else {
-				createMsgDialog("알림", "삭제가 취소되었습니다.", "\\img\\YellowCat.png", JOptionPane.PLAIN_MESSAGE);
+				DialogManager.createMsgDialog("삭제가 취소되었습니다.", "\\img\\YellowCat.png",
+						"알림", JOptionPane.PLAIN_MESSAGE);
 			}
 		}
 	}
@@ -267,7 +243,5 @@ public class ComSrvList extends JFrame implements ActionListener {
 		lblYellowCat.setIcon(new ImageIcon(ComSrvList.class.getResource("/img/YellowCat.png")));
 		lblYellowCat.setBounds(710, 50, 230, 80);
 		contentPane.add(lblYellowCat);
-		
-		lblDialog = new JLabel("");
 	}
 }
