@@ -33,9 +33,7 @@ public class UnitStockMgr extends JFrame {
 	private JButton btnDelUnitStock;
 	private JButton btnBackUnitStockMain;
 
-	/**
-	 * Launch the application.
-	 */
+	// Launch the application.
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -51,9 +49,8 @@ public class UnitStockMgr extends JFrame {
 		
 	}
 
-	/**
-	 * Create the frame.
-	 */
+
+	// Create the frame.
 	public UnitStockMgr() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, Size.SCREEN_W, Size.SCREEN_H);
@@ -61,12 +58,11 @@ public class UnitStockMgr extends JFrame {
 		contentPane.setEnabled(false);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-//		폼 창이 화면 가운데서 뜨게 하는 기능
+		// 폼 창이 화면 가운데서 뜨게 하는 기능
 		setLocationRelativeTo(null); //--
 		setContentPane(contentPane);
 		
-//		테이블 생성
-
+		//테이블 생성
 		String header[] = {"No","부품번호","부품명","벤더", "부품수량"};
 		String contents[][] = {
 				{"1", "abb01", "타이어", "한국타이어", "22"},
@@ -86,12 +82,14 @@ public class UnitStockMgr extends JFrame {
 		contentPane.setLayout(null);
 
 		table.setBounds(247, 231, 1170, 671);
+		
 //		테이블에 열 제목 나오게 하는 코드. 참고 : https://yyman.tistory.com/550
-		JScrollPane scrollPane = new JScrollPane(table);
-		//--
+		JScrollPane scrollPane = new JScrollPane(table); //
+		
 		scrollPane.setBounds(239, 236, 1186, 533);
 		scrollPane.setAutoscrolls(true);
-		contentPane.add (scrollPane) ; 
+		contentPane.add (scrollPane) ;
+		
 //		테이블 행 높이 조절
 		table.setRowHeight(40);
 
@@ -138,8 +136,6 @@ public class UnitStockMgr extends JFrame {
 		});
 		
 		
-		
-		
 		//추가 버튼 누르면 실행됨 -> 새 폼 띄우기
 		btnAddUnitStock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -158,37 +154,32 @@ public class UnitStockMgr extends JFrame {
 		});
 		
 		// 삭제 버튼 누르면 실행됨
-		btnDelUnitStock.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				int index = table.getSelectedRow();
-				
-				if(index == -1){
-		            JOptionPane.showConfirmDialog(null, "셀을 선택하지 않으셨습니다.", "삭제", JOptionPane.DEFAULT_OPTION);
-		        }
-				
-		        else {
-		        	try {
-		        		JLabel label = new JLabel("<html><center><br>삭제하시겠습니까?");
-			            String classPath = UnitStockMgr.class.getResource("").getPath();
-			            String path = URLDecoder.decode(classPath, "UTF-8");
-			            path += "\\img\\YellowCat.png";
-			            ImageIcon icon = new ImageIcon(path);
-			            label.setIcon(icon);
-			            label.setHorizontalAlignment(SwingConstants.CENTER);
-			            
-			            int result = JOptionPane.showConfirmDialog(null, label, "삭제", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
-			            if (result == 0) {
-			            	model.removeRow(index);
-			            } else if (result == 1) {
-			            	   
-			            	}
-			            } catch(Exception ex) {
-			            	
-			      }
-		       }
-			}
-		});
+		// 삭제 버튼 누르면 실행됨
+				btnDelUnitStock.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+						int index = table.getSelectedRow();
+						
+						if(index == -1){
+				            JOptionPane.showConfirmDialog(null, "셀을 선택하지 않으셨습니다.", "삭제", JOptionPane.DEFAULT_OPTION);
+				        }
+						
+				        else {
+				        	try {
+				        		int result = DialogManager.createMsgDialog("<html><h3>삭제하시겠습니까?</h3>", "/img/question6.png", "삭제", JOptionPane.YES_NO_OPTION);
+		   
+					            if (result == 0) {
+					            	model.removeRow(index);
+					            	DialogManager.createMsgDialog("<html><h3>삭제되었습니다.</h3>", "/img/success1.png", "삭제", JOptionPane.CLOSED_OPTION);
+					            } else if (result == 1) {
+					            	   
+					            	}
+					            } catch(Exception ex) {
+					            	
+					            }
+				        	}
+						}
+					});
 		
 		// 돌아가기 버튼 누르면 실행됨 -> 현재 화면 닫고 메인화면 띄우기
 		btnBackUnitStockMain.addActionListener(new ActionListener() {

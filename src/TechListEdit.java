@@ -163,24 +163,16 @@ public class TechListEdit extends JFrame {
 				
 		        else {
 		        	try {
-						/*
-						 * JLabel label = new JLabel("<html><center><h3>삭제하시겠습니까?</h3>"); String
-						 * classPath = UnitStockMgr.class.getResource("").getPath(); String path =
-						 * URLDecoder.decode(classPath, "UTF-8"); path += "\\img\\trash (1).png";
-						 * ImageIcon icon = new ImageIcon(path); label.setIcon(icon);
-						 * label.setHorizontalAlignment(SwingConstants.CENTER);
-						 * int result = JOptionPane.showConfirmDialog(null, label, "삭제", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
-						 */
-		        		
 		        		int result = DialogManager.createMsgDialog("<html><h3>삭제하시겠습니까?</h3>", "/img/trash.png", "삭제", JOptionPane.YES_NO_OPTION);
    
 			            if (result == 0) {
 			            	model.removeRow(index);
+			            	DialogManager.createMsgDialog("<html><h3>삭제되었습니다.</h3>", "/img/success1.png", "삭제", JOptionPane.CLOSED_OPTION);
 			            } else if (result == 1) {
 			            	   
 			            	}
 			            } catch(Exception ex) {
-			            	
+
 			      }
 		       }
 			}

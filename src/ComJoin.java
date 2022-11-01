@@ -23,9 +23,8 @@ public class ComJoin extends JFrame {
 	private JPasswordField comPw;
 	private JPasswordField comPwCheck;
 
-	/**
-	 * Launch the application.
-	 */
+
+	// Launch the application.
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -146,7 +145,9 @@ public class ComJoin extends JFrame {
 		comPwCheck.setFont(new Font("나눔바른고딕", Font.PLAIN, 21));
 		comPwCheck.setBounds(622, 363, 444, 47);
 		contentPane.add(comPwCheck);
+		
 //		폼 창이 화면 가운데서 뜨게 하는 기능
 		setLocationRelativeTo(null);
+		
 	}
 }
