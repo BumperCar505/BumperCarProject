@@ -155,6 +155,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 		render.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		tableCommentList = new JTable(rowNames, columns);
+		tableCommentList.setAutoCreateRowSorter(true);
 		tableCommentList.setDefaultEditor(Object.class, null); // 테이블 값 수정 안되게
 		tableCommentList.getTableHeader().setResizingAllowed(false);
 		tableCommentList.getColumn("번호").setCellRenderer(render);

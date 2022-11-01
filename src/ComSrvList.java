@@ -181,6 +181,7 @@ public class ComSrvList extends JFrame implements ActionListener {
 		render.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		tableSrvList = new JTable(rowNames, columns);
+		tableSrvList.setAutoCreateRowSorter(true);
 		tableSrvList.setDefaultEditor(Object.class, null); // 테이블 수정 안되게
 		tableSrvList.getTableHeader().setResizingAllowed(false);
 		tableSrvList.getColumn("번호").setCellRenderer(render);
