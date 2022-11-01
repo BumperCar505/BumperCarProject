@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class MemberAWT extends CFrame implements ActionListener {
+public class MemberAWT extends MFrame implements ActionListener {
 	
 	JLabel lab1, lab2, lab3, lab4;
 	JTextField tf1, tf2, tf3, tf4;

@@ -122,10 +122,22 @@ public class UnitStockMgr extends JFrame {
 		btnBackUnitStockMain.setBounds(687, 824, Size.BTN_B_W, Size.BTN_B_H);
 		contentPane.add(btnBackUnitStockMain);
 		
-		JButton UnitBuyHistory = new JButton("구매 이력");
-		UnitBuyHistory.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
-		UnitBuyHistory.setBounds(1275, 174, 150, 50);
-		contentPane.add(UnitBuyHistory);
+		// 구매 이력 버튼
+		JButton btnUnitBuyHistory = new JButton("구매 이력");
+		btnUnitBuyHistory.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
+		btnUnitBuyHistory.setBounds(1275, 174, 150, 50);
+		contentPane.add(btnUnitBuyHistory);
+		
+		
+		// 구매 이력 버튼 누르면 실행 됨 -> 새 폼 띄우기
+		btnUnitBuyHistory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UnitBuyHistory history = new UnitBuyHistory();
+				history.setVisible(true);
+			}
+		});
+		
+		
 		
 		
 		//추가 버튼 누르면 실행됨 -> 새 폼 띄우기

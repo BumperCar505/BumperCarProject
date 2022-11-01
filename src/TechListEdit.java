@@ -74,7 +74,7 @@ public class TechListEdit extends JFrame {
 		
 //		테이블 생성
 
-		String header[] = {"No","정비사 이름","전화번호","직급"};
+		String header[] = {"techNum","정비사 이름","전화번호","직급"};
 		String contents[][] = {
 				{"1","테스터1","010-1111-1111","팀장"},
 				{"2","테스터2","010-2222-2222","주임"},
@@ -86,6 +86,7 @@ public class TechListEdit extends JFrame {
 		
 		DefaultTableModel model = new DefaultTableModel(contents, header);
 		JTable table = new JTable(model);
+		table.setAutoCreateRowSorter(true);
 
 		table.getColumnModel().getColumn(0).setPreferredWidth(39);
 		table.getColumnModel().getColumn(0).setMinWidth(20);
