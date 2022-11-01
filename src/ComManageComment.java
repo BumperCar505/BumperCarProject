@@ -113,6 +113,16 @@ public class ComManageComment extends JFrame implements ActionListener {
 				DialogManager.createMsgDialog("작업이 취소되었습니다.", "\\img\\YellowCat.png",
 						"알림", JOptionPane.PLAIN_MESSAGE);
 			}
+		} else if(obj == btnSearchComment) {
+			boolean tempFlag = true; // 테스트 값
+			
+			if(tempFlag == true) {
+				DialogManager.createMsgDialog("방문 종료일은 방문 시작일보다<br> 이전날짜가 될수없습니다.", "\\img\\YellowCat.png",
+						"에러", JOptionPane.PLAIN_MESSAGE);
+			}
+			
+			DialogManager.createMsgDialog("검색이 완료되었습니다.", "\\img\\YellowCat.png",
+					"알림", JOptionPane.PLAIN_MESSAGE);
 		}
 	}
 	
@@ -220,6 +230,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 				Color.red, Color.red));
 		btnSearchComment.setBackground(new Color(244, 204, 204));
 		btnSearchComment.setBounds(1412, 70, 150, 50);
+		btnSearchComment.addActionListener(this);
 		contentPane.add(btnSearchComment);
 		
 		lblEndDate = new JLabel("방문 종료일");
