@@ -233,7 +233,7 @@ public class SalesMgr extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false); 
-				new Main();
+				new ComMyPage();
 
 			}
 		});

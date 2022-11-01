@@ -18,7 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 
-public class BCalendar extends JFrame {
+public class BookCalendar extends JFrame {
 
 	BMain bMain;
 	ArrayList<BCell> cell_list = new ArrayList<BCell>();
@@ -57,7 +57,7 @@ public class BCalendar extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public BCalendar() {
+	public BookCalendar() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, Size.SCREEN_W, Size.SCREEN_H);
 		contentPane = new JPanel();
@@ -71,7 +71,7 @@ public class BCalendar extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(BCalendar.class.getResource("/img/YellowCat.png")));
+		lblNewLabel.setIcon(new ImageIcon(BookCalendar.class.getResource("/img/YellowCat.png")));
 		lblNewLabel.setBounds(717, 10, 230, 86);
 		contentPane.add(lblNewLabel);
 		

@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 
-public class Main {
+public class ComMyPage {
 
 	private JFrame frame;
 
@@ -22,7 +22,7 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Main window = new Main();
+					ComMyPage window = new ComMyPage();
 					
 //					window.frame.setVisible(true); 위에 있는 걸 아래로 옮기고 수정했다아아
 					
@@ -37,7 +37,7 @@ public class Main {
 	/**
 	 * Create the application.
 	 */
-	public Main() {
+	public ComMyPage() {
 //		frame.setLocationRelativeTo(null);
 		initialize();
 		frame.setVisible(true); //이거 연결한다고 내가 진짜아ㅏ.. 이렇게 하면 창 연결된다아아아
@@ -102,7 +102,7 @@ public class Main {
 		frame.getContentPane().add(btnMgrComment);
 		
 		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon(Main.class.getResource("/img/YellowCat.png")));
+		lblNewLabel.setIcon(new ImageIcon(ComMyPage.class.getResource("/img/YellowCat.png")));
 		lblNewLabel.setBounds(524, 24, 237, 80);
 		frame.getContentPane().add(lblNewLabel);
 		
