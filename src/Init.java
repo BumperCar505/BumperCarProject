@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 public class Init extends JFrame {
-
+//
 	private JPanel contentPane;
 
 	/**
