@@ -33,8 +33,11 @@ public class ComManageComment extends JFrame implements ActionListener {
 	private JScrollPane scCommentList;
 	private JLabel lblYellowCat;
 	private JLabel lblScore;
+	private JLabel lblEndDate;
+	private JLabel lblStartDate;
 	private JButton btnBackCommentMain;
 	private JButton btnHideComment;
+	private JButton btnSearchComment;
 	private final int FONT_SIZE = 21;
 	
 	public ComManageComment setFont() {
@@ -51,8 +54,11 @@ public class ComManageComment extends JFrame implements ActionListener {
             
             lblScore.setFont(font.deriveFont(Font.PLAIN, FONT_SIZE));
             lblScore.setFont(font.deriveFont(Font.PLAIN, FONT_SIZE));
+            lblEndDate.setFont(font.deriveFont(Font.PLAIN, FONT_SIZE));
+            lblStartDate.setFont(font.deriveFont(Font.PLAIN, FONT_SIZE));
             btnHideComment.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             btnBackCommentMain.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
+            btnSearchComment.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
     		// Table Font	
             tableCommentList.setFont(font.deriveFont(Font.PLAIN, FONT_SIZE));
             tableCommentList.getTableHeader().setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
@@ -192,7 +198,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 		
 		btnBackCommentMain = new JButton("돌아가기");
 		btnBackCommentMain.setBackground(new Color(244, 204, 204));
-		btnBackCommentMain.setBounds(690, 918, Size.BTN_B_W, Size.BTN_B_H);
+		btnBackCommentMain.setBounds(670, 918, Size.BTN_B_W, Size.BTN_B_H);
 		btnBackCommentMain.setBorder(new BevelBorder(BevelBorder.RAISED, Color.red, Color.red, 
 				Color.red, Color.red));
 		contentPane.add(btnBackCommentMain);
@@ -208,5 +214,20 @@ public class ComManageComment extends JFrame implements ActionListener {
 		lblScore = new JLabel("평균 별점 : 4.0");
 		lblScore.setBounds(262, 74, 160, 42);
 		contentPane.add(lblScore);
+		
+		btnSearchComment = new JButton("검색하기");
+		btnSearchComment.setBorder(new BevelBorder(BevelBorder.RAISED, Color.red, Color.red, 
+				Color.red, Color.red));
+		btnSearchComment.setBackground(new Color(244, 204, 204));
+		btnSearchComment.setBounds(1412, 70, 150, 50);
+		contentPane.add(btnSearchComment);
+		
+		lblEndDate = new JLabel("방문 종료일");
+		lblEndDate.setBounds(1160, 94, 110, 42);
+		contentPane.add(lblEndDate);
+		
+		lblStartDate = new JLabel("방문 시작일");
+		lblStartDate.setBounds(1160, 52, 110, 42);
+		contentPane.add(lblStartDate);
 	}
 }

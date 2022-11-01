@@ -235,7 +235,7 @@ public class ComSrvList extends JFrame implements ActionListener {
 		
 		btnBackMain = new JButton("돌아가기");
 		btnBackMain.setBackground(new Color(244, 204, 204));
-		btnBackMain.setBounds(690, 918, Size.BTN_B_W, Size.BTN_B_H);
+		btnBackMain.setBounds(670, 918, Size.BTN_B_W, Size.BTN_B_H);
 		btnBackMain.setBorder(new BevelBorder(BevelBorder.RAISED, Color.red, Color.red, 
 				Color.red, Color.red));
 		contentPane.add(btnBackMain);
