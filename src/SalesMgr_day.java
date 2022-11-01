@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URLDecoder;
 
+import javax.management.modelmbean.ModelMBean;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -58,10 +59,10 @@ public class SalesMgr_day extends JFrame {
             btnEditSalesD.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             btnDelSalesD.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             btnBackSales.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
-            
-    		// Table Font
-            tableSalesD.setFont(font.deriveFont(Font.PLAIN, FONT_SIZE));
-
+//            
+//    		// Table Font
+////            tableSalesD.setFont(font.deriveFont(Font.PLAIN, FONT_SIZE));
+//
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -74,7 +75,7 @@ public class SalesMgr_day extends JFrame {
         	}
         }
 	}
-	
+//	
 	/**
 	 * Launch the application.
 	 */
@@ -83,17 +84,7 @@ public class SalesMgr_day extends JFrame {
 			public void run() {
 				try {
 					SalesMgr_day frame = new SalesMgr_day();
-//					frame.setVisible(true);
-					frame.setFont();
-//					 JFrame jFrame = new JFrame();
-//				        int result = JOptionPane.showConfirmDialog(jFrame, "삭제하시겠습니까");
-//
-//				        if (result == 0)
-//				            System.out.println("Yes");
-//				        else 
-//				            System.out.println("NO");
-					
-					
+					frame.setVisible(true);
 				       
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -125,71 +116,29 @@ public class SalesMgr_day extends JFrame {
 		setContentPane(getContentPane);
 		TextField tf = new TextField();
 		
-		
-		
-
-		Object[] columns = {"Num", "직원명", "고객명", "서비스명", "건수", "총 금액", "내용","금액"};
-		Object[][] rowNames = {
+		String header[] = {"Num", "직원명", "고객명", "서비스명", "건수", "총 금액", "내용","금액"};
+		String contents[][] = {
 				{"1", "김가나", "이나라", "타이어교체", "2건","50000","볼트구입","30000"}
 
 		};
-//		DefaultTableModel model = new DefaultTableModel(columns, rowNames);
-//		JTable table = new Jtable(model);
-//		JScrollPane scrollpane = new JScrollPane(table);
+
+		
+		DefaultTableModel model = new DefaultTableModel(contents, header);
+		JTable tableSalesD = new JTable(model);
+		JScrollPane scrollpane = new JScrollPane(table);
+		
 		
 //		 Text Align Center
 		DefaultTableCellRenderer render = new DefaultTableCellRenderer();
 		render.setHorizontalAlignment(SwingConstants.CENTER);
-		
-//		tableSalesD = new JTable(rowNames, columns);
-//		tableSalesD.setModel(new DefaultTableModel(
-//			new Object[][] {
-//				{"1", "\uAE40\uAC00\uB098", "\uC774\uB098\uB77C", "\uD0C0\uC774\uC5B4\uAD50\uCCB4", "2\uAC74", "50000", "\uBCFC\uD2B8\uAD6C\uC785", "30000"},
-//			},
-//			new String[] {
-//				"Num", "\uC9C1\uC6D0\uBA85", "\uACE0\uAC1D\uBA85", "\uC11C\uBE44\uC2A4\uBA85", "\uAC74\uC218", "\uCD1D \uAE08\uC561", "\uB0B4\uC6A9", "\uAE08\uC561"
-//			}
-//		) {
-//			boolean[] columnEditables = new boolean[] {
-//				false, false, false, false, false, false, false, false
-//			};
-//			public boolean isCellEditable(int row, int column) {
-//				return columnEditables[column];
-//			}
-//		});
-//		tableSalesD.setFont(new Font("나눔바른고딕", Font.PLAIN, 20));
-//		tableSalesD.getColumn("Num").setCellRenderer(render);
-//		tableSalesD.getColumn("직원명").setCellRenderer(render);
-//		tableSalesD.getColumn("고객명").setCellRenderer(render);
-//		tableSalesD.getColumn("서비스명").setCellRenderer(render);
-//		tableSalesD.getColumn("건수").setCellRenderer(render);
-//		tableSalesD.getColumn("총 금액").setCellRenderer(render);
-//		tableSalesD.getColumn("내용").setCellRenderer(render);
-//		tableSalesD.getColumn("금액").setCellRenderer(render);
-
-//		
-//		
-//		// Column Not Move
-//		tableSalesD.getTableHeader().setReorderingAllowed(false);
-		
-		
-		
-		
-		
-		
-		// Column Change Width
-//		tableSalesD.getColumn("전화번호").setPreferredWidth(200);
-//		tableSalesD.getColumn("가입날짜").setPreferredWidth(200);
-		
-		// Row Change Height 
-		tableSalesD.setRowHeight(50);
-		
-		// Table Set Area
+	
+	
 		scSalesDList = new JScrollPane(tableSalesD);
 		scSalesDList.setBounds(100, 145, 1462, 462);
 		scSalesDList.setVisible(true);
 		getContentPane.setLayout(null);
 		
+
 		getContentPane.add(scSalesDList);
 		
 		// 버튼모음
@@ -225,31 +174,24 @@ public class SalesMgr_day extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				과정...
-//				int result = JOptionPane.showConfirmDialog(null, "삭제하시겠습니까?","삭제", JOptionPane.YES_NO_OPTION);
-//				Font f1 = new Font("맑은 고딕", Font.PLAIN, 24); 
-//				UIManager.put("result.messageFont", f1);
-//				UIManager.put("result.buttonFont", f1);
-
-//				은비언니가 찾아준 알림창 중앙배열
-//				String message = "<html><body><div width='100px' align='center'>삭제하시겠습니까</div></body></html>";
-//				JLabel messageLabel = new JLabel(message);
-//				JOptionPane.showConfirmDialog(null, messageLabel, "삭제", JOptionPane.PLAIN_MESSAGE);
-//				
+	
 			    try {
-		               JLabel label = new JLabel("<html><center><br>XXX님 환영합니다.");
-		               String classPath = SalesMgr_day.class.getResource("").getPath();
-		                  String path = URLDecoder.decode(classPath, "UTF-8");
-		                  path += "\\img\\YellowCat.png";
-		                  ImageIcon icon = new ImageIcon(path);
-		               label.setIcon(icon);
-		               label.setHorizontalAlignment(SwingConstants.CENTER);
-		               int answer = JOptionPane.showConfirmDialog(null, label, "title",//라벨에 이미지와 글을 넣음.
-		               JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
-		               
-		               if(answer ==JOptionPane.YES_OPTION) {
-		            	   model.removeRow(table.getSelectedRow());
-		               }
+			    	
+//			    	 * 매개변수 : 레이블의 내용, 레이블의 아이콘, 다이얼로그 제목, 다이얼로그 옵션
+//			    	 * 반환값1 : -2(비정상적으로 작동했을때 반환하는 값)
+//			    	 * 반환값2 : -1(확인 버튼만 있는 다이얼로그 클릭시 반환값, 예 & 아니오 다이얼로그에서 X 버튼 클릭시 반환값)
+//			    	 * 반환값3 : 0(예, 아니오 다이얼로그에서 예 클릭시 반환값)
+//			    	 * 반환값4 : 1(예, 아니오 다이얼로그에서 아니오 클릭시 반환값)
+			    	DialogManager.createMsgDialog("삭제하시겠습니까","\\img\\YellowCat.png", "삭제",JOptionPane.YES_NO_OPTION);
+			    	
+			    	if(table.getSelectedRow() == -1) {
+			    		DialogManager.createMsgDialog("셀을 선택하지 않았습니다.","\\img\\YellowCat.png", "오류",JOptionPane.PLAIN_MESSAGE);
+					} 
+			    	else if(){
+			    		model.removeRow(table.getSelectedRow());
+			    		
+			    	}
+			    	
 		            } catch(Exception ex) {
 		               
 		            }

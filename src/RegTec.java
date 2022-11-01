@@ -31,7 +31,7 @@ import java.util.Vector;
 
 
 public class RegTec extends JFrame {
-//	여기에도 삭제, 수정 버튼이 있어야 할 것같다..
+
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -250,70 +250,13 @@ public class RegTec extends JFrame {
 				techName.setText("");
 				techTel.setText("");
 				techLv.setText("");
-//				sbj3.setText("");
+
 			}
 		});
 		
-//	btnTechDel.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-////				String inputStr[] = new String[3];
-////				
-////				inputStr[0] = techName.getText();
-////				inputStr[1] = techTel.getText();
-////				inputStr[2] = techLv.getText();
-//				
-//				int num = table.getSelectedRow();
-//				model.removeRow(num);
-//			}
-//		});
 		
 		
-		
-		
-//		이거 삭제하는거.
-//		삭제 버튼 누르면 알림창 뜨기
-//		btnTechDel.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				int result = JOptionPane.showConfirmDialog(null, "삭제하시겠습니까?","삭제", JOptionPane.YES_NO_OPTION);
-//				
-//				if(result == JOptionPane.CLOSED_OPTION)
-//					tf.setText("Just Closed");
-//				else if(result == JOptionPane.YES_OPTION) {
-////					tf.setText("Y");
-////					System.out.println("Y");
-//					int n = table.getSelectedRow();
-//					model.removeRow(n);
-//				}
-//				else {
-//					tf.setText("N");
-//					System.out.println("N");
-//			
-//				};
-//		
-//		});
-		
-//		btnTechDel.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				 int index = table.getSelectedRow();
-//			        if(index < 0){
-//			            
-//			        }else{
-//			            model.removeRow(index);
-//			        }
-//			    }
-//			}
-//		}
-		
-		
-//		}
-//	}
-//	
-		
+	
 //		삭제 버튼 작동하기
 		btnTechDel.addActionListener(new ActionListener() {
 			

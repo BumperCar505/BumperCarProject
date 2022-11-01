@@ -174,35 +174,8 @@ public class SalesMgr extends JFrame {
 			new Object[][] {
 				{"1", "1,100,000", "1,300,000"},
 				{"2", "1,100,000", "1,300,000"},
-				{"3", "1,100,000", "1,300,000"},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
+				{"3", "1,100,000", "1,300,000"}
+
 			},
 			new String[] {
 //				"\uC77C", "\uC218\uC785", "\uC9C0\uCD9C" 한글로 수정 가능!
@@ -294,7 +267,7 @@ public class SalesMgr extends JFrame {
 //			}
 //		});
 		
-		//더블클릭하면 화면 넘어가게(일일매출관리페이지로) 우헤헤헤 성공했다~! 근데 여기서 든 문제점... 일마다 해야 하는데,, 난 다 만들어야 하는가.. 아님 데이터베이스 연결로 가능한가...
+		//더블클릭하면 화면 넘어가게(일일매출관리페이지로) 
 		tableSalesList.addMouseListener(new java.awt.event.MouseAdapter() {
 		    @Override
 		    public void mouseClicked(java.awt.event.MouseEvent evt) {
