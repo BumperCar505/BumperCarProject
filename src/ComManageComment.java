@@ -99,29 +99,29 @@ public class ComManageComment extends JFrame implements ActionListener {
 			int[] selectedRows = tableCommentList.getSelectedRows();
 			
 			if(selectedRows.length == 0) {
-				DialogManager.createMsgDialog("선택된 셀이 없습니다.", "\\img\\YellowCat.png",
+				DialogManager.createMsgDialog("선택된 셀이 없습니다.", "\\img\\information5.png",
 						"에러", JOptionPane.PLAIN_MESSAGE);
 				return;
 			}
 			
-			int result = DialogManager.createMsgDialog("정말로 선택한 댓글을 숨길까요?", "\\img\\YellowCat.png",
+			int result = DialogManager.createMsgDialog("정말로 선택한 댓글을 숨길까요?", "\\img\\question6.png",
 					"알림", JOptionPane.YES_NO_OPTION);
 			if(result == 0) {
-				DialogManager.createMsgDialog("정상적으로 처리되었습니다.", "\\img\\YellowCat.png",
+				DialogManager.createMsgDialog("정상적으로 처리되었습니다.", "\\img\\success1.png",
 						"알림", JOptionPane.PLAIN_MESSAGE);
 			} else {
-				DialogManager.createMsgDialog("작업이 취소되었습니다.", "\\img\\YellowCat.png",
+				DialogManager.createMsgDialog("작업이 취소되었습니다.", "\\img\\information5.png",
 						"알림", JOptionPane.PLAIN_MESSAGE);
 			}
 		} else if(obj == btnSearchComment) {
 			boolean tempFlag = true; // 테스트 값
 			
 			if(tempFlag == true) {
-				DialogManager.createMsgDialog("방문 종료일은 방문 시작일보다<br> 이전날짜가 될수없습니다.", "\\img\\YellowCat.png",
+				DialogManager.createMsgDialog("방문 종료일은 방문 시작일보다<br> 이전날짜가 될수없습니다.", "\\img\\information5.png",
 						"에러", JOptionPane.PLAIN_MESSAGE);
 			}
 			
-			DialogManager.createMsgDialog("검색이 완료되었습니다.", "\\img\\YellowCat.png",
+			DialogManager.createMsgDialog("검색이 완료되었습니다.", "\\img\\success1.png",
 					"알림", JOptionPane.PLAIN_MESSAGE);
 		}
 	}

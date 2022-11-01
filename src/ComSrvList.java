@@ -121,7 +121,7 @@ public class ComSrvList extends JFrame implements ActionListener {
 			int selectedRow = tableSrvList.getSelectedRow();
 			
 			if(selectedRow == -1) {
-				DialogManager.createMsgDialog("선택된 셀이 없습니다.", "\\img\\YellowCat.png",
+				DialogManager.createMsgDialog("선택된 셀이 없습니다.", "\\img\\information5.png",
 						"에러", JOptionPane.PLAIN_MESSAGE);
 				return;
 			}
@@ -137,18 +137,18 @@ public class ComSrvList extends JFrame implements ActionListener {
 			int selectedRow = tableSrvList.getSelectedRow();
 			
 			if(selectedRow == -1) {
-				DialogManager.createMsgDialog("선택된 셀이 없습니다.", "\\img\\YellowCat.png",
+				DialogManager.createMsgDialog("선택된 셀이 없습니다.", "\\img\\information5.png",
 						"에러", JOptionPane.PLAIN_MESSAGE);
 				return;
 			}
 			
-			int result = DialogManager.createMsgDialog("정말로 삭제 할까요?", "\\img\\YellowCat.png",
+			int result = DialogManager.createMsgDialog("정말로 삭제 할까요?", "\\img\\question6.png",
 					"알림", JOptionPane.YES_NO_OPTION);
 			if(result == 0) {
-				DialogManager.createMsgDialog("삭제 되었습니다.", "\\img\\YellowCat.png",
+				DialogManager.createMsgDialog("삭제 되었습니다.", "\\img\\success1.png",
 						"알림", JOptionPane.PLAIN_MESSAGE);
 			} else {
-				DialogManager.createMsgDialog("삭제가 취소되었습니다.", "\\img\\YellowCat.png",
+				DialogManager.createMsgDialog("삭제가 취소되었습니다.", "\\img\\information5.png",
 						"알림", JOptionPane.PLAIN_MESSAGE);
 			}
 		}

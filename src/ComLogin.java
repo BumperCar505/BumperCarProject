@@ -81,16 +81,16 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		boolean loginFlag = false; // 테스트중
+		boolean loginFlag = true; // 테스트중
 		
 		if(obj == btnComLogin) {
 			if(loginFlag == true) {
-				DialogManager.createMsgDialog("로그인에 성공했습니다.", "\\img\\YellowCat.png",
+				DialogManager.createMsgDialog("로그인에 성공했습니다.<br>XXX님 환영합니다!", "\\img\\success1.png",
 						"성공", JOptionPane.PLAIN_MESSAGE);
 				// 로그인 기능 필요
 			} else {
 				DialogManager.createMsgDialog("로그인에 실패했습니다.<br>아이디나 암호를 확인하세요.", 
-						"\\img\\YellowCat.png", "실패", JOptionPane.PLAIN_MESSAGE);
+						"\\img\\information5.png", "실패", JOptionPane.PLAIN_MESSAGE);
 			}
 		}
 	}

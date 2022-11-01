@@ -121,7 +121,7 @@ public class ComSrvListSub1 extends JFrame implements ActionListener {
 			if(list.contains(comboBoxTech.getSelectedItem().toString()) == false) { 
 				list.add(comboBoxTech.getSelectedItem().toString());
 			} else {
-				DialogManager.createMsgDialog("이미 목록에 존재하는 정비사입니다.", "\\img\\YellowCat.png",
+				DialogManager.createMsgDialog("이미 목록에 존재하는<br>정비사입니다.", "\\img\\information5.png",
 						"에러", JOptionPane.PLAIN_MESSAGE);
 				return;
 			}
