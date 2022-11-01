@@ -7,7 +7,10 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URLDecoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -25,6 +28,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
+
 // CommentManage
 public class ComManageComment extends JFrame implements ActionListener {
 
@@ -39,6 +46,11 @@ public class ComManageComment extends JFrame implements ActionListener {
 	private JButton btnHideComment;
 	private JButton btnSearchComment;
 	private final int FONT_SIZE = 21;
+	
+	// model1 : 시작일, model2 : 종료일
+	private UtilDateModel model1, model2;
+	private JDatePanelImpl datePanel1, datePanel2;
+	private JDatePickerImpl datePicker1, datePicker2;
 	
 	public ComManageComment setFont() {
 		InputStream inputStream = null;
@@ -114,15 +126,35 @@ public class ComManageComment extends JFrame implements ActionListener {
 						"알림", JOptionPane.PLAIN_MESSAGE);
 			}
 		} else if(obj == btnSearchComment) {
-			boolean tempFlag = true; // 테스트 값
+			boolean flag = false;
+			int startYear = model1.getYear();
+			int startMonth = model1.getMonth();
+			int startDay = model1.getDay();
+			int endYear = model2.getYear();
+			int endMonth = model2.getMonth();
+			int endDay = model2.getDay();
 			
-			if(tempFlag == true) {
-				DialogManager.createMsgDialog("방문 종료일은 방문 시작일보다<br> 이전날짜가 될수없습니다.", "\\img\\information5.png",
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+			try {
+				Date startDate = dateFormat.parse(String.valueOf(startYear) + startMonth + startDay);
+				Date endDate = dateFormat.parse(String.valueOf(endYear) + endMonth + endDay);
+				
+				if(startDate.after(endDate)) {
+					flag = true;
+				}
+			} catch(ParseException ex) {
+				// ex.getMessage();
+				DialogManager.createMsgDialog("달력 처리하는 과정에서 문제 발생", "\\img\\information5.png",
 						"에러", JOptionPane.PLAIN_MESSAGE);
 			}
 			
-			DialogManager.createMsgDialog("검색이 완료되었습니다.", "\\img\\success1.png",
-					"알림", JOptionPane.PLAIN_MESSAGE);
+			if(flag == true) {
+				DialogManager.createMsgDialog("방문 종료일은 방문 시작일보다<br> 이전날짜가 될수없습니다.", "\\img\\information5.png",
+						"에러", JOptionPane.PLAIN_MESSAGE);
+			} else {
+				DialogManager.createMsgDialog("검색이 완료되었습니다.", "\\img\\success1.png",
+						"알림", JOptionPane.PLAIN_MESSAGE);
+			}
 		}
 	}
 	
@@ -240,5 +272,19 @@ public class ComManageComment extends JFrame implements ActionListener {
 		lblStartDate = new JLabel("방문 시작일");
 		lblStartDate.setBounds(1160, 52, 110, 42);
 		contentPane.add(lblStartDate);
+		
+		model1 = new UtilDateModel();
+		model1.setSelected(true);
+		datePanel1 = new JDatePanelImpl(model1);
+		datePicker1 = new JDatePickerImpl(datePanel1);
+		datePicker1.setBounds(1275, 61, 125, 40);
+		contentPane.add(datePicker1);
+		
+		model2 = new UtilDateModel();
+		model2.setSelected(true);
+		datePanel2 = new JDatePanelImpl(model2);
+		datePicker2 = new JDatePickerImpl(datePanel2);
+		datePicker2.setBounds(1275, 102, 125, 40);
+		contentPane.add(datePicker2);
 	}
 }
