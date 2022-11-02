@@ -132,6 +132,8 @@ public class ComSrvListSub1 extends JFrame implements ActionListener {
 			
 			list.sort(null);
 			addListData(list);
+		} else if(obj == btnSelectedTechDel) {
+			//listProvideTech.remove(listProvideTech.getSelectedIndex());
 		}
 	}
 	
@@ -229,6 +231,7 @@ public class ComSrvListSub1 extends JFrame implements ActionListener {
 		
 		btnSelectedTechDel = new JButton("삭제하기");
 		btnSelectedTechDel.setBounds(208, 295, 200, 40);
+		btnSelectedTechDel.addActionListener(this);
 		contentPane.add(btnSelectedTechDel);
 	}
 	
