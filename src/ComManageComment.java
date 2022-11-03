@@ -31,6 +31,7 @@ import javax.swing.table.TableColumnModel;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
+import javax.swing.JCheckBox;
 
 // CommentManage
 public class ComManageComment extends JFrame implements ActionListener {
@@ -45,6 +46,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 	private JButton btnBackCommentMain;
 	private JButton btnHideComment;
 	private JButton btnSearchComment;
+	private JCheckBox checkBox;
 	private final int FONT_SIZE = 21;
 	
 	// model1 : 시작일, model2 : 종료일
@@ -74,6 +76,7 @@ public class ComManageComment extends JFrame implements ActionListener {
     		// Table Font	
             tableCommentList.setFont(font.deriveFont(Font.PLAIN, FONT_SIZE));
             tableCommentList.getTableHeader().setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
+            checkBox.setFont(font.deriveFont(Font.BOLD, 18));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -154,6 +157,18 @@ public class ComManageComment extends JFrame implements ActionListener {
 			} else {
 				DialogManager.createMsgDialog("검색이 완료되었습니다.", "\\img\\success1.png",
 						"알림", JOptionPane.PLAIN_MESSAGE);
+			}
+		} else if(obj == checkBox) {
+			if(checkBox.isSelected() == true) {
+				datePicker1.setVisible(true);
+				datePicker2.setVisible(true);
+				model1.setSelected(true);
+				model2.setSelected(true);
+			} else {
+				datePicker1.setVisible(false);
+				datePicker2.setVisible(false);
+				model1.setSelected(false);
+				model2.setSelected(false);
 			}
 		}
 	}
@@ -274,17 +289,24 @@ public class ComManageComment extends JFrame implements ActionListener {
 		contentPane.add(lblStartDate);
 		
 		model1 = new UtilDateModel();
-		model1.setSelected(true);
+		model1.setSelected(false);
 		datePanel1 = new JDatePanelImpl(model1);
 		datePicker1 = new JDatePickerImpl(datePanel1);
 		datePicker1.setBounds(1275, 61, 125, 40);
+		datePicker1.setVisible(false);
 		contentPane.add(datePicker1);
 		
 		model2 = new UtilDateModel();
-		model2.setSelected(true);
+		model2.setSelected(false);
 		datePanel2 = new JDatePanelImpl(model2);
 		datePicker2 = new JDatePickerImpl(datePanel2);
 		datePicker2.setBounds(1275, 102, 125, 40);
+		datePicker2.setVisible(false);
 		contentPane.add(datePicker2);
+		
+		checkBox = new JCheckBox("범위 검색 사용");
+		checkBox.setBounds(1155, 25, 135, 35);
+		checkBox.addActionListener(this);
+		contentPane.add(checkBox);
 	}
 }
