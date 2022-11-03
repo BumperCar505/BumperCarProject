@@ -116,10 +116,7 @@ public class ComSrvListSub1 extends JFrame implements ActionListener {
 			}
 			
 			// 현재 설정되어있는 정비사 목록을 가져온다.
-			ArrayList<String> list = new ArrayList<>();
-			for(int i = 0; i < listProvideTech.getModel().getSize(); ++i) {
-				list.add(listProvideTech.getModel().getElementAt(i).toString());
-			}
+			ArrayList<String> list = getListData();
 			
 			// 선택되어있는 정비사가 목록에 이미 존재하는지 확인
 			if(list.contains(comboBoxTech.getSelectedItem().toString()) == false) { 
@@ -133,17 +130,38 @@ public class ComSrvListSub1 extends JFrame implements ActionListener {
 			list.sort(null);
 			addListData(list);
 		} else if(obj == btnSelectedTechDel) {
-			//listProvideTech.remove(listProvideTech.getSelectedIndex());
+			String techName = listProvideTech.getSelectedValue();
+			ArrayList<String> list = getListData();
+			listProvideTech.removeAll();
+			addListData(list, techName);
 		}
+	}
+	
+	private ArrayList<String> getListData() {
+		// 현재 설정되어있는 정비사 목록을 가져온다.
+		ArrayList<String> list = new ArrayList<>();
+		for(int i = 0; i < listProvideTech.getModel().getSize(); ++i) {
+			list.add(listProvideTech.getModel().getElementAt(i).toString());
+		}
+		return list;
 	}
 	
 	private void addListData(List<String> list) {
 		DefaultListModel<String> listModel = new DefaultListModel<>();
-		
 		for(int i = 0; i < list.size(); ++i) {
 			listModel.addElement(list.get(i));
 		}
-		
+		listProvideTech.setModel(listModel);
+	}
+	
+	private void addListData(List<String> list, String ignoreName) {
+		DefaultListModel<String> listModel = new DefaultListModel<>();
+		for(int i = 0; i < list.size(); ++i) {
+			if(list.get(i).equals(ignoreName)) {
+				continue;
+			}
+			listModel.addElement(list.get(i));
+		}
 		listProvideTech.setModel(listModel);
 	}
 	
