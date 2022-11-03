@@ -5,6 +5,10 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URLDecoder;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -78,16 +82,56 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 		});
 	}
 	
+	private boolean dbLogin(String id, String pwd) {
+		boolean flag = false;
+		DBConnectionMgr mgr = DBConnectionMgr.getInstance();
+		Connection con = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		try {
+			String query = "SELECT id, pwd FROM login WHERE seperator = com AND id = ? AND pwd = ? ";
+			con = mgr.getConnection();
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, id);
+			psmt.setString(2, pwd);
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				String rsId = rs.getString("id");
+				String rsPwd = rs.getString("pw");
+				
+				if(rsId.equals(id) == true && rsPwd.equals(pwd) == true) {
+					flag = true;
+				}
+			}
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				if(rs != null) {rs.close();}
+				if(psmt != null) {psmt.close();}
+				if(con != null) {con.close();}
+			} catch(SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		return flag;
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		boolean loginFlag = true; // 테스트중
+		boolean loginFlag = false; // 테스트중
 		
 		if(obj == btnComLogin) {
+			loginFlag = dbLogin(comId.getText().trim(), String.valueOf(comPw.getPassword()));
+			
 			if(loginFlag == true) {
 				DialogManager.createMsgDialog("로그인에 성공했습니다.<br>XXX님 환영합니다!", "\\img\\success1.png",
 						"성공", JOptionPane.PLAIN_MESSAGE);
-				// 로그인 기능 필요
 			} else {
 				DialogManager.createMsgDialog("로그인에 실패했습니다.<br>아이디나 암호를 확인하세요.", 
 						"\\img\\information5.png", "실패", JOptionPane.PLAIN_MESSAGE);
