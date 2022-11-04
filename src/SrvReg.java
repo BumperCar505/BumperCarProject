@@ -52,7 +52,6 @@ public class SrvReg extends JFrame {
     Vector<String> colName;
     private JTextField srvName;
     private JFormattedTextField srvPrice;
-
     
     private static ComboBoxModel<CheckableItem> makeModel() {
 	    CheckableItem[] m = {
@@ -135,52 +134,6 @@ public class SrvReg extends JFrame {
         lblNewLabel.setIcon(new ImageIcon(SrvReg.class.getResource("/img/YellowCat.png")));
 		lblNewLabel.setBounds(717, 57, 230, 94);
         getContentPane().add(lblNewLabel);
-        
-        JPanel panel = new JPanel();
-        panel.setBounds(121, 182, 457, 631);
-        getContentPane().add(panel);
-        panel.setLayout(null);
-        
-        JLabel lblNewLabel_1 = new JLabel("서비스명");
-		lblNewLabel_1.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
-		lblNewLabel_1.setBounds(36, 43, 140, 55);
-        panel.add(lblNewLabel_1);
-        
-        JLabel lblNewLabel_2 = new JLabel("서비스 제공 정비사 선택");
-        lblNewLabel_2.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
-        lblNewLabel_2.setBounds(36, 201, 356, 55);
-        panel.add(lblNewLabel_2);
-        
-        JLabel lblNewLabel_3 = new JLabel("서비스 가격 (공임비)");
-        lblNewLabel_3.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
-        lblNewLabel_3.setBounds(36, 359, 259, 55);
-        panel.add(lblNewLabel_3);
-        
-        srvName = new JTextField();
-        srvName.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
-		srvName.setBounds(37, 111, 274, 45);
-        panel.add(srvName);
-//        srvName.setColumns(10);
-        
-        srvPrice = new JFormattedTextField(new NumberFormatter());
-        srvPrice.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
-		srvPrice.setBounds(37, 423, 274, 45);
-        panel.add(srvPrice);
-//        srvPrice.setColumns(10);
-        
-        CheckedComboBox comboBox = new CheckedComboBox<>(makeModel());
-	    comboBox.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
-		comboBox.setBounds(37, 267, 385, 45);
-		panel.add(comboBox);
-
-		
-		ComboBoxModel<CheckableItem> model = comboBox.getModel();
-        
-		JButton btnSrvReg = new JButton("등록");
-		btnSrvReg.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
-
-		btnSrvReg.setBounds(153, 493, Size.BTN_S_W, Size.BTN_S_H);
-		panel.add(btnSrvReg);
 		
 		JLabel lblNewLabel_4 = new JLabel("등록된 서비스 목록");
 		lblNewLabel_4.setBounds(981, 184, 184, 40);
@@ -200,8 +153,51 @@ public class SrvReg extends JFrame {
 		btnSrvDel.setFont(new Font("NanumBarunGothic", Font.BOLD, 16));
 		btnSrvDel.setBounds(1407, 191, 78, 33);
 		getContentPane().add(btnSrvDel);
+		
+		JLabel lblNewLabel_1 = new JLabel("서비스명");
+		lblNewLabel_1.setBounds(141, 259, 140, 55);
+		getContentPane().add(lblNewLabel_1);
+		lblNewLabel_1.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
+		
+		srvName = new JTextField();
+		srvName.setBounds(141, 342, 274, 45);
+		getContentPane().add(srvName);
+		srvName.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
+		
+		JLabel lblNewLabel_2 = new JLabel("서비스 제공 정비사 선택");
+		lblNewLabel_2.setBounds(141, 424, 356, 55);
+		getContentPane().add(lblNewLabel_2);
+		lblNewLabel_2.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
+		
+		JLabel lblNewLabel_3 = new JLabel("서비스 가격 (공임비)");
+		lblNewLabel_3.setBounds(141, 585, 259, 55);
+		getContentPane().add(lblNewLabel_3);
+		lblNewLabel_3.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
+		//        srvName.setColumns(10);
+		
+		srvPrice = new JFormattedTextField(new NumberFormatter());
+		srvPrice.setBounds(141, 688, 274, 45);
+		getContentPane().add(srvPrice);
+		srvPrice.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
+		
+		JButton btnSrvReg = new JButton("등록");
+		btnSrvReg.setBounds(280, 782, 150, 50);
+		getContentPane().add(btnSrvReg);
+		btnSrvReg.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(141, 489, 464, 65);
+		getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		CheckedComboBox selectedSrvTech = new CheckedComboBox<>(makeModel());
+		selectedSrvTech.setBounds(0, 10, 385, 45);
+		selectedSrvTech.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
+		panel.add(selectedSrvTech);
+		
+		ComboBoxModel<CheckableItem> model = selectedSrvTech.getModel();
         
-
+		
 		btnSrvReg.addActionListener(new ActionListener() {
 			
 			@Override
@@ -217,13 +213,29 @@ public class SrvReg extends JFrame {
 				
 				Vector<String> list = new Vector<String>();
 				list.add(srvName.getText());
-				list.add(comboBox.getCheckedItemString(model));
+				list.add(selectedSrvTech.getCheckedItemString(model));
 				list.add(srvPrice.getText());
 				dtm.addRow(list);
 				
+
+				panel.removeAll();
+				panel.revalidate();
+				panel.repaint();
+
+				srvName.setText("");
+				srvPrice.setText("");
 				
-				clearFields();
+		        panel.setBounds(141, 489, 464, 65);
+		        getContentPane().add(panel);
+		        panel.setLayout(null);
+
+		        CheckedComboBox selectedSrvTech = new CheckedComboBox<>(makeModel());
+		        selectedSrvTech.setBounds(0, 10, 385, 45);
+		        selectedSrvTech.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
+		        panel.add(selectedSrvTech);
 				
+		        setVisible(true);
+		        
 			}
 		});
 		
@@ -235,24 +247,11 @@ public class SrvReg extends JFrame {
 				if(table.getSelectedRow() != -1) {
 		               // remove selected row from the model
 		               dtm.removeRow(table.getSelectedRow());
-//		               JOptionPane.showMessageDialog(null, "Selected row deleted successfully");
 				}
 			}
 		});
-
-
-    }
-
-
-	protected void clearFields() {
-		srvName.setText("");
-		srvPrice.setText("");
-//		ComboBoxEditor
-//		comboBox.setSelectedIndex = -1;
-//		updateItem(m);
-				
 		
-	}
+    }
 }
 
 
