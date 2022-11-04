@@ -37,9 +37,8 @@ public class TechListEdit extends JFrame {
 	MemberBean bean;
 //////////////////////////////////////////////
 	
-	/**
-	 * Launch the application.
-	 */
+
+	//Launch the application.
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
