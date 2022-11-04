@@ -176,17 +176,17 @@ public class SrvReg extends JFrame {
 		//        srvName.setColumns(10);
 		
 		srvPrice = new JFormattedTextField(new NumberFormatter());
-		srvPrice.setBounds(141, 688, 274, 45);
+		srvPrice.setBounds(141, 665, 274, 45);
 		getContentPane().add(srvPrice);
 		srvPrice.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
 		
 		JButton btnSrvReg = new JButton("등록");
-		btnSrvReg.setBounds(280, 782, 150, 50);
+		btnSrvReg.setBounds(275, 763, 150, 50);
 		getContentPane().add(btnSrvReg);
 		btnSrvReg.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(141, 489, 464, 65);
+		panel.setBounds(141, 489, 398, 65);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -202,13 +202,6 @@ public class SrvReg extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				String inputStr[] = new String[3];
-//				
-//				inputStr[0] = srvName.getText();
-//				inputStr[1] = comboBox.getCheckedItemString(model);
-//				inputStr[2] = srvPrice.getText();
-//				
-//				dtm.addRow(inputStr);
 				
 				
 				Vector<String> list = new Vector<String>();
