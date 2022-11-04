@@ -136,6 +136,9 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 				DialogManager.createMsgDialog("로그인에 실패했습니다.<br>아이디나 암호를 확인하세요.", 
 						"\\img\\information5.png", "실패", JOptionPane.PLAIN_MESSAGE);
 			}
+		} else if (obj == btnComJoin) {
+			new ComJoin().setVisible(true);
+			this.dispose();
 		}
 	}
 	
@@ -200,6 +203,7 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 		btnComJoin.setBackground(new Color(244, 204, 204));
 		btnComJoin.setBorder(new BevelBorder(BevelBorder.RAISED, Color.red, Color.red, 
 				Color.red, Color.red));
+		btnComJoin.addActionListener(this);
 		contentPane.add(btnComJoin);
 		
 		JLabel lblYellowCat = new JLabel("");
