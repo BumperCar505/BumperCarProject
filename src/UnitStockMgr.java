@@ -182,7 +182,7 @@ public class UnitStockMgr extends JFrame {
 			            	model.removeRow(index);
 			            } else if (result == 1) {
 			            	   
-			            	}
+			            }
 			            } catch(Exception ex) {
 			            	
 			      }
