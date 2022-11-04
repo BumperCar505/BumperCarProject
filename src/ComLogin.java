@@ -101,6 +101,11 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 				String rsPwd = rs.getString("pw");
 				
 				if(rsId.equals(id) == true && rsPwd.equals(pwd) == true) {
+					LoginMember loginMember = LoginMember.getInstance();
+					loginMember.setSeperator("com");
+					loginMember.setId(id);
+					loginMember.setPw(pwd);
+					System.out.println(loginMember.hashCode());
 					return id;
 				}
 			}
