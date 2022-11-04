@@ -82,18 +82,18 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 		});
 	}
 	
-	private boolean dbLogin(String id, String pwd) {
-		boolean flag = false;
+	private String dbLogin(String id, String pwd) {
 		DBConnectionMgr mgr = DBConnectionMgr.getInstance();
 		Connection con = null;
 		PreparedStatement psmt = null;
 		ResultSet rs = null;
 		try {
-			String query = "SELECT id, pwd FROM login WHERE seperator = com AND id = ? AND pwd = ? ";
+			String query = "SELECT id, pw FROM login WHERE seperator = ? AND id = ? AND pw = ? ";
 			con = mgr.getConnection();
 			psmt = con.prepareStatement(query);
-			psmt.setString(1, id);
-			psmt.setString(2, pwd);
+			psmt.setString(1, "com");
+			psmt.setString(2, id);
+			psmt.setString(3, pwd);
 			rs = psmt.executeQuery();
 			
 			if(rs.next()) {
@@ -101,7 +101,7 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 				String rsPwd = rs.getString("pw");
 				
 				if(rsId.equals(id) == true && rsPwd.equals(pwd) == true) {
-					flag = true;
+					return id;
 				}
 			}
 		} catch(SQLException ex) {
@@ -118,19 +118,19 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 			}
 		}
 		
-		return flag;
+		return null;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		boolean loginFlag = false; // 테스트중
+		String id = null;
 		
 		if(obj == btnComLogin) {
-			loginFlag = dbLogin(comId.getText().trim(), String.valueOf(comPw.getPassword()));
+			id = dbLogin(comId.getText().trim(), String.valueOf(comPw.getPassword()));
 			
-			if(loginFlag == true) {
-				DialogManager.createMsgDialog("로그인에 성공했습니다.<br>XXX님 환영합니다!", "\\img\\success1.png",
+			if(id != null) {
+				DialogManager.createMsgDialog("로그인에 성공했습니다.<br>" + id + "님 환영합니다!", "\\img\\success1.png",
 						"성공", JOptionPane.PLAIN_MESSAGE);
 			} else {
 				DialogManager.createMsgDialog("로그인에 실패했습니다.<br>아이디나 암호를 확인하세요.", 
