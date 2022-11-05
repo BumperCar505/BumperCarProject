@@ -170,7 +170,46 @@ public class ComManageComment extends JFrame implements ActionListener {
 				model1.setSelected(false);
 				model2.setSelected(false);
 			}
+		} else if(obj == btnBackCommentMain) {
+			new ComMyPage();
+			this.dispose();
 		}
+	}
+	
+	private void searchDbReviews() {
+		// DB에서 데이터 전체 조회
+	}
+	
+	private void searchDbReviews(Date startDate, Date endDate) {
+		// DB에서 기간한정해서 데이터 조회
+	}
+
+	private double getDbAvgReviewScore() {
+		// DB에서 평균점수 조회
+		return 0;
+	}
+	
+	private double getDbAvgReviewScore(Date startDate, Date endDate) {
+		// DB에서 기간한정해서 평균점수 조회
+		return 0;
+	}
+	
+	private boolean hideDbReviews(int[] selectedNumbers) {
+		// DB에 저장되어있는 리뷰중 선택한 리뷰들을 코멘트와 별점 안보이게 처리
+		return true;
+	}
+	
+	private boolean showDbReviews(int[] selectedNumbers) {
+		// DB에 저장되어있는 리뷰중 선택한 리뷰들을 코멘트와 별점 보이게 변경
+		return true;
+	}
+	
+	private void replaceComment(int selectedRow) {
+		// 가져온 리뷰가 댓글이 숨김처리라면 문자열 대체
+	}
+	
+	private void replaceStar(int selectedRow) {
+		// 가져온 리뷰가 별점이 숨김처리라면 별점 대체
 	}
 	
 	/**
@@ -258,6 +297,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 		btnBackCommentMain.setBounds(670, 918, Size.BTN_B_W, Size.BTN_B_H);
 		btnBackCommentMain.setBorder(new BevelBorder(BevelBorder.RAISED, Color.red, Color.red, 
 				Color.red, Color.red));
+		btnBackCommentMain.addActionListener(this);
 		contentPane.add(btnBackCommentMain);
 		
 		btnHideComment = new JButton("댓글 숨기기");
