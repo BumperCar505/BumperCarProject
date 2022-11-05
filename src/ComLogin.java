@@ -82,7 +82,7 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 		});
 	}
 	
-	private String dbLogin(String id, String pwd) {
+	private String loginDb(String id, String pwd) {
 		DBConnectionMgr mgr = DBConnectionMgr.getInstance();
 		Connection con = null;
 		PreparedStatement psmt = null;
@@ -101,18 +101,15 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 				String rsPwd = rs.getString("pw");
 				
 				if(rsId.equals(id) == true && rsPwd.equals(pwd) == true) {
-					LoginMember loginMember = LoginMember.getInstance();
-					loginMember.setSeperator("com");
-					loginMember.setId(id);
-					loginMember.setPw(pwd);
-					System.out.println(loginMember.hashCode());
 					return id;
 				}
 			}
 		} catch(SQLException ex) {
 			ex.printStackTrace();
+			JOptionPane.showMessageDialog(this, ex.getMessage());
 		} catch(Exception ex) {
 			ex.printStackTrace();
+			JOptionPane.showMessageDialog(this, ex.getMessage());
 		} finally {
 			try {
 				if(rs != null) {rs.close();}
@@ -120,6 +117,7 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 				if(con != null) {con.close();}
 			} catch(SQLException ex) {
 				ex.printStackTrace();
+				JOptionPane.showMessageDialog(this, ex.getMessage());
 			}
 		}
 		
@@ -132,11 +130,15 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 		String id = null;
 		
 		if(obj == btnComLogin) {
-			id = dbLogin(comId.getText().trim(), String.valueOf(comPw.getPassword()));
+			id = loginDb(comId.getText().trim(), String.valueOf(comPw.getPassword()));
 			
 			if(id != null) {
+				LoginManager loginManager = LoginManager.getInstance();
+				loginManager.login("com", id);
 				DialogManager.createMsgDialog("로그인에 성공했습니다.<br>" + id + "님 환영합니다!", "\\img\\success1.png",
 						"성공", JOptionPane.PLAIN_MESSAGE);
+				new ComMyPage();
+				this.dispose();
 			} else {
 				DialogManager.createMsgDialog("로그인에 실패했습니다.<br>아이디나 암호를 확인하세요.", 
 						"\\img\\information5.png", "실패", JOptionPane.PLAIN_MESSAGE);
