@@ -24,8 +24,7 @@ public class ComMyPage {
 				try {
 					ComMyPage window = new ComMyPage();
 					
-//					window.frame.setVisible(true); 위에 있는 걸 아래로 옮기고 수정했다아아
-					
+//					window.frame.setVisible(true);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,7 +39,7 @@ public class ComMyPage {
 	public ComMyPage() {
 //		frame.setLocationRelativeTo(null);
 		initialize();
-		frame.setVisible(true); //이거 연결한다고 내가 진짜아ㅏ.. 이렇게 하면 창 연결된다아아아
+		frame.setVisible(true); 
 		frame.setLocationRelativeTo(null); //화면 가운데에 뜨기
 //		main();
 	
@@ -107,8 +106,61 @@ public class ComMyPage {
 		frame.getContentPane().add(lblNewLabel);
 		
 		
+//		업체정보 수정 페이지로
+		btnEditComInfo.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false); 
+				new EditComInfo();
+
+			}
+		});
+//		정비사목록 수정 페이지로
+		btnEditTechList.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					frame.setVisible(false); 
+					new TechListEdit();
+
+				}
+			});
 		
-		// 페이지 이동 가즈아~!!!
+//		서비스 목록 수정 페이지로 
+		btnEditSrvInfo.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					frame.setVisible(false); 
+					new ComSrvList();
+
+				}
+			});
+		
+//		부품 재고 관리 페이지로
+		btnMgrUnitStock.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					frame.setVisible(false); 
+					new UnitStockMgr();
+
+				}
+			});
+		
+//		예약 관리 페이지로
+		btnMgrBook.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					frame.setVisible(false); 
+					new BookCalendar(); 
+//					여기가 맞는지는 모르겠음
+
+				}
+			});
+		
 		
 //		고객관리페이지로
 		   btnMgrCustomer.addActionListener(new ActionListener() {
@@ -131,6 +183,18 @@ public class ComMyPage {
 
 			}
 		});
+		   
+//		   코멘트 관리 페이지로
+		   btnMgrComment.addActionListener(new ActionListener() {
+				
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false); 
+				new ComManageComment();
+
+			}
+		});
+		   
 	}
 	
 	

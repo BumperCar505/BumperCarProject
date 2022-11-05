@@ -1,10 +1,13 @@
 
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.ScrollPane;
 import java.awt.TextField;
 import java.awt.event.ActionListener;
+import java.beans.Statement;
+import java.sql.*;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JTextPane;
@@ -31,7 +34,7 @@ import java.util.Vector;
 
 
 public class RegTec extends JFrame {
-
+	private DBConnectionMgr pool;
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -39,12 +42,22 @@ public class RegTec extends JFrame {
 	private JTextField techTel;
 	private JTextField techLv;
 	private LineBorder LineBorderRegTec1;
-//	private LineBorder LineBorderRegTec2;
+	private LineBorder LineBorderRegTec2;
 	private JTable table;
 	private JTable listTech;
 	private static int n;
 	private int flag = 0;
 	TextField tf = new TextField();
+	private JTextField textField_1;
+	
+	
+	
+	
+	
+	
+
+	
+	
 
 	/**
 	 * Launch the application.
@@ -54,7 +67,7 @@ public class RegTec extends JFrame {
 			public void run() {
 				try {
 					RegTec frame = new RegTec();
-					frame.setVisible(true);
+//					frame.setVisible(true);
 				
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -65,28 +78,26 @@ public class RegTec extends JFrame {
 
 	
 	public RegTec() {
+		setVisible(true);
+		pool = DBConnectionMgr.getInstance();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, Size.SCREEN_W, Size.SCREEN_H);
 		
 		
+		
+		
+		
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		
-		
-//		좌측부분 라벨 사용해서 외곽에 선 넣어주기
-//		LineBorderRegTec1 = new LineBorder(Color.black, 1, true);
-		JLabel lblNewLabel_4 = new JLabel("");
-		lblNewLabel_4.setBounds(958, 93, 545, 545);		
+
 		
 		
-		
-//		우측은 잠시 보류... 막혔다. 할 게 많으니까 좀 있다가 도전 하기로..
-//		LineBorderRegTec2 = new LineBorder(Color.black, 1, true);
-//		
+
 		
 		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 //		panel.setForeground(new Color(255, 0, 0));
 		panel.setBounds(57, 93, 535, 565);
 		
@@ -151,47 +162,55 @@ public class RegTec extends JFrame {
 		lblNewLabel_2.setBounds(26, 291, 105, 25);
 		lblNewLabel_2.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
 		panel.add(lblNewLabel_2);
-		
+		setLocationRelativeTo(null);
 		
 		
 //		우측 표 삽입
 	
-
+	// 여기서 부터
 		String header[]= { "정비사 이름", "정비사전화번호", "정비사 직급"};
-		String contents[][] = {
-				{ "이이이", "010-111-1111", "대리"}
-			
-		};
-		DefaultTableModel model = new DefaultTableModel(contents,header);
+//
+//
+		DefaultTableModel model = new DefaultTableModel(header,0);
 		JTable listTech = new JTable(model);
-//		JTable listTech = new JTable(new DefaultTableModel(
-//			new Object[][] {
-//				{"\uC774\uC774\uC774", "010-111-1111", "\uB300\uB9AC"},
-//			},
-//			new String[] {
-//				"\uC815\uBE44\uC0AC \uC774\uB984", "\uC815\uBE44\uC0AC\uC804\uD654\uBC88\uD638", "\uC815\uBE44\uC0AC \uC9C1\uAE09"
-//			}
-//		) {
-//			boolean[] columnEditables = new boolean[] {
-//				false, false, false
-//			};
-//			public boolean isCellEditable(int row, int column) {
-//				return columnEditables[column];
-//			}
-//		});
-		
+		JScrollPane scrollPane = new JScrollPane(table);
+//
+//		
 		JScrollPane scrollpane = new JScrollPane(table);
-		listTech.setBounds(994, 71, 548, 506);
+		scrollpane.setAutoscrolls(true);
+//		
+		listTech.setBounds(994, 71, 548, 565);
 		contentPane.add(listTech);
 		JLabel lblRegTec = new JLabel("");
 		lblRegTec.setFont(new Font("나눔바른고딕", Font.BOLD, 15));
-		
-		lblRegTec.setBorder(LineBorderRegTec1);    //원하는 라벨에 사용
-		lblRegTec.setBounds(57, 93, 535, 565);
-		contentPane.add(lblRegTec);
+//		
+//		lblRegTec.setBorder(LineBorderRegTec1);    //원하는 라벨에 사용
+//		lblRegTec.setBounds(57, 93, 535, 565);
+//		contentPane.add(lblRegTec);
+//		여기까지
+//		
+//		table.getColumnModel().getColumn(0).setPreferredWidth(39);
+//		table.getColumnModel().getColumn(0).setMinWidth(20);
+//		table.getColumnModel().getColumn(3).setResizable(false);
+//		table.setRowHeight(40);
+//		scrollpane.setLayout(null);
 		
 //		DefaultTableModel tm = new DefaultTableModel(String, Object);
-	
+		
+		
+		
+//		새로운 도전
+		
+//		data = new Vector<>();
+//		title = new Vector<>();
+//		title.add("정비사 이름");
+//		title.add("정비사 전화번호");
+//		title.add("정비사 직급");
+//		
+//		model = new DefaultTableModel();
+//		Vector result = selectAll();
+//		model.setDataVector(result, title);
+//	
 		
 		
 		
@@ -209,11 +228,17 @@ public class RegTec extends JFrame {
 		btnTechReg.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
 		panel.add(btnTechReg);
 		
-//		혹시나 해서 삭제 버튼(필요할 수도 있으니꺄아아)
+//		삭제버튼
 		JButton btnTechDel = new JButton("삭제");
-		btnTechDel.setBounds(1198, 587, Size.BTN_S_W, Size.BTN_S_H);
+		btnTechDel.setBounds(1459, 26, 83, 35);
 		contentPane.add(btnTechDel);
 		panel.setLayout(null);
+		
+		textField_1 = new JTextField();
+		textField_1.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
+		textField_1.setColumns(10);
+		textField_1.setBounds(26, 10, 206, 31);
+		panel.add(textField_1);
 		
 		
 //		다음버튼
@@ -223,16 +248,21 @@ public class RegTec extends JFrame {
 		contentPane.add(btnTechNext);
 		
 		JScrollBar scrollBar = new JScrollBar();
-		scrollBar.setBounds(1542, 71, 17, 506);
+		scrollBar.setBounds(1542, 71, 17, 565);
 		contentPane.add(scrollBar);
 		
-	
-
-
+		JLabel lblNewLabel_4 = new JLabel("입력된 정비사");
+		lblNewLabel_4.setFont(new Font("나눔바른고딕", Font.PLAIN, 21));
+		lblNewLabel_4.setBounds(1184, 36, 140, 25);
+		contentPane.add(lblNewLabel_4);
 	
 		
 		
-//		다른 블로그에서 도전!
+	
+
+		
+	
+
 //		저장 버튼 누르면 옆에 저장되게
 		btnTechReg.addActionListener(new ActionListener() {
 			
@@ -270,7 +300,57 @@ public class RegTec extends JFrame {
 				}
 			}
 		});
+		
+//		다음 버튼 누르면 서비스 등록페이지로 이동
+		
+		btnTechNext.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						setVisible(false); 
+						new SrvReg();
+
+					}
+				});
+		
+		
+
+		
 
 	}
-}
+      private void insertTec(String techComNum, String techName, String techTel, String techLv) throws Exception {
 
+		
+		
+		DBConnectionMgr MGR = DBConnectionMgr.getInstance();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "INSERT INTO technician (techComNum,techName, techTel, techLv) VALUES (?,?,?) " ;
+		
+
+		
+		try {
+			conn = MGR.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, techComNum);
+			pstmt.setString(2, techName);
+			pstmt.setString(3, techTel);
+			pstmt.setString(4, techLv);
+			pstmt.executeUpdate();
+		}
+		catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		finally {
+			if(conn != null) {conn.close();}
+			if(rs != null) {rs.close();}
+			if(pstmt != null) {pstmt.close();}
+			
+		}
+		
+	}
+}
+	
+
+		
