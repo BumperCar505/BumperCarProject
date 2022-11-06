@@ -38,6 +38,9 @@ public class RegTec extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
+	
+	private JTextField techComNum;
+
 	private JTextField techName;
 	private JTextField techTel;
 	private JTextField techLv;
@@ -124,6 +127,12 @@ public class RegTec extends JFrame {
 		
 //		입력하는 부분들
 		
+		techComNum= new JTextField();
+		techComNum.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
+		techComNum.setColumns(10);
+		techComNum.setBounds(26, 10, 206, 31);
+		panel.add(techComNum);
+		
 		techName = new JTextField();
 		techName.setBounds(26, 99, 206, 31);
 		techName.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
@@ -146,6 +155,8 @@ public class RegTec extends JFrame {
 		
 		
 //		라벨 모음
+		
+		
 		JLabel lblNewLabel = new JLabel("정비사이름");
 		lblNewLabel.setBounds(26, 45, 100, 25);
 		lblNewLabel.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
@@ -168,7 +179,7 @@ public class RegTec extends JFrame {
 //		우측 표 삽입
 	
 	// 여기서 부터
-		String header[]= { "정비사 이름", "정비사전화번호", "정비사 직급"};
+		String header[]= { "사업자 등록 번호", "정비사 이름", "정비사전화번호", "정비사 직급"};
 //
 //
 		DefaultTableModel model = new DefaultTableModel(header,0);
@@ -234,11 +245,6 @@ public class RegTec extends JFrame {
 		contentPane.add(btnTechDel);
 		panel.setLayout(null);
 		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
-		textField_1.setColumns(10);
-		textField_1.setBounds(26, 10, 206, 31);
-		panel.add(textField_1);
 		
 		
 //		다음버튼
@@ -268,18 +274,28 @@ public class RegTec extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String inputStr[] = new String[3];
+				String inputStr[] = new String[4];
 				
-				inputStr[0] = techName.getText();
-				inputStr[1] = techTel.getText();
-				inputStr[2] = techLv.getText();
+				inputStr[0] = techComNum.getText();
+				inputStr[1] = techName.getText();
+				inputStr[2] = techTel.getText();
+				inputStr[3] = techLv.getText();
+				 
 				
 				model.addRow(inputStr);
 				
 //				등록하고 난 뒤 다시 칸 비워주기
+				techComNum.setText("");
 				techName.setText("");
 				techTel.setText("");
 				techLv.setText("");
+				
+				String techCN = techComNum.getText();
+				String techNM = techName.getText();
+				String techTT = techTel.getText();
+				String techLL = techLv.getText();
+				
+				
 
 			}
 		});
@@ -312,12 +328,11 @@ public class RegTec extends JFrame {
 
 					}
 				});
-		
-		
 
-		
 
 	}
+	
+//	db연결 가즈아~!!
       private void insertTec(String techComNum, String techName, String techTel, String techLv) throws Exception {
 
 		
@@ -326,7 +341,7 @@ public class RegTec extends JFrame {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "INSERT INTO technician (techComNum,techName, techTel, techLv) VALUES (?,?,?) " ;
+		String sql = "INSERT INTO technician (techComNum,techName, techTel, techLv) VALUES (?,?,?,?) " ;
 		
 
 		
