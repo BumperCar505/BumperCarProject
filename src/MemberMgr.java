@@ -16,7 +16,8 @@ public class MemberMgr {
 
 	
 	//한개의 레코드
-	public MemberBean select(int id){
+	
+	public MemberBean select(int techNum){
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -24,16 +25,16 @@ public class MemberMgr {
 		MemberBean bean = new MemberBean();
 		try {
 			con = pool.getConnection();
-			sql = "select * from tblMember where id=?";
+			sql = "select * from technician where techNum=?";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, id);
+			pstmt.setInt(1, techNum);
 			rs = pstmt.executeQuery();
 			if(rs.next()){
-				bean.setId(rs.getInt("id"));
-				bean.setName(rs.getString("name"));
-				bean.setPhone(rs.getString("phone"));
-				bean.setTeam(rs.getString("team"));
-				bean.setAddress(rs.getString("address"));
+				bean.setTechNum(rs.getInt("techNum"));
+				bean.setTechComNum(rs.getString("techComNum"));
+				bean.setTechName(rs.getString("techName"));
+				bean.setTechTel(rs.getString("techTel"));
+				bean.setTechLv(rs.getString("techLv"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -43,21 +44,24 @@ public class MemberMgr {
 		return bean;
 	}
 	
-	public boolean update(MemberBean bean){
+	
+	public boolean update(MemberBean bean,int index){
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
 		boolean flag = false;
 		try {
 			con = pool.getConnection();
-			sql = "update tblMember set name=?,phone=?,team=?,address=? "
-					+ "where id=?";
+			sql = "update technician set techName=?,techTel=?,techLv=? "
+					+ "where techNum=?";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, bean.getName());
-			pstmt.setString(2, bean.getPhone());
-			pstmt.setString(3, bean.getTeam());
-			pstmt.setString(4, bean.getAddress());
-			pstmt.setInt(5, bean.getId());
+			//pstmt.setString(1, bean.getTechComNum());
+			pstmt.setString(1, bean.getTechName());
+			pstmt.setString(2, bean.getTechTel());
+			pstmt.setString(3, bean.getTechLv());
+			
+			//pstmt.setInt(5, bean.getTechNum());
+			pstmt.setInt(4, index);
 			int cnt = pstmt.executeUpdate();
 			if(cnt==1) flag = true;
 		} catch (Exception e) {
@@ -66,6 +70,33 @@ public class MemberMgr {
 			pool.freeConnection(con, pstmt);
 		}
 		return flag;
+	}
+	//"select MAX(techNum) from technician; ";
+	// 마지막 techNum 찾기
+	public MemberBean lastNum(){
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		MemberBean bean = new MemberBean();
+		try {
+			con = pool.getConnection();
+			sql = "select MAX(techNum) from technician ";
+			//sql = "select * from technician ORDER BY ROWID LIMIT 1 ";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				bean.setTechNum(rs.getInt("MAX(techNum)"));
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return bean;
 	}
 	
 }

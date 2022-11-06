@@ -2,42 +2,61 @@
 
 public class MemberBean {
 
-	private int id;
-	private String name;
-	private String phone;
-	private String team;
-	private String address;
+	private int techNum;
+	private String techName;
+	private String techTel;
+	private String techLv;
+	private String techComNum;
+	//private int index;
 	
-	public String getAddress() {
-		return address;
+	
+	// TechNum
+	public int getTechNum() {
+		return techNum;
 	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getPhone() {
-		return phone;
-	}
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-	public String getTeam() {
-		return team;
-	}
-	public void setTeam(String team) {
-		this.team = team;
+	public void setTechNum(int techNum) {
+		this.techNum = techNum;
 	}
 	
+	// TechComNum
+	public String getTechComNum() {
+		return techComNum;
+	}
+	public void setTechComNum(String techComNum) {
+		this.techComNum = techComNum;
+	}
+
+	// TechName
+	public String getTechName() {
+		return techName;
+	}
+	public void setTechName(String techName) {
+		this.techName = techName;
+	}
+	
+	// TechTel
+	public String getTechTel() {
+		return techTel;
+	}
+	public void setTechTel(String techTel) {
+		this.techTel = techTel;
+	}
+	
+	// TechLv
+	public String getTechLv() {
+		return techLv;
+	}
+	public void setTechLv(String techLv) {
+		this.techLv = techLv;
+	}
+	
+	/*
+	public int getIndex() {
+		return index;
+	}
+	public void setIndex(int index) {
+		this.index = index;
+	}
+	*/
 	
 }

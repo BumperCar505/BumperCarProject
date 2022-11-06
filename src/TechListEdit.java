@@ -20,6 +20,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -27,15 +28,20 @@ import javax.swing.ImageIcon;
 
 public class TechListEdit extends JFrame {
 
+	
+	
 	private JPanel contentPane;
 	private JTable table;
 	private JButton btnEditTech;
 	private JButton btnDelTech;
 	private JButton btnBackMain;
+	
 /////////////////////////////////////////////
-	MemberMgr mgr;
-	MemberBean bean;
+	//MemberMgr mgr;
+	//MemberBean bean;
+	
 ////////////////////////////////////////////////
+	public String selectedSrvName;
 	
 
 	//Launch the application.
@@ -45,6 +51,7 @@ public class TechListEdit extends JFrame {
 				try {
 					TechListEdit frame = new TechListEdit();
 					frame.setVisible(true);
+					//frame.reload();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -57,6 +64,11 @@ public class TechListEdit extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
+	public void reload() {
+		
+	}
+	
 	public TechListEdit() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, Size.SCREEN_W, Size.SCREEN_H);
@@ -70,18 +82,50 @@ public class TechListEdit extends JFrame {
 		setContentPane(contentPane);
 		
 		
-		
 //		테이블 생성
+		
+		//db데이터 select, update 하는 클래스
+		MemberMgr mgr = new MemberMgr(); 
+		
+		//db에 넣을 데이터 저장하는 클래스
+		
+		MemberBean bean =  mgr.lastNum();
+		int techIndexNum = bean.getTechNum();
+		
+		
 
 		String header[] = {"techNum","정비사 이름","전화번호","직급"};
-		String contents[][] = {
-				{"1","테스터1","010-1111-1111","팀장"},
-				{"2","테스터2","010-2222-2222","주임"},
-				{"3","테스터3","010-3333-3333","사원"},
-				{"4","테스터4","010-4444-4444","사원"},
-				{"5","테스터5","010-5555-5555","사원"},
-		};
-
+		String contents[][] = new String[techIndexNum][4]; 
+			
+			
+		for(int i = 0; i < techIndexNum; i++)
+		{
+			for(int j = 0; j < 4; j++)
+			{
+				bean =  mgr.select(i + 1);
+				
+				if(j == 0)
+				{
+					contents[i][j] = Integer.toString(bean.getTechNum());	
+				}
+				else if(j == 1)
+				{
+					contents[i][j] = bean.getTechName();
+				}
+				else if(j == 2)
+				{
+					contents[i][j] = bean.getTechTel();
+				}
+				else if (j == 3)
+				{
+					contents[i][j] = bean.getTechLv();
+				}
+				
+			}
+			
+		}
+		
+		
 		
 		DefaultTableModel model = new DefaultTableModel(contents, header);
 		JTable table = new JTable(model);
@@ -130,6 +174,8 @@ public class TechListEdit extends JFrame {
 		contentPane.add(btnBackMain);
 		
 		
+		
+		
 		//추가 버튼 누르면 실행됨 -> 새 폼 띄우기
 		btnAddTech.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -140,14 +186,35 @@ public class TechListEdit extends JFrame {
 		
 		
 		
+		
 		// 수정 버튼 누르면 실행됨 -> 새 폼 띄우기 
 		btnEditTech.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TechListEdit_edit edit = new TechListEdit_edit();
-				edit.setVisible(true);
-						
+				
+				int editIndex = table.getSelectedRow();
+				//String s1 = Integer.toString(editIndex);
+				
+				//System.out.println(s1);
+				
+				
+				 //String selectedSrvName = table.getValueAt(editIndex, 1).toString();
+				TechListEdit_edit edit = new TechListEdit_edit(editIndex);
+				
+				if(editIndex == -1){
+		            JOptionPane.showConfirmDialog(null, "셀을 선택하지 않으셨습니다.", "삭제", JOptionPane.DEFAULT_OPTION);
+		        }
+				else {
+					edit.setVisible(true);
+					dispose();
+					
+				}
+				
+				
 			}
 		});
+		
+		
+		
 		
 		
 		// 삭제 버튼 누르면 실행됨
@@ -187,6 +254,9 @@ public class TechListEdit extends JFrame {
 		
 		
 		
+		
+		
+				
 		
 	}
 	
