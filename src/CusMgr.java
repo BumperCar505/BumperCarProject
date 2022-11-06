@@ -201,7 +201,7 @@ public class CusMgr extends JFrame {
 				{ "1", "김땡땡", "63하2234","현대","소나타","3000km","11223","부산광역시","010-2222-2222","2010-12-30"}
 			
 		};
-		DefaultTableModel model = new DefaultTableModel(contents,header);
+		DefaultTableModel model = new DefaultTableModel(header,0);
 		JTable tableCusList = new JTable(model);
 		JScrollPane scrollpane = new JScrollPane(table);
 //		tableCusList.setBounds(994, 71, 548, 506);
