@@ -1,5 +1,5 @@
 
-
+// db연결...
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -53,11 +53,16 @@ public class RegTec extends JFrame {
 	TextField tf = new TextField();
 	private JTextField textField_1;
 	
-	
-	
-	
-	
-	
+//	여기서부터
+	 Connection conn = null;
+
+	 Statement stmt = null;
+	 
+	 PreparedStatement pstmt = null;
+
+	 ResultSet rs = null;
+
+
 
 	
 	
@@ -81,6 +86,11 @@ public class RegTec extends JFrame {
 
 	
 	public RegTec() {
+		
+		
+		
+		
+		
 		setVisible(true);
 		pool = DBConnectionMgr.getInstance();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -328,44 +338,161 @@ public class RegTec extends JFrame {
 
 					}
 				});
-
-
 	}
+
+
+	
 	
 //	db연결 가즈아~!!
-      private void insertTec(String techComNum, String techName, String techTel, String techLv) throws Exception {
+//      private void insertTec(String techComNum, String techName, String techTel, String techLv) throws Exception {
+//
+//		
+//		
+//		DBConnectionMgr MGR = DBConnectionMgr.getInstance();
+//		Connection conn = null;
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//		String sql = "INSERT INTO technician (techComNum,techName, techTel, techLv) VALUES (?,?,?,?) " ;
+//		
+//
+//		
+//		try {
+//			conn = MGR.getConnection();
+//			pstmt = conn.prepareStatement(sql);
+//			pstmt.setString(1, techComNum);
+//			pstmt.setString(2, techName);
+//			pstmt.setString(3, techTel);
+//			pstmt.setString(4, techLv);
+//			pstmt.executeUpdate();
+//			
+//			
+//			
+//		}
+//		catch (SQLException e) {
+//			System.out.println(e.getMessage());
+//		}
+//		finally {
+//			if(conn != null) {conn.close();}
+//			if(rs != null) {rs.close();}
+//			if(pstmt != null) {pstmt.close();}
+//			
+//		}
+//		
+//	}
+	
+	
+//	여기서
+	
+//	public Connection getConnection()
+//
+//	 {
+//
+//	  try {
+//	
+//	   conn=DriverManager.getConnection(url,"root","1234");
+//
+//	  } catch (SQLException e) {
+//
+//	   System.out.println("connection failed");
+//
+//	   e.printStackTrace();
+//
+//	  }
+//
+//	  return conn;
+//
+//	 }
+//
+//	
+//	public void insertData(String ) {
+//		try {
+//			String sql = "INSERT INTO CRUD_TABLE(name, age) values(?, ?)";
+//			// PrparedStatment객체 생성, 인자로 sql문이 주어짐
+//			pstmt = conn.prepareStatement(sql);
+//			pstmt.setString(1, data.name);
+//			pstmt.setInt(2, data.age);
+//			// executeUpdate : insert, delete, update와 같이 값을 받아오지 않는 쿼리문 실행
+//			ps.executeUpdate();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			dbClose();
+//		}
+//	}
+	
+		
+		public void DBconnection() {
+			
+		
+			try {
+		 
+//		 String driver="com.mysql.cj.jdbc.Driver";
+//		 Class.forName("mysql.jdbc.driver.mysqlDriver");
+		 Class.forName("com.mysql.cj.jdbc.Driver");
+		 String user = "root";
+		 String url="jdbc:mysql://127.0.0.1:3306/cardb";
+		 String pw = "1234";
+		
+		 conn = DriverManager.getConnection(url, user, pw);
+		 System.out.println("연결성공");
 
-		
-		
-		DBConnectionMgr MGR = DBConnectionMgr.getInstance();
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = "INSERT INTO technician (techComNum,techName, techTel, techLv) VALUES (?,?,?,?) " ;
-		
-
-		
-		try {
-			conn = MGR.getConnection();
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, techComNum);
-			pstmt.setString(2, techName);
-			pstmt.setString(3, techTel);
-			pstmt.setString(4, techLv);
-			pstmt.executeUpdate();
 		}
-		catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
+		catch (ClassNotFoundException cnfe) {
+			System.out.println("DB 드라이버 로딩 실패 :" + cnfe.toString());
+		} catch (SQLException sqle) {
+			System.out.println("DB 접속실패 : " + sqle.toString());
+		} catch (Exception e) {
+			System.out.println("Unkonwn error");
+			e.printStackTrace();
+		 }
 		finally {
-			if(conn != null) {conn.close();}
-			if(rs != null) {rs.close();}
-			if(pstmt != null) {pstmt.close();}
 			
 		}
-		
+	
 	}
+
+	 
+
+//		public void dbClose() {
+//			try {
+//				if (rs != null)
+//					rs.close();
+//				if (stmt != null)
+//					stmt
+//				if (pstmt != null)
+//					pstmt.close();
+//			} catch (Exception e) {
+//				System.out.println(e + "=> dbClose fail");
+//			}
+//		}
+//	
+
+			public void insertData(String techComNum, String techName, String techTel, String techLv) {
+				
+////				Connection conn = DBconnection();
+				try {
+					String sql = "INSERT INTO technician (techComNum,techName, techTel, techLv) VALUES (?, ?, ?, ?) " ;
+					// PrparedStatment객체 생성, 인자로 sql문이 주어짐
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, techComNum);
+					pstmt.setString(2, techName);
+					pstmt.setString(3, techTel);
+					pstmt.setString(4, techLv);
+					pstmt.executeUpdate();
+					
+			
+					pstmt.executeUpdate();
+				} catch (SQLException e) {
+					System.out.println(e.getMessage());
+				} finally {
+					
+				}
+//			
 }
+}
+//	
+
+
 	
 
 		

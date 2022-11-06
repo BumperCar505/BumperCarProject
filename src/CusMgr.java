@@ -319,7 +319,7 @@ public class CusMgr extends JFrame {
 		});
 		
 		
-		//어라.. 얘는 왜 안되징...
+		
 //		btnAddCus.addActionListener(new ActionListener() {
 //			
 //			@Override
@@ -354,9 +354,17 @@ public class CusMgr extends JFrame {
 //				}
 //			}
 //		});
+		
+		
+//		삭제버튼 눌렀을 때
 //		btnDelCus.addActionListener(new ActionListener() {				
 //				@Override
 //				public void actionPerformed(ActionEvent e) {
+//					if(tableCusList.getSelectedRow() == -1) {
+//						DialogManager
+//					}
+//					
+//				
 //					int result = JOptionPane.showConfirmDialog(null, "삭제하시겠습니까?","삭제", JOptionPane.YES_NO_OPTION);
 //					
 //					if(result == JOptionPane.CLOSED_OPTION)
@@ -375,6 +383,62 @@ public class CusMgr extends JFrame {
 //				}
 //				}
 //			}); 
+//		btnDelCus.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				
+////				int index = table.getSelectedRow();
+//				
+//				if(tableCusList.getSelectedRow() == -1){
+//		            JOptionPane.showConfirmDialog(null, "셀을 선택하지 않으셨습니다.", "삭제", JOptionPane.DEFAULT_OPTION);
+//		        }
+//				
+//		        else {
+//		        	try {
+//		        		int result = DialogManager.createMsgDialog("<html><h3>삭제하시겠습니까?</h3>", "/img/question6.png", "삭제", JOptionPane.YES_NO_OPTION);
+//   
+//			            if (result == 0) {
+//			            	model.removeRow();
+//			            	DialogManager.createMsgDialog("<html><h3>삭제되었습니다.</h3>", "/img/success1.png", "삭제", JOptionPane.CLOSED_OPTION);
+//			            } else if (result == 1) {
+//			            	   
+//			            	}
+//			            } catch(Exception ex) {
+//			            	
+//			            }
+//		        	}
+//				}
+//			});
+		
+		btnDelCus.addActionListener(new ActionListener() {
+//				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+				   try {
+					    int index = tableCusList.getSelectedRow();
+					    //만약 열을 선택하지 않았다면 
+				    	if(index == -1) {
+				    	 DialogManager.createMsgDialog("셀을 선택하지 않았습니다.","\\img\\information5.png", "오류",JOptionPane.PLAIN_MESSAGE);
+				    	 return;
+						} 
+				    	
+//				    	열을 선택하였다면
+				    	int num = DialogManager.createMsgDialog("삭제하시겠습니까","\\img\\question6.png", "삭제",JOptionPane.YES_NO_OPTION);
+				    	if(num==0){
+				    		model.removeRow(tableCusList.getSelectedRow());
+//				    		model.removeRow(index);
+				    		DialogManager.createMsgDialog("삭제 성공하였습니다.","\\img\\success1.png", "완료",JOptionPane.PLAIN_MESSAGE);
+				    	}
+				    	else if(num==1) {
+				    		
+				    	}
+				    	
+			            } catch(Exception ex) {
+			            	ex.printStackTrace();
+			            }
+					
+			}; 
+		});
 		
 			
 //			@Override
