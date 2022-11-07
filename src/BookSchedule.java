@@ -51,7 +51,7 @@ public class BookSchedule extends JPanel {
 	Date st_date;
 	Date ed_date;
 	Date this_date;
-	int schedule_no;
+	int mainNum;
 
 	public BookSchedule(BookMain bMain) {
 		this.bMain = bMain;
@@ -111,7 +111,7 @@ public class BookSchedule extends JPanel {
 		add(p_north, BorderLayout.NORTH);
 		add(p_center, BorderLayout.CENTER);
 		add(p_souht, BorderLayout.SOUTH);
-		t_name.setText(bMain.userInfo.getName());
+//		t_name.setText(bMain.userInfo.getName());
 
 //		// 등록 버튼 이벤트
 //		bt_regist.addActionListener((e) -> {
@@ -144,7 +144,7 @@ public class BookSchedule extends JPanel {
 		int b = backColor.getBlue();
 		String title = t_title.getText();
 
-		int writer_no = bMain.userInfo.getMember_no(); // 나중에 바꿔야함 멤버의 프라이머리키가 들어갈 것 작성자
+//		int writer_no = bMain.userInfo.getMember_no(); // 나중에 바꿔야함 멤버의 프라이머리키가 들어갈 것 작성자
 		int step_no = c_phase.getSelectedIndex() + 1;
 		String content = t_main.getText();
 
@@ -163,7 +163,7 @@ public class BookSchedule extends JPanel {
 				pstmt.setString(1, title);
 				pstmt.setString(2, start_date);
 				pstmt.setString(3, end_date);
-				pstmt.setInt(4, writer_no);
+//				pstmt.setInt(4, writer_no);
 				pstmt.setInt(5, step_no);
 				pstmt.setString(6, content);
 				pstmt.setInt(7, r);
@@ -232,7 +232,7 @@ public class BookSchedule extends JPanel {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		String start_date = formatter.format(st_date);
 		String end_date = formatter.format(ed_date);
-		int writer_no = bMain.userInfo.getMember_no();
+//		int writer_no = bMain.userInfo.getMember_no();
 		int step_no = c_phase.getSelectedIndex() + 1;
 		String content = t_main.getText();
 
@@ -246,7 +246,7 @@ public class BookSchedule extends JPanel {
 				pstmt.setString(1, title);
 				pstmt.setString(2, start_date);
 				pstmt.setString(3, end_date);
-				pstmt.setInt(4, writer_no);
+//				pstmt.setInt(4, writer_no);
 				pstmt.setInt(5, step_no);
 				pstmt.setString(6, content);
 				pstmt.setInt(7, schedule_no);
@@ -329,7 +329,7 @@ public class BookSchedule extends JPanel {
 	// 초기화 할때 사용
 	public void setSchedule() {
 		bt_regist.setText("등록");
-		t_name.setText(bMain.userInfo.getName());
+//		t_name.setText(bMain.userInfo.getName());
 		t_title.setEnabled(true);
 		t_title.setText("");
 		t_main.setEnabled(true);
@@ -349,7 +349,7 @@ public class BookSchedule extends JPanel {
 	public void setSchedule(int year, int month, int days) {
 		String thisDay = year + "-" + (month + 1) + "-" + days;
 		bt_regist.setText("등록");
-		t_name.setText(bMain.userInfo.getName());
+//		t_name.setText(bMain.userInfo.getName());
 		t_title.setEnabled(true);
 		t_title.setText("");
 		t_main.setEnabled(true);
@@ -374,60 +374,60 @@ public class BookSchedule extends JPanel {
 		end_picker.setEnabled(true);
 		st_picker.setEnabled(true);
 	}
-
-	public void setSchedule(String title, String start_date, String end_date, String name, String step,
-			String content, int writer_no) {
-		this.schedule_no = schedule_no;
-		t_title.setText(title);
-		t_name.setText(name);
-		c_phase.select(step);
-		t_main.setText(content);
-
-		if (writer_no != bMain.userInfo.getMember_no()) {
-			t_title.setBackground(new Color(189, 189, 189));
-			t_title.setDisabledTextColor(Color.BLACK);
-			t_title.setEnabled(false);
-			c_phase.setEnabled(false);
-			t_main.setBackground(new Color(189, 189, 189));
-			t_main.setDisabledTextColor(Color.BLACK);
-			t_main.setEnabled(false);
-
-			bt_regist.setText("돌아가기");
-			try {
-				st_date = format.parse(start_date);
-				// System.out.println(st_date);
-				st_picker.setDate(st_date);
-				ed_date = format.parse(end_date);
-				// System.out.println(ed_date);
-				end_picker.setDate(ed_date);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			st_picker.setEnabled(false);
-			end_picker.setEnabled(false);
-		} else {
-
-			bt_regist.setText("수정");
-			t_title.setEnabled(true);
-			t_main.setEnabled(true);
-			c_phase.setEnabled(true);
-
-			t_title.setBackground(Color.WHITE);
-			t_main.setBackground(Color.white);
-			c_phase.setBackground(Color.white);
-			st_picker.setEnabled(true);
-			end_picker.setEnabled(true);
-			try {
-				st_date = format.parse(start_date);
-				st_picker.setDate(st_date);
-				ed_date = format.parse(end_date);
-				end_picker.setDate(ed_date);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-
-		}
-	}
+//setSchedule(cusName, cusCarNum, cusCarBrand, cusCarType, cusTel, srvName, mainStartDate, mainEndDate);
+//	public void setSchedule(int mainNum, String cusName, String cusCarNum, String cusCarBrand, String cusCarType, String cusTel,
+//			String srvName, String mainStartDate, String mainEndDate) {
+//		this.mainNum = mainNum;
+//		t_title.setText(title);
+//		t_name.setText(name);
+//		c_phase.select(step);
+//		t_main.setText(content);
+//
+//		if (writer_no != bMain.userInfo.getMember_no()) {
+//			t_title.setBackground(new Color(189, 189, 189));
+//			t_title.setDisabledTextColor(Color.BLACK);
+//			t_title.setEnabled(false);
+//			c_phase.setEnabled(false);
+//			t_main.setBackground(new Color(189, 189, 189));
+//			t_main.setDisabledTextColor(Color.BLACK);
+//			t_main.setEnabled(false);
+//
+//			bt_regist.setText("돌아가기");
+//			try {
+//				st_date = format.parse(start_date);
+//				// System.out.println(st_date);
+//				st_picker.setDate(st_date);
+//				ed_date = format.parse(end_date);
+//				// System.out.println(ed_date);
+//				end_picker.setDate(ed_date);
+//			} catch (ParseException e) {
+//				e.printStackTrace();
+//			}
+//			st_picker.setEnabled(false);
+//			end_picker.setEnabled(false);
+//		} else {
+//
+//			bt_regist.setText("수정");
+//			t_title.setEnabled(true);
+//			t_main.setEnabled(true);
+//			c_phase.setEnabled(true);
+//
+//			t_title.setBackground(Color.WHITE);
+//			t_main.setBackground(Color.white);
+//			c_phase.setBackground(Color.white);
+//			st_picker.setEnabled(true);
+//			end_picker.setEnabled(true);
+//			try {
+//				st_date = format.parse(start_date);
+//				st_picker.setDate(st_date);
+//				ed_date = format.parse(end_date);
+//				end_picker.setDate(ed_date);
+//			} catch (ParseException e) {
+//				e.printStackTrace();
+//			}
+//
+//		}
+//	}
 
 	private Color createRandomColor() {
 		Random random = new Random();
