@@ -108,7 +108,7 @@ public class TechListEdit_edit extends JFrame{
 		
 		//////////////////////db에 있는 값 넣기
 		MemberMgr mgr = new MemberMgr();
-		MemberBean bean =  mgr.select(a+1);
+		MemberBean bean =  mgr.select(a);
 		
 		techName.setText(bean.getTechName());
 		techTel.setText(bean.getTechTel());
@@ -126,26 +126,23 @@ public class TechListEdit_edit extends JFrame{
 				MemberMgr mgr = new MemberMgr();
 				MemberBean bean =  new MemberBean();
 				
-				//techName.setText(bean.getTechName());
-				
 				bean.setTechName(techName.getText());
 				bean.setTechTel(techTel.getText());
 				bean.setTechLv(techLv.getText());
 				
-				mgr.update(bean,aa + 1);
+				mgr.update(bean,aa);
 				
 				TechListEdit a1 = new TechListEdit();
 				a1.setVisible(true);
 				
-				
-				
-				dispose();//--
-				
-				
-				
+				dispose();//--	
+
 			}
 		});
 		
+		
+		
 	}
+
 
 }

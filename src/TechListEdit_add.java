@@ -91,11 +91,25 @@ public class TechListEdit_add extends JFrame {
 		lblNewLabel.setBounds(165, 10, 254, 80);
 		contentPane.add(lblNewLabel);
 		
+		
 		// 등록 버튼 누르면 현재 창이 닫히면서 TechListEdit 창이 뜸(데이터 이동 완료상태)
 		// 또는 추가 버튼 누르면 기존 폼이 닫히고, 등록 버튼 누를때 기존 폼 새로 뜨게??????????????????????????????????????????????????????????
 		btnTechReg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				MemberMgr mgr = new MemberMgr();
+				MemberBean bean =  new MemberBean();
+
+				bean.setTechName(techName.getText());
+				bean.setTechTel(techTel.getText());
+				bean.setTechLv(techLv.getText());	
+
+				
+				mgr.add(bean);
+				
 				TechListEdit a1 = new TechListEdit();
+				a1.setVisible(true);
+				
 				dispose();//--
 			}
 		});

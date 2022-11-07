@@ -20,18 +20,29 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URLDecoder;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 
 public class UnitStockMgr extends JFrame {
 
-	protected static final String model = null;
 	private JPanel contentPane;
 	private JTable table;
 	private JButton btnEditUnitStock;
 	private JButton btnDelUnitStock;
 	private JButton btnBackUnitStockMain;
+	
+	private String driver  = "com.mysql.cj.jdbc.Driver";
+    private String url = "jdbc:mysql://127.0.0.1:3306/cardb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul";
+	private Connection con = null;
+	private PreparedStatement pstmt = null;
+	private ResultSet rs = null;
+	private String header[] = {"unitNum","부품번호","부품명","벤더", "재고수량"};  // 테이블 컬럼 값들
+	private DefaultTableModel model = new DefaultTableModel(header, 0);
 
 	// Launch the application.
 	public static void main(String[] args) {
@@ -57,22 +68,15 @@ public class UnitStockMgr extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setEnabled(false);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		Select3();
 
 		// 폼 창이 화면 가운데서 뜨게 하는 기능
 		setLocationRelativeTo(null); //--
 		setContentPane(contentPane);
 		
-		//테이블 생성
-		String header[] = {"No","부품번호","부품명","벤더", "부품수량"};
-		String contents[][] = {
-				{"1", "abb01", "타이어", "한국타이어", "22"},
-				{"2", "gdd54", "타이어", "금호타이어", "17"},
-				{"3","kr-oil", "엔진오일", "SK", "30"},
-				{"4","goil20", "엔진오일", "GS칼텍스", "16"},
-		};
-		
-		DefaultTableModel model = new DefaultTableModel(contents, header);
-		JTable table = new JTable(model);
+		//테이블 생성		
+
+		table = new JTable(model);
 		
 		table.setFont(new Font("나눔바른고딕", Font.PLAIN, 21));
 
@@ -154,7 +158,6 @@ public class UnitStockMgr extends JFrame {
 		});
 		
 		// 삭제 버튼 누르면 실행됨
-		// 삭제 버튼 누르면 실행됨
 				btnDelUnitStock.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
@@ -192,7 +195,30 @@ public class UnitStockMgr extends JFrame {
 	}
 
 
+	//  : DB에서 데이터 불러와서 테이블 채우기
+			private void Select3(){
+					
+				Connection con = null;
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				String sql = null;
+//				MemberBean bean = new MemberBean();
+				try {
+					Class.forName(driver);
+					con = DriverManager.getConnection(url, "root", "1234");
+					sql = "select * from unit ";
+					pstmt = con.prepareStatement(sql);
+					rs = pstmt.executeQuery();
 
+						while(rs.next()){            // 각각 값을 가져와서 테이블값들을 추가
+		                 model.addRow(new Object[]{rs.getString("unitNum"), rs.getString("unitName"), rs.getString("unitVendor"),rs.getString("stckQty")});
+		                }
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+				}
+			}
 	
 	
 }
