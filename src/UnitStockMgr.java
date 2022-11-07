@@ -75,7 +75,6 @@ public class UnitStockMgr extends JFrame {
 		setContentPane(contentPane);
 		
 		//테이블 생성		
-
 		table = new JTable(model);
 		
 		table.setFont(new Font("나눔바른고딕", Font.PLAIN, 21));
@@ -203,6 +202,21 @@ public class UnitStockMgr extends JFrame {
 				ResultSet rs = null;
 				String sql = null;
 //				MemberBean bean = new MemberBean();
+				
+				
+				
+				for (i = 0; i < index.l;i++)
+				{
+					
+					select unit.unitNum, unit.unitName, unit.unitVendor, stock.stckQty
+					from unit
+					join stock
+					on  unit.unitNum = stock.stckUnitNum
+					where unit.unitNum = in;
+				}
+				
+				
+ 
 				try {
 					Class.forName(driver);
 					con = DriverManager.getConnection(url, "root", "1234");
@@ -218,6 +232,16 @@ public class UnitStockMgr extends JFrame {
 						e.printStackTrace();
 					} finally {
 				}
+				
+				
+				
+					
+					
+				}
+				
+				
+				
+				
 			}
 	
 	
