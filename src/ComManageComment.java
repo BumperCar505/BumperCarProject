@@ -106,18 +106,6 @@ public class ComManageComment extends JFrame implements ActionListener {
 		return this;
 	}
 	
-	private void setTableHeader(JTable table) {
-		TableColumnModel columnModel = table.getColumnModel();
-		String prefix = "<html><body><table><tr><td height=50>";
-		String suffix = "</td></tr></table></body><html>";
-		
-		for (int col = 0; col < columnModel.getColumnCount(); col++) {
-		    TableColumn column = columnModel.getColumn(col);
-		    String text = prefix + columnModel.getColumn(col).getHeaderValue().toString() + suffix;
-		    column.setHeaderValue(text);
-		}
-	}
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -510,6 +498,58 @@ public class ComManageComment extends JFrame implements ActionListener {
 		data.set(idx, "숨김처리된 댓글입니다.");
 	}
 	
+	private void setTableColumn(List<Vector<String>> datas) {
+		// 가져온 데이터를 테이블에 저장
+		
+		DefaultTableModel model = new DefaultTableModel(headerNames, 0);
+		for(int i = 0; i < datas.size(); ++i) {
+			model.addRow(datas.get(i));
+		}
+		
+		tableCommentList.setModel(model);
+	}
+	
+	private void setTableTextCenter(JTable table) {
+		DefaultTableCellRenderer render = new DefaultTableCellRenderer();
+		render.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		table.getColumn("번호").setCellRenderer(render);
+		table.getColumn("고객명").setCellRenderer(render);
+		table.getColumn("방문날짜").setCellRenderer(render);
+		table.getColumn("서비스내용").setCellRenderer(render);
+		table.getColumn("별점").setCellRenderer(render);
+		table.getColumn("코멘트").setCellRenderer(render);
+	}
+	
+	private void resizeTableRow(JTable table) {
+		table.setRowHeight(50);
+	}
+	
+	private void resizeTableColumn(JTable table) {
+		table.getColumn("번호").setPreferredWidth(30);
+		table.getColumn("고객명").setPreferredWidth(30);
+		table.getColumn("방문날짜").setPreferredWidth(150);
+		table.getColumn("서비스내용").setPreferredWidth(200);
+		table.getColumn("별점").setPreferredWidth(30);
+		table.getColumn("코멘트").setPreferredWidth(500);
+	}
+	
+	private void resizeTableHeader(JTable table) {
+		TableColumnModel columnModel = table.getColumnModel();
+		String prefix = "<html><body><table><tr><td height=50>";
+		String suffix = "</td></tr></table></body><html>";
+		
+		for (int col = 0; col < columnModel.getColumnCount(); col++) {
+		    TableColumn column = columnModel.getColumn(col);
+		    String text = prefix + columnModel.getColumn(col).getHeaderValue().toString() + suffix;
+		    column.setHeaderValue(text);
+		}
+	}
+	
+	private void setAvgScore(double score) {
+		// 가져온 평균점수를 저장
+	}
+	
 	/**
 	 * Launch the application.
 	 */
@@ -522,7 +562,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 					frame.setFont();
 					
 					// 리뷰 전체 들고오는 테스트 코드
-					// frame.searchDbReviews();
+					// frame.setTableColumn(frame.searchDbReviews());  
 					
 					// 기간 한정해서 들고오는 부분 테스트 코드
 					// Calendar startDate = Calendar.getInstance();
@@ -568,41 +608,20 @@ public class ComManageComment extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null); // 이거 없으면 정상적으로 레이아웃 안그려진다..
 		
-		// 값은 임의로 집어넣은것으로 추후 DB에서 가져와야함
-		Object[] columns = {"번호", "고객명", "방문날짜", "서비스내용", "별점", "코멘트"};
-		Object[][] rowNames = {
-				{"1", "홍길동", "2022-02-11", "타이어교체", "★★★", "수리하는데 시간이 너무 오래걸림"},
-				{"2", "김홍도", "2022-02-13", "엔진오일교체", "★★★★★", "가성비있게 교체한 것 같습니다..."
-						+ "위치도 좋구요~^^"}
-		};
-		
-		// Text Align Center
-		DefaultTableCellRenderer render = new DefaultTableCellRenderer();
-		render.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		tableCommentList = new JTable(rowNames, columns);
+		tableCommentList = new JTable();
 		tableCommentList.setAutoCreateRowSorter(true);
 		tableCommentList.setDefaultEditor(Object.class, null); // 테이블 값 수정 안되게
 		tableCommentList.getTableHeader().setResizingAllowed(false);
-		tableCommentList.getColumn("번호").setCellRenderer(render);
-		tableCommentList.getColumn("고객명").setCellRenderer(render);
-		tableCommentList.getColumn("방문날짜").setCellRenderer(render);
-		tableCommentList.getColumn("서비스내용").setCellRenderer(render);
-		tableCommentList.getColumn("별점").setCellRenderer(render);
-		tableCommentList.getColumn("코멘트").setCellRenderer(render);
 		
 		// Column Not Move
 		tableCommentList.getTableHeader().setReorderingAllowed(false);
 		
-		// Column Change Width
-		tableCommentList.getColumn("서비스내용").setPreferredWidth(200);
-		tableCommentList.getColumn("코멘트").setPreferredWidth(500);
-		
-		// Change Row Height 
-		tableCommentList.setRowHeight(50);
-		
-		// Set Row Header
-		setTableHeader(tableCommentList);
+		// 처음 창 로딩시 전체 데이터 조회
+		setTableColumn(searchDbReviews());
+		setTableTextCenter(tableCommentList);
+		resizeTableRow(tableCommentList);
+		resizeTableColumn(tableCommentList);
+		resizeTableHeader(tableCommentList); // 반드시 이게 마지막으로 설정되어야 함
 		
 		// Table Set Area
 		scCommentList = new JScrollPane(tableCommentList);
