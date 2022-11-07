@@ -8,10 +8,16 @@ import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
+
+import com.mysql.cj.xdevapi.Statement;
+
 import javax.swing.ImageIcon;
 
 public class CusMgr_add {
@@ -29,6 +35,7 @@ public class CusMgr_add {
 	private JLabel lblCusTel;
 	private JLabel lblCusDate;
 	private JLabel lblNewLabel_2;
+	
 
 	/**
 	 * Launch the application.
@@ -70,12 +77,13 @@ public class CusMgr_add {
 		panel.setBounds(685, 10, 822, 1007);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
-		
+		// 저장버튼
 		JButton btnCusSave = new JButton("저장");
 		btnCusSave.setFont(new Font("나눔바른고딕", Font.BOLD, 30));
 		btnCusSave.setBounds(352, 919, 162, 61);
 		panel.add(btnCusSave);
 		
+		//텍스트필드
 		cusName = new JTextField();
 		cusName.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
 		cusName.setBounds(304, 49, 246, 54);
@@ -207,6 +215,72 @@ public class CusMgr_add {
 //
 //			}
 //		});
+		btnCusSave.addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent arg0) {
+//	                ta.setText("");
+
+//	                String num = cusNum.getText();
+	                String name = cusName.getText();
+	                String carNum = cusCarNum.getText();
+	                String carBrand = cusCarBrand.getText();
+	                String carType = cusCarType.getText();
+	                int zip = Integer.parseInt(cusZip.getText()); 
+	                String addr = cusAddr.getText();
+	                String tel = cusTel.getText();
+	                String date = cusDate.getText();
+	                int km = Integer.parseInt(cusKm.getText());
+	                
+	                insertMember(new MemberBean());
+
+//	                ta.append("입력 완료 \n");
+
+	                cusName.setText("");
+	                cusCarNum.setText("");
+	                cusCarBrand.setText("");
+	                cusCarType.setText("");
+	                cusZip.setText("");
+	                
+	            }
+	        });
 		
+//		 public void insertMember(MemberBean member) {
+//		
+//			 
+//		        try {
+//		            st = conn.createStatement();
+//		            int stmt = st.executeUpdate(
+//		                    "insert into customer values ('" + member.name + "', '" + member.birth + "', '" + member.tel + "');");
+//		        } catch (SQLException e) {
+//		            e.printStackTrace();
+//		        } finally {
+//		            try {
+//		                st.close();
+//		            } catch (SQLException e) {
+//		                e.printStackTrace();
+//		            }
+//		        }
+//		    }
 	}
+	 public void insertMember(MemberBean member) {
+		 
+		 Connection conn = null;
+		 ResultSet rs = null;
+		 Statement st = null;
+			
+		 
+	        try {
+	            st = conn.createStatement();
+	            int stmt = st.executeUpdate(
+	                    "insert into customer values ('" + member.name + "', '" + member.birth + "', '" + member.tel + "');");
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                st.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
 }

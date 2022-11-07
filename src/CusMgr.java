@@ -8,6 +8,10 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URLDecoder;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,6 +29,8 @@ import java.awt.Color;
 
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+
+import com.mysql.cj.xdevapi.Statement;
 
 // ComServiceList
 public class CusMgr extends JFrame {
@@ -130,6 +136,7 @@ public class CusMgr extends JFrame {
 		
 		getContentPane = new JPanel();
 		getContentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(mainPanel);
 
 		setContentPane(getContentPane);
 		TextField tf = new TextField();
@@ -196,13 +203,18 @@ public class CusMgr extends JFrame {
 		
 		
 //		여기서부터 테이블 수정 부분
-		String header[]= { "num", "고객이름", "차번호","브랜드","차종","주행거리","우편번호","주소","전화번호","가입날짜"};
-		String contents[][] = {
-				{ "1", "김땡땡", "63하2234","현대","소나타","3000km","11223","부산광역시","010-2222-2222","2010-12-30"}
+		String data[][] = new String [][]{
+				{ "1", "김땡땡", "63하2234","현대","소나타","3000km","11223","부산광역시","010-2222-2222","2010-12-30"}};
 			
-		};
-		DefaultTableModel model = new DefaultTableModel(header,0);
-		JTable tableCusList = new JTable(model);
+		String header[]= new String[]{ "num", "고객이름", "차번호","브랜드","차종","주행거리","우편번호","주소","전화번호","가입날짜"};
+//		Jtable table1 = new Jtable(data,header);
+
+		table.setRowHeight(FONT_SIZE);
+		DefaultTableModel model = new DefaultTableModel(data,header);//이것도 잠시 주석
+		JTable tableCusList = new JTable(model); //잠시주석
+		
+		
+		
 		JScrollPane scrollpane = new JScrollPane(table);
 //		tableCusList.setBounds(994, 71, 548, 506);
 		getContentPane.add(tableCusList);
@@ -255,12 +267,8 @@ public class CusMgr extends JFrame {
 		lblYellowCat.setIcon(new ImageIcon(CusMgr.class.getResource("/img/YellowCat.png")));
 		getContentPane.add(lblYellowCat);
 		
-		JPanel addPanel = new JPanel();
-		addPanel.setBounds(22, 75, 10, 10);
-		getContentPane.add(addPanel);
-		
 		mainPanel = new JPanel();
-		mainPanel.setBounds(0, 10, 1666, 1027);
+		mainPanel.setBounds(0, 0, 1666, 1037);
 		getContentPane.add(mainPanel);
 		mainPanel.setLayout(null);
 //		JFrame.getContentPanel().add(addPanel);
@@ -432,6 +440,7 @@ public class CusMgr extends JFrame {
 				    	else if(num==1) {
 				    		
 				    	}
+				   
 				    	
 			            } catch(Exception ex) {
 			            	ex.printStackTrace();
@@ -439,26 +448,55 @@ public class CusMgr extends JFrame {
 					
 			}; 
 		});
+	}
 		
+		
+		
+		private void getInfo() {
 			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				if(tableCusList.getSelectedRow() == -1) {
-//					return;
-//				}
-//				else {
-//					model.removeRow(tableCusList.getSelectedRow());
-//				}
+			DBConnectionMgr mgr = DBConnectionMgr.getInstance();
+			Connection con = null;
+			PreparedStatement psmt = null;
+			Statement stmt = null;
+			ResultSet rs = null;
+		
+		
+		try {
+			
+		
+//			String query = "SELECT * from customer ";
+//			con = mgr.getConnection();
+//			psmt = con.prepareStatement(query);
+
+			
+//			while(rs.next()) {
+//				
+//				rs = psmt.executeQuery();
+//				
+//				int cusNum = rs.getInt(1, "cusNum");
+//				String cusName = rs.getString(2, "cusName");
+//				String cusCarNum= rs.getString(3,"cusCarNum");
+//				String cusCarBrand = rs.getString(4,"cusCarBrand");
+//				String cusCarType = rs.getString(5,"cusCarType");
+//				String cusKm = rs.getInt(6,"cusKm");
+//				String cusZip = rs.getString(7,"cusZip");
+//				String cusAddr = rs.getString(8,"cusAddr");
+//				String cusTel = rs.getString(9,"cusTel");
+//				String cusDate = rs.getString(10,"cusDate");
+//				
+//				
 //			}
-//		});
-		
-		
-		
-		
-		
-			
-		
-			
-			
+//			
+//		}
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		finally {
+			if (rs != null) {rs.close();}
+			if (con != null) {rs.close();}
+			if (psmt != null) {rs.close();}
+		}
+
 	}
 }

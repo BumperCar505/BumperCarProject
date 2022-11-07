@@ -453,20 +453,6 @@ public class RegTec extends JFrame {
 
 	 
 
-//		public void dbClose() {
-//			try {
-//				if (rs != null)
-//					rs.close();
-//				if (stmt != null)
-//					stmt
-//				if (pstmt != null)
-//					pstmt.close();
-//			} catch (Exception e) {
-//				System.out.println(e + "=> dbClose fail");
-//			}
-//		}
-//	
-
 			public void insertData(String techComNum, String techName, String techTel, String techLv) {
 				
 ////				Connection conn = DBconnection();
@@ -480,7 +466,7 @@ public class RegTec extends JFrame {
 					pstmt.setString(4, techLv);
 					pstmt.executeUpdate();
 					
-			
+					
 					pstmt.executeUpdate();
 				} catch (SQLException e) {
 					System.out.println(e.getMessage());
