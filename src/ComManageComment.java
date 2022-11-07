@@ -5,20 +5,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLDecoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
@@ -131,34 +127,50 @@ public class ComManageComment extends JFrame implements ActionListener {
 			}
 		} else if(obj == btnSearchComment) {
 			boolean flag = false;
-			int startYear = model1.getYear();
-			int startMonth = model1.getMonth();
-			int startDay = model1.getDay();
-			int endYear = model2.getYear();
-			int endMonth = model2.getMonth();
-			int endDay = model2.getDay();
 			
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-			try {
-				Date startDate = dateFormat.parse(String.valueOf(startYear) + startMonth + startDay);
-				Date endDate = dateFormat.parse(String.valueOf(endYear) + endMonth + endDay);
+			if(checkBox.isSelected() == true) {
+				int startYear = model1.getYear();
+				int startMonth = model1.getMonth();
+				int startDay = model1.getDay();
+				int endYear = model2.getYear();
+				int endMonth = model2.getMonth();
+				int endDay = model2.getDay();
+				
+				Calendar startDate = Calendar.getInstance();
+				startDate.set(startYear, startMonth, startDay);
+				Calendar endDate = Calendar.getInstance();
+				endDate.set(endYear, endMonth, endDay);
 				
 				if(startDate.after(endDate)) {
 					flag = true;
 				}
-			} catch(ParseException ex) {
-				// ex.getMessage();
-				DialogManager.createMsgDialog("달력 처리하는 과정에서 문제 발생", "\\img\\information5.png",
-						"에러", JOptionPane.PLAIN_MESSAGE);
-			}
-			
-			if(flag == true) {
-				DialogManager.createMsgDialog("방문 종료일은 방문 시작일보다<br> 이전날짜가 될수없습니다.", "\\img\\information5.png",
-						"에러", JOptionPane.PLAIN_MESSAGE);
+				
+				if(flag == true) {
+					DialogManager.createMsgDialog("방문 종료일은 방문 시작일보다<br> 이전날짜가 될수없습니다.", "\\img\\information5.png",
+							"에러", JOptionPane.PLAIN_MESSAGE);
+				} else {
+					setTableColumn(searchDbReviews(startDate, endDate));
+					setTableTextCenter(tableCommentList);
+					resizeTableRow(tableCommentList);
+					resizeTableColumn(tableCommentList);
+					resizeTableHeader(tableCommentList); // 반드시 이게 마지막으로 설정되어야 함
+					setAvgScore(getDbAvgReviewScore(startDate, endDate));
+					
+					DialogManager.createMsgDialog("검색이 완료되었습니다.", "\\img\\success1.png",
+							"알림", JOptionPane.PLAIN_MESSAGE);
+				}
 			} else {
+				setTableColumn(searchDbReviews());
+				setTableTextCenter(tableCommentList);
+				resizeTableRow(tableCommentList);
+				resizeTableColumn(tableCommentList);
+				resizeTableHeader(tableCommentList); // 반드시 이게 마지막으로 설정되어야 함
+				setAvgScore(getDbAvgReviewScore());
+				
 				DialogManager.createMsgDialog("검색이 완료되었습니다.", "\\img\\success1.png",
 						"알림", JOptionPane.PLAIN_MESSAGE);
 			}
+			
 		} else if(obj == checkBox) {
 			if(checkBox.isSelected() == true) {
 				datePicker1.setVisible(true);
@@ -548,6 +560,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 	
 	private void setAvgScore(double score) {
 		// 가져온 평균점수를 저장
+		lblScore.setText("평균 별점 : " + String.valueOf(score));
 	}
 	
 	/**
@@ -616,7 +629,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 		// Column Not Move
 		tableCommentList.getTableHeader().setReorderingAllowed(false);
 		
-		// 처음 창 로딩시 전체 데이터 조회
+		// 처음 창 로딩시 전체 데이터 DB에서 조회
 		setTableColumn(searchDbReviews());
 		setTableTextCenter(tableCommentList);
 		resizeTableRow(tableCommentList);
@@ -653,6 +666,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 		
 		lblScore = new JLabel("평균 별점 : 4.0");
 		lblScore.setBounds(425, 74, 160, 42);
+		setAvgScore(getDbAvgReviewScore());
 		contentPane.add(lblScore);
 		
 		btnSearchComment = new JButton("검색하기");
