@@ -20,8 +20,8 @@ import javax.swing.ImageIcon;
 
 public class BookCalendar extends JFrame {
 
-	BMain bMain;
-	ArrayList<BCell> cell_list = new ArrayList<BCell>();
+	BookMain bMain;
+	ArrayList<BookCell> cell_list = new ArrayList<BookCell>();
 	JPanel p_center, p_south;
 	JButton prev, next;
 	JLabel la_month;
@@ -45,7 +45,7 @@ public class BookCalendar extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					BCalendar frame = new BCalendar();
+					BookCalendar frame = new BookCalendar();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -64,7 +64,7 @@ public class BookCalendar extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 //      폼 창이 화면 가운데서 뜨게 하는 기능
-		setLocationRelativeTo(null); //--
+		setLocationRelativeTo(null);
 		
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -80,7 +80,7 @@ public class BookCalendar extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		p_center = new JPanel();
-		p_center.setBounds(177, 61, 1285, 42);
+		p_center.setBounds(177, 60, 1285, 42);
 		panel.add(p_center);
 		
 		p_center.setLayout(new GridLayout(1, 7));
@@ -163,7 +163,7 @@ public class BookCalendar extends JFrame {
 	
 	public void initCal() {
 		for (int i = 0; i < 42; i++) {
-			BCell p_day = new BCell();
+			BookCell p_day = new BookCell();
 			cell_list.add(p_day);
 			p_south.add(cell_list.get(i));
 		}
@@ -171,7 +171,7 @@ public class BookCalendar extends JFrame {
 	
 	public void setCal() {
 		for (int i = 0; i < cell_list.size(); i++) {
-			BCell tmpCell = cell_list.get(i);
+			BookCell tmpCell = cell_list.get(i);
 			tmpCell.labelDel();
 		}
 		days = 0;
@@ -184,7 +184,7 @@ public class BookCalendar extends JFrame {
 		int lastday = cal.getActualMaximum(Calendar.DATE);
 		
 		for (int i = 0; i < 42; i++) {
-			BCell tmp_cell = cell_list.get(i);
+			BookCell tmp_cell = cell_list.get(i);
 			if((i + 1) >= startday && days < lastday) {
 				days++;
 				tmp_cell.setCellDate(year, month, days);
