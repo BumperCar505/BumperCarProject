@@ -2,10 +2,12 @@
 public class LoginManager {
 	private String seperator;
 	private String id;
+	private boolean loginStatus;
 	
 	private LoginManager() {
 		seperator = null;
 		id = null;
+		loginStatus = false;
 	}
 	
 	private static class LoginManagerHolder {
@@ -24,10 +26,15 @@ public class LoginManager {
 		return id;
 	}
 	
+	public boolean getLoginStatus() { 
+		return loginStatus;
+	}
+	
 	public boolean login(String seperator, String id) {
 		if(this.seperator == null && id == null) {
 			this.seperator = seperator;
 			this.id = id;
+			this.loginStatus = true;
 			return true;
 		} else {
 			return false;
@@ -38,6 +45,7 @@ public class LoginManager {
 		if(seperator != null && id != null) {
 			seperator = null;
 			id = null;
+			loginStatus = false;
 			return true;
 		} else {
 			return false;
