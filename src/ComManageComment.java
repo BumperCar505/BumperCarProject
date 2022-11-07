@@ -333,12 +333,84 @@ public class ComManageComment extends JFrame implements ActionListener {
 
 	private double getDbAvgReviewScore() {
 		// DB에서 평균점수 조회
-		return 0;
+		DBConnectionMgr mgr = DBConnectionMgr.getInstance();
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		String query = "SELECT AVG(rvwStar) AS avgValue FROM review WHERE rvwDelete != 'Y'";
+		double avgValue = 0.0;
+		
+		try {
+			conn = mgr.getConnection();
+			psmt = conn.prepareStatement(query);
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				avgValue = rs.getDouble("avgValue");
+			}
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(this, ex.getMessage());
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(this, ex.getMessage());
+		} finally {
+			try {
+				if(rs != null) {rs.close();}
+				if(psmt != null) {psmt.close();}
+				if(conn != null) {conn.close();}
+			} catch(SQLException ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(this, ex.getMessage());
+			}
+		}
+		
+		return avgValue;
 	}
 	
-	private double getDbAvgReviewScore(Date startDate, Date endDate) {
+	private double getDbAvgReviewScore(Calendar startDate, Calendar endDate) {
 		// DB에서 기간한정해서 평균점수 조회
-		return 0;
+		SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+		String sDate = simpleDateFormat.format(startDate.getTime());
+		String eDate = simpleDateFormat.format(endDate.getTime());
+		
+		DBConnectionMgr mgr = DBConnectionMgr.getInstance();
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		String query = "SELECT AVG(rvwStar) AS avgValue FROM review "
+				+ "WHERE rvwDate >= ? AND rvwDate <= ? "
+				+ "AND rvwDelete != 'Y'";
+		double avgValue = 0.0;
+		
+		try {
+			conn = mgr.getConnection();
+			psmt = conn.prepareStatement(query);
+			psmt.setString(1, sDate);
+			psmt.setString(2, eDate);
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				avgValue = rs.getDouble("avgValue");
+			}
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(this, ex.getMessage());
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(this, ex.getMessage());
+		} finally {
+			try {
+				if(rs != null) {rs.close();}
+				if(psmt != null) {psmt.close();}
+				if(conn != null) {conn.close();}
+			} catch(SQLException ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(this, ex.getMessage());
+			}
+		}
+		
+		return avgValue;
 	}
 	
 	private boolean hideDbReviews(int[] selectedNumbers) {
@@ -390,6 +462,16 @@ public class ComManageComment extends JFrame implements ActionListener {
 					// Calendar endDate = Calendar.getInstance();
 					// endDate.set(2022, 10, 3);
 					// frame.searchDbReviews(startDate, endDate);
+					
+					// 전체 평균 리뷰 점수 들고오는 테스트 코드
+					// System.out.println(frame.getDbAvgReviewScore());
+					
+					// 기간 한정해서 리뷰 점수 들고오는 테스트 코드
+					// Calendar startDate = Calendar.getInstance();
+					// startDate.set(2022, 9, 10);
+					// Calendar endDate = Calendar.getInstance();
+					// endDate.set(2022, 10, 3);
+					// System.out.println(frame.getDbAvgReviewScore(startDate, endDate));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
