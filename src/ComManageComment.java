@@ -44,10 +44,6 @@ import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 import javax.swing.JCheckBox;
 
-enum TableHeaderNumber {
-	NUMBER, CUS_NAME, VISITED_DATE, SRVICE_NAME, STAR, COMMENT;
-}
-
 // CommentManage
 public class ComManageComment extends JFrame implements ActionListener {
 	private JPanel contentPane;
@@ -600,3 +596,8 @@ public class ComManageComment extends JFrame implements ActionListener {
 		contentPane.add(checkBox);
 	}
 }
+
+enum TableHeaderNumber {
+	NUMBER, CUS_NAME, VISITED_DATE, SRVICE_NAME, STAR, COMMENT;
+}
+
