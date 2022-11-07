@@ -5,13 +5,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLDecoder;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,6 +35,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
@@ -33,9 +44,12 @@ import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 import javax.swing.JCheckBox;
 
+enum TableHeaderNumber {
+	NUMBER, CUS_NAME, VISITED_DATE, SRVICE_NAME, STAR, COMMENT;
+}
+
 // CommentManage
 public class ComManageComment extends JFrame implements ActionListener {
-
 	private JPanel contentPane;
 	private JTable tableCommentList;
 	private JScrollPane scCommentList;
@@ -48,6 +62,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 	private JButton btnSearchComment;
 	private JCheckBox checkBox;
 	private final int FONT_SIZE = 21;
+	private Vector<String> headerNames = new Vector<>(Arrays.asList("번호", "고객명", "방문날짜", "서비스내용", "별점", "코멘트"));
 	
 	// model1 : 시작일, model2 : 종료일
 	private UtilDateModel model1, model2;
@@ -176,12 +191,144 @@ public class ComManageComment extends JFrame implements ActionListener {
 		}
 	}
 	
-	private void searchDbReviews() {
+	// 조회된 데이터가(모든 컬럼) List<Vector<String>> 타입으로 반환됩니다.
+	private List<Vector<String>> searchDbReviews() {
 		// DB에서 데이터 전체 조회
+		DBConnectionMgr mgr = DBConnectionMgr.getInstance();
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		List<Vector<String>> datas = new ArrayList<Vector<String>>();
+		String query = "SELECT re.rvwNum, re.rvwStar, re.rvwCont, re.rvwDate, re.rvwDelete, "
+				+ "cus.cusName, ser.srvName "
+				+ "FROM review AS re "
+				+ "INNER JOIN maintenance AS main ON re.rvwMainNum = main.mainNum "
+				+ "INNER JOIN customer AS cus ON main.mainCusNum = cus.cusNum "
+				+ "INNER JOIN service AS ser ON main.mainSrvNum = ser.srvNum "
+				+ "ORDER BY re.rvwNum ASC";
+		
+		try {
+			conn = mgr.getConnection();
+			psmt = conn.prepareStatement(query);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				int number = rs.getInt("rvwNum");
+				int star = rs.getInt("rvwStar");
+				String comment = rs.getString("rvwCont");
+				String visitedDate = rs.getString("rvwDate");
+				String delete = rs.getString("rvwDelete");
+				String cusName = rs.getString("cusName");
+				String srvName = rs.getString("srvName");
+				
+				Vector<String> data = new Vector<>();
+				data.add(String.valueOf(number));
+				data.add(cusName);
+				data.add(visitedDate);
+				data.add(srvName);
+				data.add(String.valueOf(star));
+				data.add(comment);
+				
+				if(delete.equals("Y")) {
+					hideStar(data, TableHeaderNumber.STAR.ordinal());
+					hideComment(data, TableHeaderNumber.COMMENT.ordinal());
+				} else {
+					showStar(data, TableHeaderNumber.STAR.ordinal());
+				}
+				
+				datas.add(data);
+			}
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(this, ex.getMessage());
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(this, ex.getMessage());
+		} finally {
+			try {
+				if(rs != null) {rs.close();}
+				if(psmt != null) {psmt.close();}
+				if(conn != null) {conn.close();}
+			} catch(SQLException ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(this, ex.getMessage());
+			}
+		}
+		
+		return datas;
 	}
 	
-	private void searchDbReviews(Date startDate, Date endDate) {
-		// DB에서 기간한정해서 데이터 조회
+	// 리뷰를 기간 한정해서 조회
+	private List<Vector<String>> searchDbReviews(Calendar startDate, Calendar endDate) {
+		SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+		String sDate = simpleDateFormat.format(startDate.getTime());
+		String eDate = simpleDateFormat.format(endDate.getTime());
+		
+		DBConnectionMgr mgr = DBConnectionMgr.getInstance();
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		List<Vector<String>> datas = new ArrayList<Vector<String>>();
+		String query = "SELECT re.rvwNum, re.rvwStar, re.rvwCont, re.rvwDate, re.rvwDelete, "
+				+ "cus.cusName, ser.srvName "
+				+ "FROM review AS re "
+				+ "INNER JOIN maintenance AS main ON re.rvwMainNum = main.mainNum "
+				+ "INNER JOIN customer AS cus ON main.mainCusNum = cus.cusNum "
+				+ "INNER JOIN service AS ser ON main.mainSrvNum = ser.srvNum "
+				+ "WHERE re.rvwDate >= ? AND re.rvwDate <= ? "
+				+ "ORDER BY re.rvwNum ASC";
+		
+		try {
+			conn = mgr.getConnection();
+			psmt = conn.prepareStatement(query);
+			psmt.setString(1, sDate);
+			psmt.setString(2, eDate);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				int number = rs.getInt("rvwNum");
+				int star = rs.getInt("rvwStar");
+				String comment = rs.getString("rvwCont");
+				String visitedDate = rs.getString("rvwDate");
+				String delete = rs.getString("rvwDelete");
+				String cusName = rs.getString("cusName");
+				String srvName = rs.getString("srvName");
+				
+				Vector<String> data = new Vector<>();
+				data.add(String.valueOf(number));
+				data.add(cusName);
+				data.add(visitedDate);
+				data.add(srvName);
+				data.add(String.valueOf(star));
+				data.add(comment);
+				
+				if(delete.equals("Y")) {
+					hideStar(data, TableHeaderNumber.STAR.ordinal());
+					hideComment(data, TableHeaderNumber.COMMENT.ordinal());
+				} else {
+					showStar(data, TableHeaderNumber.STAR.ordinal());
+				}
+				
+				datas.add(data);
+			}
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(this, ex.getMessage());
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(this, ex.getMessage());
+		} finally {
+			try {
+				if(rs != null) {rs.close();}
+				if(psmt != null) {psmt.close();}
+				if(conn != null) {conn.close();}
+			} catch(SQLException ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(this, ex.getMessage());
+			}
+		}
+		
+		return datas;
 	}
 
 	private double getDbAvgReviewScore() {
@@ -204,12 +351,23 @@ public class ComManageComment extends JFrame implements ActionListener {
 		return true;
 	}
 	
-	private void replaceComment(int selectedRow) {
-		// 가져온 리뷰가 댓글이 숨김처리라면 문자열 대체
+	private void showStar(Vector<String> data, int idx) {
+		// 가져온 리뷰가 숨김처리가 아니라면 별점 표시
+		String strStar = "";
+		for(int i = 0; i < Integer.parseInt(data.get(idx)); ++i) {
+			strStar += "★";
+		}
+		data.set(idx, strStar);
 	}
 	
-	private void replaceStar(int selectedRow) {
-		// 가져온 리뷰가 별점이 숨김처리라면 별점 대체
+	private void hideStar(Vector<String> data, int idx) {
+		// 가져온 리뷰가 숨김처리라면 별점 대체
+		data.set(idx, "");
+	}
+	
+	private void hideComment(Vector<String> data, int idx) {
+		// 가져온 리뷰가 숨김처리라면 문자열 대체
+		data.set(idx, "숨김처리된 댓글입니다.");
 	}
 	
 	/**
@@ -222,6 +380,16 @@ public class ComManageComment extends JFrame implements ActionListener {
 					ComManageComment frame = new ComManageComment();
 					frame.setVisible(true);
 					frame.setFont();
+					
+					// 리뷰 전체 들고오는 테스트 코드
+					// frame.searchDbReviews();
+					
+					// 기간 한정해서 들고오는 부분 테스트 코드
+					// Calendar startDate = Calendar.getInstance();
+					// startDate.set(2022, 9, 10);
+					// Calendar endDate = Calendar.getInstance();
+					// endDate.set(2022, 10, 3);
+					// frame.searchDbReviews(startDate, endDate);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
