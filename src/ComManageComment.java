@@ -119,6 +119,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 			int result = DialogManager.createMsgDialog("정말로 선택한 댓글을 숨길까요?", "\\img\\question6.png",
 					"알림", JOptionPane.YES_NO_OPTION);
 			if(result == 0) {
+				hideDbReviews(selectedRows);
 				DialogManager.createMsgDialog("정상적으로 처리되었습니다.", "\\img\\success1.png",
 						"알림", JOptionPane.PLAIN_MESSAGE);
 			} else {
@@ -149,24 +150,12 @@ public class ComManageComment extends JFrame implements ActionListener {
 					DialogManager.createMsgDialog("방문 종료일은 방문 시작일보다<br> 이전날짜가 될수없습니다.", "\\img\\information5.png",
 							"에러", JOptionPane.PLAIN_MESSAGE);
 				} else {
-					setTableColumn(searchDbReviews(startDate, endDate));
-					setTableTextCenter(tableCommentList);
-					resizeTableRow(tableCommentList);
-					resizeTableColumn(tableCommentList);
-					resizeTableHeader(tableCommentList); // 반드시 이게 마지막으로 설정되어야 함
-					setAvgScore(getDbAvgReviewScore(startDate, endDate));
-					
+					refreshAllDatas(startDate, endDate);
 					DialogManager.createMsgDialog("검색이 완료되었습니다.", "\\img\\success1.png",
 							"알림", JOptionPane.PLAIN_MESSAGE);
 				}
 			} else {
-				setTableColumn(searchDbReviews());
-				setTableTextCenter(tableCommentList);
-				resizeTableRow(tableCommentList);
-				resizeTableColumn(tableCommentList);
-				resizeTableHeader(tableCommentList); // 반드시 이게 마지막으로 설정되어야 함
-				setAvgScore(getDbAvgReviewScore());
-				
+				refreshAllDatas();
 				DialogManager.createMsgDialog("검색이 완료되었습니다.", "\\img\\success1.png",
 						"알림", JOptionPane.PLAIN_MESSAGE);
 			}
@@ -187,8 +176,44 @@ public class ComManageComment extends JFrame implements ActionListener {
 			new ComMyPage();
 			this.dispose();
 		} else if(obj == btnShowComment) {
+			int[] selectedRows = tableCommentList.getSelectedRows();
 			
+			if(selectedRows.length == 0) {
+				DialogManager.createMsgDialog("선택된 셀이 없습니다.", "\\img\\information5.png",
+						"에러", JOptionPane.PLAIN_MESSAGE);
+				return;
+			}
+			
+			int result = DialogManager.createMsgDialog("정말로 선택한 댓글을 보이게할까요?", "\\img\\question6.png",
+					"알림", JOptionPane.YES_NO_OPTION);
+			if(result == 0) {
+				showDbReviews(selectedRows);
+				DialogManager.createMsgDialog("정상적으로 처리되었습니다.", "\\img\\success1.png",
+						"알림", JOptionPane.PLAIN_MESSAGE);
+			} else {
+				DialogManager.createMsgDialog("작업이 취소되었습니다.", "\\img\\information5.png",
+						"알림", JOptionPane.PLAIN_MESSAGE);
+			}
 		}
+	}
+	
+	// 
+	private void refreshAllDatas() {
+		setTableColumn(searchDbReviews());
+		setTableTextCenter(tableCommentList);
+		resizeTableRow(tableCommentList);
+		resizeTableColumn(tableCommentList);
+		resizeTableHeader(tableCommentList); // 반드시 이게 마지막으로 설정되어야 함
+		setAvgScore(getDbAvgReviewScore());
+	}
+	
+	private void refreshAllDatas(Calendar startDate, Calendar endDate) {
+		setTableColumn(searchDbReviews(startDate, endDate));
+		setTableTextCenter(tableCommentList);
+		resizeTableRow(tableCommentList);
+		resizeTableColumn(tableCommentList);
+		resizeTableHeader(tableCommentList); // 반드시 이게 마지막으로 설정되어야 함
+		setAvgScore(getDbAvgReviewScore(startDate, endDate));
 	}
 	
 	// 조회된 데이터가(모든 컬럼) List<Vector<String>> 타입으로 반환됩니다.
