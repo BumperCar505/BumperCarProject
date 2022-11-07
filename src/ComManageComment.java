@@ -56,6 +56,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 	private JButton btnBackCommentMain;
 	private JButton btnHideComment;
 	private JButton btnSearchComment;
+	private JButton btnShowComment;
 	private JCheckBox checkBox;
 	private final int FONT_SIZE = 21;
 	private Vector<String> headerNames = new Vector<>(Arrays.asList("번호", "고객명", "방문날짜", "서비스내용", "별점", "코멘트"));
@@ -82,6 +83,7 @@ public class ComManageComment extends JFrame implements ActionListener {
             lblEndDate.setFont(font.deriveFont(Font.PLAIN, FONT_SIZE));
             lblStartDate.setFont(font.deriveFont(Font.PLAIN, FONT_SIZE));
             btnHideComment.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
+            btnShowComment.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             btnBackCommentMain.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
             btnSearchComment.setFont(font.deriveFont(Font.BOLD, FONT_SIZE));
     		// Table Font	
@@ -184,6 +186,8 @@ public class ComManageComment extends JFrame implements ActionListener {
 		} else if(obj == btnBackCommentMain) {
 			new ComMyPage();
 			this.dispose();
+		} else if(obj == btnShowComment) {
+			
 		}
 	}
 	
@@ -411,12 +415,80 @@ public class ComManageComment extends JFrame implements ActionListener {
 	
 	private boolean hideDbReviews(int[] selectedNumbers) {
 		// DB에 저장되어있는 리뷰중 선택한 리뷰들을 코멘트와 별점 안보이게 처리
-		return true;
+		boolean flag = false;
+		DBConnectionMgr mgr = DBConnectionMgr.getInstance();
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		String query = "UPDATE review SET rvwDelete = 'Y' WHERE rvwNum = ? ";
+		
+		try {
+			conn = mgr.getConnection();
+			psmt = conn.prepareStatement(query);
+			
+			for(int i = 0; i < selectedNumbers.length; ++i) {
+				psmt.setInt(1, selectedNumbers[i]);
+				int result = psmt.executeUpdate();
+				
+				if(result == 1) {
+					flag = true;
+				}
+			}
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(this, ex.getMessage());
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(this, ex.getMessage());
+		} finally {
+			try {
+				if(psmt != null) {psmt.close();}
+				if(conn != null) {conn.close();}
+			} catch(SQLException ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(this, ex.getMessage());
+			}
+		}
+		
+		return flag;
 	}
 	
 	private boolean showDbReviews(int[] selectedNumbers) {
 		// DB에 저장되어있는 리뷰중 선택한 리뷰들을 코멘트와 별점 보이게 변경
-		return true;
+		boolean flag = false;
+		DBConnectionMgr mgr = DBConnectionMgr.getInstance();
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		String query = "UPDATE review SET rvwDelete = 'N' WHERE rvwNum = ? ";
+		
+		try {
+			conn = mgr.getConnection();
+			psmt = conn.prepareStatement(query);
+			
+			for(int i = 0; i < selectedNumbers.length; ++i) {
+				psmt.setInt(1, selectedNumbers[i]);
+				int result = psmt.executeUpdate();
+				
+				if(result == 1) {
+					flag = true;
+				}
+			}
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(this, ex.getMessage());
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(this, ex.getMessage());
+		} finally {
+			try {
+				if(psmt != null) {psmt.close();}
+				if(conn != null) {conn.close();}
+			} catch(SQLException ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(this, ex.getMessage());
+			}
+		}
+		
+		return flag;
 	}
 	
 	private void showStar(Vector<String> data, int idx) {
@@ -468,6 +540,12 @@ public class ComManageComment extends JFrame implements ActionListener {
 					// Calendar endDate = Calendar.getInstance();
 					// endDate.set(2022, 10, 3);
 					// System.out.println(frame.getDbAvgReviewScore(startDate, endDate));
+					
+					// 숨기기
+					// System.out.println(frame.hideDbReviews(new int[] {1, 5, 3}));
+					
+					// 보여주기
+					// System.out.println(frame.showDbReviews(new int[] {1, 3, 5}));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -555,7 +633,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 		contentPane.add(btnHideComment);
 		
 		lblScore = new JLabel("평균 별점 : 4.0");
-		lblScore.setBounds(262, 74, 160, 42);
+		lblScore.setBounds(425, 74, 160, 42);
 		contentPane.add(lblScore);
 		
 		btnSearchComment = new JButton("검색하기");
@@ -594,6 +672,13 @@ public class ComManageComment extends JFrame implements ActionListener {
 		checkBox.setBounds(1155, 25, 135, 35);
 		checkBox.addActionListener(this);
 		contentPane.add(checkBox);
+		
+		btnShowComment = new JButton("댓글 보여주기");
+		btnShowComment.setBorder(new BevelBorder(BevelBorder.RAISED, Color.red, Color.red, Color.red, Color.red));
+		btnShowComment.setBackground(new Color(244, 204, 204));
+		btnShowComment.setBounds(262, 70, 150, 50);
+		btnShowComment.addActionListener(this);
+		contentPane.add(btnShowComment);
 	}
 }
 
