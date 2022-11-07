@@ -2,29 +2,15 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Panel;
 import java.awt.TextField;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URLDecoder;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import java.sql.*;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
+
 import java.awt.Color;
 
 import javax.swing.table.DefaultTableCellRenderer;
@@ -46,6 +32,14 @@ public class CusMgr extends JFrame {
 	private JLabel lblYellowCat;
 	private final int FONT_SIZE = 21;
 	private JPanel mainPanel;
+	
+//	db connect
+	private String driver = "com.mysql.cj.jdbc.Driver";
+	private String url = "jdbc:mysql://127.0.0.1:3306/cardb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul";
+	private Connection conn = null;
+	private PreparedStatement pstmt = null;
+	private ResultSet rs = null;
+
 	
 	public void setFont() {
 		InputStream inputStream = null;
@@ -88,16 +82,8 @@ public class CusMgr extends JFrame {
 			public void run() {
 				try {
 					CusMgr frame = new CusMgr();
-//					frame.setVisible(true);
 					frame.setFont();
-//					 JFrame jFrame = new JFrame();
-//				        int result = JOptionPane.showConfirmDialog(jFrame, "삭제하시겠습니까");
-//
-//				        if (result == 0)
-//				            System.out.println("Yes");
-//				        else 
-//				            System.out.println("NO");
-					
+
 					
 				       
 				} catch (Exception e) {
@@ -106,21 +92,7 @@ public class CusMgr extends JFrame {
 			}
 		});
 	}
-	
-//	@Override
-//	public void paint(Graphics g) {
-//		Toolkit tool = Toolkit.getDefaultToolkit();
-//		Image img = tool.getImage("img/grayCat.png");
-//		g.drawImage(img, 770, 50, 305, 153, this);
-//		tableSrvList.updateUI();
-//		btnAddsrv.updateUI();
-//		btnEditSrv.updateUI();
-//		btnDelSrv.updateUI();
-//	}
 
-	/**
-	 * Create the frame.
-	 */
 	
 	
 	
@@ -136,83 +108,31 @@ public class CusMgr extends JFrame {
 		
 		getContentPane = new JPanel();
 		getContentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(mainPanel);
+
 
 		setContentPane(getContentPane);
 		TextField tf = new TextField();
 		
-//		addPanel = new JPanel(); 이거 필요없지 않나?? 나중에 보고 삭제하도록 하자.
-//		addPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-//
-//		setContentPane(addPanel);
-		
-//		addPanel.setLayout(null);
-//		new TextField();
-//	
+
+	
 		
 		// Num, Service Name, Provide Technician, Service Price
 //		여기서부터 잠깐 놔둔다.
-//		Object[] columns = {"Num", "고객이름", "차번호", "브랜드", "차종", "주행거리","우편번호","주소","전화번호", "가입날짜"};
-//		Object[][] rowNames = {
+		String[] header = {"Num", "고객이름", "차번호", "브랜드", "차종", "주행거리","우편번호","주소","전화번호", "가입날짜"};
+//		Object[][] data = {
 //				{"1", "김땡땡", "63하 2234", "현대","소나타","3000km","11223","부산광역시","010-1111-1111","2022-02-23"}
-////				{"2", "엔진오일 교체", "김하하, 조마마", "공임비1"},
+//			
 //		};
-//		
-//		// Text Align Center
-//		DefaultTableCellRenderer render = new DefaultTableCellRenderer();
-//		render.setHorizontalAlignment(SwingConstants.CENTER);
-//		
-//		tableCusList = new JTable(rowNames, columns);
-//		tableCusList.setModel(new DefaultTableModel(
-//			new Object[][] {
-//				{"1", "\uAE40\uB561\uB561", "63\uD558 2234", "\uD604\uB300", "\uC18C\uB098\uD0C0", "3000km", "11223", "\uBD80\uC0B0\uAD11\uC5ED\uC2DC", "010-1111-1111", "2022-02-23"},
-//			},
-//			new String[] {
-//				"Num", "\uACE0\uAC1D\uC774\uB984", "\uCC28\uBC88\uD638", "\uBE0C\uB79C\uB4DC", "\uCC28\uC885", "\uC8FC\uD589\uAC70\uB9AC", "\uC6B0\uD3B8\uBC88\uD638", "\uC8FC\uC18C", "\uC804\uD654\uBC88\uD638", "\uAC00\uC785\uB0A0\uC9DC"
-//			}
-//		) {
-//			boolean[] columnEditables = new boolean[] {
-//				false, false, false, false, false, false, false, false, false, false
-//			};
-//			public boolean isCellEditable(int row, int column) {
-//				return columnEditables[column];
-//			}
-//		});
-//		tableCusList.getColumn("Num").setCellRenderer(render);
-//		tableCusList.getColumn("고객이름").setCellRenderer(render);
-//		tableCusList.getColumn("차번호").setCellRenderer(render);
-//		tableCusList.getColumn("브랜드").setCellRenderer(render);
-//		tableCusList.getColumn("차종").setCellRenderer(render);
-//		tableCusList.getColumn("주행거리").setCellRenderer(render);
-//		tableCusList.getColumn("우편번호").setCellRenderer(render);
-//		tableCusList.getColumn("주소").setCellRenderer(render);
-//		tableCusList.getColumn("전화번호").setCellRenderer(render);
-//		tableCusList.getColumn("가입날짜").setCellRenderer(render);
-//		
-//		// Column Not Move
-//		tableCusList.getTableHeader().setReorderingAllowed(false);
-//		
-//		// Column Change Width
-//		tableCusList.getColumn("전화번호").setPreferredWidth(200);
-//		tableCusList.getColumn("가입날짜").setPreferredWidth(200);
-//		
-//		// Row Change Height 
-//		tableCusList.setRowHeight(50);
 		
+		DefaultTableModel model = new DefaultTableModel(header,0);
+		JTable tableCusList = new JTable(model); 
 		
+//		DefaultTableModel model = (new J)
 		
+		model.addRow(new Object[] {"1", "김땡땡", "63하 2234", "현대","소나타","3000km","11223","부산광역시","010-1111-1111","2022-02-23"});
 		
-//		여기서부터 테이블 수정 부분
-		String data[][] = new String [][]{
-				{ "1", "김땡땡", "63하2234","현대","소나타","3000km","11223","부산광역시","010-2222-2222","2010-12-30"}};
-			
-		String header[]= new String[]{ "num", "고객이름", "차번호","브랜드","차종","주행거리","우편번호","주소","전화번호","가입날짜"};
-//		Jtable table1 = new Jtable(data,header);
-
-		table.setRowHeight(FONT_SIZE);
-		DefaultTableModel model = new DefaultTableModel(data,header);//이것도 잠시 주석
-		JTable tableCusList = new JTable(model); //잠시주석
-		
+		table = new JTable(model);
+//		table.addMouseListener(new JTableMouseListener());
 		
 		
 		JScrollPane scrollpane = new JScrollPane(table);
@@ -221,20 +141,8 @@ public class CusMgr extends JFrame {
 		JLabel lblRegTec = new JLabel("");
 		lblRegTec.setFont(new Font("나눔바른고딕", Font.BOLD, 20));
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+//		private JTable = table;
+
 		
 		// Table Set Area
 		scCusList = new JScrollPane(tableCusList);
@@ -273,47 +181,8 @@ public class CusMgr extends JFrame {
 		mainPanel.setLayout(null);
 //		JFrame.getContentPanel().add(addPanel);
 	
-		//더블클릭했을 때 수정 못하게! 위에 private JTable = table; 추가해야 합니다!
-//		DefaultTableModel tableModel = new DefaultTableModel() {
-//
-//		    @Override
-//		    public boolean isCellEditable(int row, int column) {
-//		       //all cells false
-//		       return false;
-//		    }
-//		};
-//
-//		table.setModel(tableModel);
-		
-		//instance table model
-//		DefaultTableModel tableModel = new DefaultTableModel() {
-//
-//		   @Override
-//		   public boolean isCellEditable(int row, int column) {
-//		       //Only the third column
-//		       return column == 3;
-//		   }
-//		};
-//
-//		table.setModel(tableModel);
-		
-	
-//		btnDelCus.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				int result = JOptionPane.showConfirmDialog(null, "삭제하시겠습니까?","삭제", JOptionPane.YES_NO_OPTION);
-//				
-//				if(result == JOptionPane.CLOSED_OPTION)
-//					tf.setText("Just Closed");
-//				else if(result == JOptionPane.YES_OPTION)
-////					tf.setText("Y");
-//					System.out.println("Y");
-//				else
-////					tf.setText("N");
-//					System.out.println("N");
-//			}
-//		}); 
+
+//		button event
 		
 		//돌아가기 버튼 누르면 메인화면으로 간다.
 		btnBackCusMain.addActionListener(new ActionListener() {
@@ -327,16 +196,7 @@ public class CusMgr extends JFrame {
 		});
 		
 		
-		
-//		btnAddCus.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				setVisible(false);
-//				new CusMgr_add();
-//				
-//			}
-//		});
+	
 		
 //		추가부분 누르면 페이지 넘어가게 ok!
 		btnAddCus.addActionListener(new ActionListener() {
@@ -349,74 +209,39 @@ public class CusMgr extends JFrame {
 			}
 		});
 		
-//		삭제 버튼 실행
-//		btnTechDel.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				if(listTech.getSelectedRow() == -1) {
-//					return;
-//				}
-//				else {
-//					model.removeRow(listTech.getSelectedRow());
-//				}
-//			}
-//		});
+//		수정버튼
 		
-		
-//		삭제버튼 눌렀을 때
-//		btnDelCus.addActionListener(new ActionListener() {				
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//					if(tableCusList.getSelectedRow() == -1) {
-//						DialogManager
-//					}
-//					
-//				
-//					int result = JOptionPane.showConfirmDialog(null, "삭제하시겠습니까?","삭제", JOptionPane.YES_NO_OPTION);
-//					
-//					if(result == JOptionPane.CLOSED_OPTION)
-//						tf.setText("Just Closed");
-//					else if(result == JOptionPane.YES_OPTION) {
-//						
-//						if(tableCusList.getSelectedRow() == -1) {
-//							return;
-//					}
-//						
-//				}
-//					else {
-////						tf.setText("N");
-//						System.out.println("N");
-//						model.removeRow(tableCusList.getSelectedRow());
-//				}
-//				}
-//			}); 
-//		btnDelCus.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				
-////				int index = table.getSelectedRow();
-//				
-//				if(tableCusList.getSelectedRow() == -1){
-//		            JOptionPane.showConfirmDialog(null, "셀을 선택하지 않으셨습니다.", "삭제", JOptionPane.DEFAULT_OPTION);
-//		        }
-//				
-//		        else {
-//		        	try {
-//		        		int result = DialogManager.createMsgDialog("<html><h3>삭제하시겠습니까?</h3>", "/img/question6.png", "삭제", JOptionPane.YES_NO_OPTION);
-//   
-//			            if (result == 0) {
-//			            	model.removeRow();
-//			            	DialogManager.createMsgDialog("<html><h3>삭제되었습니다.</h3>", "/img/success1.png", "삭제", JOptionPane.CLOSED_OPTION);
-//			            } else if (result == 1) {
-//			            	   
-//			            	}
-//			            } catch(Exception ex) {
-//			            	
-//			            }
-//		        	}
-//				}
-//			});
-		
+		btnEditCus.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int index = tableCusList.getSelectedRow();
+					if(index == -1) {
+						DialogManager.createMsgDialog("셀을 선택하지 않았습니다.", "\\img\\information5.png", "오류", JOptionPane.PLAIN_MESSAGE);
+						return;
+					}
+					int num = DialogManager.createMsgDialog("수정하시겠습니까","\\img\\question6.png", "수정",JOptionPane.YES_NO_OPTION);
+			    	if(num==0){
+			    		model.removeRow(tableCusList.getSelectedRow());
+//			    		model.removeRow(index);
+			    		setVisible(true); 
+						new CusMgr_edit();
+
+			    	}
+			    	else if(num==1) {
+			    		
+			    	}
+			   
+			    	
+		            } catch(Exception ex) {
+		            	ex.printStackTrace();
+		            }
+				
+		}; 
+	});
+	
+
 		btnDelCus.addActionListener(new ActionListener() {
 //				
 				@Override
@@ -451,52 +276,51 @@ public class CusMgr extends JFrame {
 	}
 		
 		
-		
-		private void getInfo() {
-			
-			DBConnectionMgr mgr = DBConnectionMgr.getInstance();
-			Connection con = null;
-			PreparedStatement psmt = null;
-			Statement stmt = null;
-			ResultSet rs = null;
-		
-		
-		try {
-			
-		
-//			String query = "SELECT * from customer ";
-//			con = mgr.getConnection();
-//			psmt = con.prepareStatement(query);
 
-			
-//			while(rs.next()) {
-//				
-//				rs = psmt.executeQuery();
-//				
-//				int cusNum = rs.getInt(1, "cusNum");
-//				String cusName = rs.getString(2, "cusName");
-//				String cusCarNum= rs.getString(3,"cusCarNum");
-//				String cusCarBrand = rs.getString(4,"cusCarBrand");
-//				String cusCarType = rs.getString(5,"cusCarType");
-//				String cusKm = rs.getInt(6,"cusKm");
-//				String cusZip = rs.getString(7,"cusZip");
-//				String cusAddr = rs.getString(8,"cusAddr");
-//				String cusTel = rs.getString(9,"cusTel");
-//				String cusDate = rs.getString(10,"cusDate");
-//				
-//				
-//			}
-//			
-//		}
+private void getInfo() {
+	
+//	DBConnectionMgr mgr = DBConnectionMgr.getInstance();
+//	Connection con = null;
+//	PreparedStatement psmt = null;
+//	Statement stmt = null;
+//	ResultSet rs = null;
+	
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+	String sql = null;
+	
+	
+	try {
+		Class.forName(driver);
+		conn = DriverManager.getConnection(url,"root","1234");
+		sql = "SELECT * FROM customer " ;
+		pstmt = conn.prepareStatement(sql);
+		rs = pstmt.executeQuery();
+		
+		while(rs.next()) {
+			model.addrow(new Object[] {
+				rs.getString("cusName"),
+				rs.getString("cusCarNum"),
+				rs.getString("cusCarBrand"),
+				rs.getString("cusCarType"),
+				rs.getInt("cusZip"),
+				rs.getString("cusAddr"),
+				rs.getString("cusTel"),
+				rs.getArray("cusDate"),
+				rs.getInt("cusKm")
+				
+				
+			});
 		}
-		catch(Exception e) {
-			System.out.println(e.getMessage());
-		}
-		finally {
-			if (rs != null) {rs.close();}
-			if (con != null) {rs.close();}
-			if (psmt != null) {rs.close();}
-		}
-
 	}
+	catch (Exception e) {
+	}
+	finally {
+		if(conn != null) {conn.close();}
+		if(pstmt != null) {pstmt.close();}
+		if(rs != null) {rs.close();}
+	}
+
+}
 }

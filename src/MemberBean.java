@@ -8,6 +8,7 @@ public class MemberBean {
 	private String team;
 	private String address;
 	
+	private int cusNum;
 	private String cusName;
 	private String cusCarNum;
 	private String cusCarBrand;
@@ -19,8 +20,17 @@ public class MemberBean {
 	private int cusZip;
 	
 	//삽입 이름
+	
+
+	public int getCusNum() {
+		return cusNum;
+	}
+	public void setCusNum(int cusNum) {
+		this.cusNum = cusNum;
+	}
+	
 	public String getCusName() {
-		return address;
+		return cusName;
 	}
 	public void setCusName(String cusName) {
 		this.cusName = cusName;

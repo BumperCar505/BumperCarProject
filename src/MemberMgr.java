@@ -191,17 +191,10 @@ public class MemberMgr {
 		try {
 			con = pool.getConnection();
 			sql = "DELETE from customer WHERE cusNum=? " ;
-			pstmt.setString(1, bean.getCusName());
-			pstmt.setString(2, bean.getCusCarNum());
-			pstmt.setString(3, bean.getCusCarBrand());
-			pstmt.setString(4, bean.getCusCarType());
-			pstmt.setInt(5, bean.getCusZip());
-			pstmt.setString(6, bean.getCusAddr());
-			pstmt.setString(7, bean.getCusTel());
-			pstmt.setString(8, bean.getCusDate());
-			pstmt.setInt(9, bean.getCusKm());
-			int cnt = pstmt.executeUpdate();
-			if(cnt==1) flag = true; //flag 전환
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, bean.getCusNum());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
