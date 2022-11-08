@@ -242,12 +242,16 @@ public class ComManageComment extends JFrame implements ActionListener {
 		setAvgScore(getDbAvgReviewScore(startDate, endDate));
 	}
 	
-	private List<HashMap<String, String>> getDbDatas(Connection conn, PreparedStatement psmt, String[] getColumnNames) {
+	private List<HashMap<String, String>> getDbDatas(Connection conn, PreparedStatement psmt, String[] getColumnNames, DbSendOption option) {
 		List<HashMap<String, String>> datas = new ArrayList<HashMap<String,String>>();
 		ResultSet rs = null;
 		
 		try {
-			rs = psmt.executeQuery();
+			if(DbSendOption.EXECUTE_QUERY == option) {
+				rs = psmt.executeQuery();
+			} else if(DbSendOption.EXECUTE_UPDATE == option){
+				psmt.executeUpdate();
+			}
 			
 			while(rs.next()) {
 				HashMap<String, String> data = new HashMap<String, String>();
@@ -673,7 +677,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 							+ "ORDER BY re.rvwNum ASC ";
 					PreparedStatement psmt = conn.prepareStatement(query);
 					frame.getDbDatas(conn, psmt, new String[] {"rvwNum", "rvwStar", "rvwCont", "rvwDate",
-							"rvwDelete", "cusName", "srvName"});
+							"rvwDelete", "cusName", "srvName"}, DbSendOption.EXECUTE_QUERY);
 					
 					// 기간 한정해서 들고오는 부분 테스트 코드
 					// Calendar startDate = Calendar.getInstance();
@@ -815,5 +819,9 @@ public class ComManageComment extends JFrame implements ActionListener {
 
 enum TableHeaderNumber {
 	NUMBER, CUS_NAME, VISITED_DATE, SRVICE_NAME, STAR, COMMENT;
+}
+
+enum DbSendOption {
+	EXECUTE_QUERY, EXECUTE_UPDATE
 }
 
