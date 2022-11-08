@@ -102,15 +102,26 @@ public class ComManageComment extends JFrame implements ActionListener {
 		return this;
 	}
 	
+	private int[] getSelectedNumbers(JTable table) {
+		int[] selectedRows = table.getSelectedRows();
+		int[] selectedNumbers = new int[selectedRows.length];
+		
+		for(int i = 0; i < selectedRows.length; ++i) {
+			selectedNumbers[i] = Integer.parseInt(table.getValueAt(selectedRows[i], 0).toString());
+		}
+		
+		return selectedNumbers;
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object obj = e.getSource();
 		
 		if(obj == btnHideComment) {
-			int[] selectedRows = tableCommentList.getSelectedRows();
+			int[] selectedNumbers = getSelectedNumbers(tableCommentList);
 			
-			if(selectedRows.length == 0) {
+			if(selectedNumbers.length == 0) {
 				DialogManager.createMsgDialog("선택된 셀이 없습니다.", "\\img\\information5.png",
 						"에러", JOptionPane.PLAIN_MESSAGE);
 				return;
@@ -119,7 +130,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 			int result = DialogManager.createMsgDialog("정말로 선택한 댓글을 숨길까요?", "\\img\\question6.png",
 					"알림", JOptionPane.YES_NO_OPTION);
 			if(result == 0) {
-				hideDbReviews(selectedRows);
+				hideDbReviews(selectedNumbers);
 				DialogManager.createMsgDialog("정상적으로 처리되었습니다.", "\\img\\success1.png",
 						"알림", JOptionPane.PLAIN_MESSAGE);
 			} else {
@@ -176,9 +187,9 @@ public class ComManageComment extends JFrame implements ActionListener {
 			new ComMyPage();
 			this.dispose();
 		} else if(obj == btnShowComment) {
-			int[] selectedRows = tableCommentList.getSelectedRows();
+			int[] selectedNumbers = getSelectedNumbers(tableCommentList);
 			
-			if(selectedRows.length == 0) {
+			if(selectedNumbers.length == 0) {
 				DialogManager.createMsgDialog("선택된 셀이 없습니다.", "\\img\\information5.png",
 						"에러", JOptionPane.PLAIN_MESSAGE);
 				return;
@@ -187,7 +198,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 			int result = DialogManager.createMsgDialog("정말로 선택한 댓글을 보이게할까요?", "\\img\\question6.png",
 					"알림", JOptionPane.YES_NO_OPTION);
 			if(result == 0) {
-				showDbReviews(selectedRows);
+				showDbReviews(selectedNumbers);
 				DialogManager.createMsgDialog("정상적으로 처리되었습니다.", "\\img\\success1.png",
 						"알림", JOptionPane.PLAIN_MESSAGE);
 			} else {
