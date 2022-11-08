@@ -113,6 +113,34 @@ public class ComManageComment extends JFrame implements ActionListener {
 		return selectedNumbers;
 	}
 	
+	private void getLimitedReviews() {
+		boolean flag = false;
+		int startYear = model1.getYear();
+		int startMonth = model1.getMonth();
+		int startDay = model1.getDay();
+		int endYear = model2.getYear();
+		int endMonth = model2.getMonth();
+		int endDay = model2.getDay();
+		
+		Calendar startDate = Calendar.getInstance();
+		startDate.set(startYear, startMonth, startDay);
+		Calendar endDate = Calendar.getInstance();
+		endDate.set(endYear, endMonth, endDay);
+		
+		if(startDate.after(endDate)) {
+			flag = true;
+		}
+		
+		if(flag == true) {
+			DialogManager.createMsgDialog("방문 종료일은 방문 시작일보다<br> 이전날짜가 될수없습니다.", "\\img\\information5.png",
+					"에러", JOptionPane.PLAIN_MESSAGE);
+		} else {
+			refreshAllDatas(startDate, endDate);
+			DialogManager.createMsgDialog("검색이 완료되었습니다.", "\\img\\success1.png",
+					"알림", JOptionPane.PLAIN_MESSAGE);
+		}
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -131,40 +159,21 @@ public class ComManageComment extends JFrame implements ActionListener {
 					"알림", JOptionPane.YES_NO_OPTION);
 			if(result == 0) {
 				hideDbReviews(selectedNumbers);
-				DialogManager.createMsgDialog("정상적으로 처리되었습니다.", "\\img\\success1.png",
-						"알림", JOptionPane.PLAIN_MESSAGE);
+				
+				if(checkBox.isSelected()) {
+					getLimitedReviews();
+				} else {
+					refreshAllDatas();
+					DialogManager.createMsgDialog("정상적으로 처리되었습니다.", "\\img\\success1.png",
+							"알림", JOptionPane.PLAIN_MESSAGE);
+				}
 			} else {
 				DialogManager.createMsgDialog("작업이 취소되었습니다.", "\\img\\information5.png",
 						"알림", JOptionPane.PLAIN_MESSAGE);
 			}
 		} else if(obj == btnSearchComment) {
-			boolean flag = false;
-			
 			if(checkBox.isSelected() == true) {
-				int startYear = model1.getYear();
-				int startMonth = model1.getMonth();
-				int startDay = model1.getDay();
-				int endYear = model2.getYear();
-				int endMonth = model2.getMonth();
-				int endDay = model2.getDay();
-				
-				Calendar startDate = Calendar.getInstance();
-				startDate.set(startYear, startMonth, startDay);
-				Calendar endDate = Calendar.getInstance();
-				endDate.set(endYear, endMonth, endDay);
-				
-				if(startDate.after(endDate)) {
-					flag = true;
-				}
-				
-				if(flag == true) {
-					DialogManager.createMsgDialog("방문 종료일은 방문 시작일보다<br> 이전날짜가 될수없습니다.", "\\img\\information5.png",
-							"에러", JOptionPane.PLAIN_MESSAGE);
-				} else {
-					refreshAllDatas(startDate, endDate);
-					DialogManager.createMsgDialog("검색이 완료되었습니다.", "\\img\\success1.png",
-							"알림", JOptionPane.PLAIN_MESSAGE);
-				}
+				getLimitedReviews();
 			} else {
 				refreshAllDatas();
 				DialogManager.createMsgDialog("검색이 완료되었습니다.", "\\img\\success1.png",
@@ -199,8 +208,14 @@ public class ComManageComment extends JFrame implements ActionListener {
 					"알림", JOptionPane.YES_NO_OPTION);
 			if(result == 0) {
 				showDbReviews(selectedNumbers);
-				DialogManager.createMsgDialog("정상적으로 처리되었습니다.", "\\img\\success1.png",
-						"알림", JOptionPane.PLAIN_MESSAGE);
+				
+				if(checkBox.isSelected()) {
+					getLimitedReviews();
+				} else {
+					refreshAllDatas();
+					DialogManager.createMsgDialog("정상적으로 처리되었습니다.", "\\img\\success1.png",
+							"알림", JOptionPane.PLAIN_MESSAGE);
+				}
 			} else {
 				DialogManager.createMsgDialog("작업이 취소되었습니다.", "\\img\\information5.png",
 						"알림", JOptionPane.PLAIN_MESSAGE);
