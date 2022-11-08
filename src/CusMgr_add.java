@@ -33,7 +33,6 @@ public class CusMgr_add {
 	private JTextField cusTel;
 	private JTextField cusDate;
 	private JLabel lblCusTel;
-	private JLabel lblCusDate;
 	private JLabel lblNewLabel_2;
 	
 
@@ -58,8 +57,7 @@ public class CusMgr_add {
 	 * Create the application.
 	 */
 	public CusMgr_add() {
-//		frame.setVisible(true);
-//		frame.setVisible(true);
+
 		initialize();
 		frame.setVisible(true);
 	}
@@ -74,119 +72,119 @@ public class CusMgr_add {
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(685, 10, 822, 1007);
+		panel.setBounds(680, 0, 822, 1007);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		// 저장버튼
 		JButton btnCusSave = new JButton("저장");
 		btnCusSave.setFont(new Font("나눔바른고딕", Font.BOLD, 30));
-		btnCusSave.setBounds(352, 919, 162, 61);
+		btnCusSave.setBounds(248, 743, 162, 61);
 		panel.add(btnCusSave);
 		
 		//텍스트필드
 		cusName = new JTextField();
 		cusName.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
-		cusName.setBounds(304, 49, 246, 54);
+		cusName.setBounds(304, 10, 246, 54);
 		panel.add(cusName);
 		cusName.setColumns(10);
 		
 		cusCarNum = new JTextField();
 		cusCarNum.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
 		cusCarNum.setColumns(10);
-		cusCarNum.setBounds(304, 144, 246, 54);
+		cusCarNum.setBounds(304, 96, 246, 54);
 		panel.add(cusCarNum);
 		
 		cusCarBrand = new JTextField();
 		cusCarBrand.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
 		cusCarBrand.setColumns(10);
-		cusCarBrand.setBounds(304, 236, 246, 54);
+		cusCarBrand.setBounds(304, 176, 246, 54);
 		panel.add(cusCarBrand);
 		
 		cusCarType = new JTextField();
 		cusCarType.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
 		cusCarType.setColumns(10);
-		cusCarType.setBounds(304, 324, 246, 54);
+		cusCarType.setBounds(304, 250, 246, 54);
 		panel.add(cusCarType);
 		
 		cusKm = new JTextField();
 		cusKm.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
 		cusKm.setColumns(10);
-		cusKm.setBounds(304, 424, 246, 54);
+		cusKm.setBounds(304, 330, 246, 54);
 		panel.add(cusKm);
 		
 		cusZip = new JTextField();
 		cusZip.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
 		cusZip.setColumns(10);
-		cusZip.setBounds(304, 526, 246, 54);
+		cusZip.setBounds(304, 405, 246, 54);
 		panel.add(cusZip);
 		
 		cusAddr = new JTextField();
 		cusAddr.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
 		cusAddr.setColumns(10);
-		cusAddr.setBounds(304, 627, 365, 54);
+		cusAddr.setBounds(304, 479, 365, 54);
 		panel.add(cusAddr);
 		
 		cusTel = new JTextField();
 		cusTel.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
 		cusTel.setColumns(10);
-		cusTel.setBounds(304, 725, 365, 54);
+		cusTel.setBounds(304, 561, 365, 54);
 		panel.add(cusTel);
 		
 		cusDate = new JTextField();
 		cusDate.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
 		cusDate.setColumns(10);
-		cusDate.setBounds(304, 815, 365, 54);
+		cusDate.setBounds(304, 632, 365, 54);
 		panel.add(cusDate);
 		
 		JLabel lblCusName = new JLabel("고객이름");
 		lblCusName.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
-		lblCusName.setBounds(63, 49, 122, 72);
+		lblCusName.setBounds(66, 10, 122, 72);
 		panel.add(lblCusName);
 		
 		JLabel lblCarNum = new JLabel("차 번호");
 		lblCarNum.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
-		lblCarNum.setBounds(66, 132, 122, 72);
+		lblCarNum.setBounds(66, 86, 122, 72);
 		panel.add(lblCarNum);
 		
 		JLabel lblCarBrand = new JLabel("브랜드");
 		lblCarBrand.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
-		lblCarBrand.setBounds(66, 218, 122, 72);
+		lblCarBrand.setBounds(66, 166, 122, 72);
 		panel.add(lblCarBrand);
 		
 		JLabel lblCarType = new JLabel("차종");
 		lblCarType.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
-		lblCarType.setBounds(66, 306, 122, 72);
+		lblCarType.setBounds(66, 240, 122, 72);
 		panel.add(lblCarType);
 		
 		JLabel lblCusKm = new JLabel("주행거리");
 		lblCusKm.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
-		lblCusKm.setBounds(66, 408, 122, 72);
+		lblCusKm.setBounds(66, 320, 122, 72);
 		panel.add(lblCusKm);
 		
 		JLabel lblCusZip = new JLabel("우편번호");
 		lblCusZip.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
-		lblCusZip.setBounds(66, 508, 122, 72);
+		lblCusZip.setBounds(66, 395, 122, 72);
 		panel.add(lblCusZip);
 		
 		JLabel lblCusAddr = new JLabel("주소");
 		lblCusAddr.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
-		lblCusAddr.setBounds(63, 617, 122, 72);
+		lblCusAddr.setBounds(76, 469, 122, 72);
 		panel.add(lblCusAddr);
 		
 		lblCusTel = new JLabel("전화번호");
-		lblCusTel.setBounds(63, 707, 122, 72);
+		lblCusTel.setBounds(63, 551, 122, 72);
 		panel.add(lblCusTel);
 		lblCusTel.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
 		
-		lblCusDate = new JLabel("가입날짜");
-		lblCusDate.setBounds(63, 829, 122, 72);
-		panel.add(lblCusDate);
+		JLabel lblCusDate = new JLabel("가입날짜");
 		lblCusDate.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
+		lblCusDate.setBounds(66, 622, 122, 72);
+		panel.add(lblCusDate);
 		
-//		JButton btnBackCusMain = new JButton("돌아가기");
-//		btnBackCusMain.setBounds(274, 940, 290, 65);
-//		btnBackCusMain.setFont(new Font("나눔바른고딕", Font.BOLD, 30));
-//		frame.getContentPane().add(btnBackCusMain);
+		JButton btnBackCusMain = new JButton("돌아가기");
+		btnBackCusMain.setBounds(274, 940, 290, 65);
+		btnBackCusMain.setFont(new Font("나눔바른고딕", Font.BOLD, 30));
+		frame.getContentPane().add(btnBackCusMain);
 		
 		lblNewLabel_2 = new JLabel("New label");
 		lblNewLabel_2.setIcon(new ImageIcon(CusMgr_add.class.getResource("/img/YellowCat.png")));
@@ -205,82 +203,28 @@ public class CusMgr_add {
 		}
 	});
 		
-		
-//		btnBackCusMain.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				setVisible(false); 
-//				new Main();
-//
-//			}
-//		});
+//		저장 버튼을 눌렀을 때
 		btnCusSave.addActionListener(new ActionListener() {
 	            @Override
-	            public void actionPerformed(ActionEvent arg0) {
-//	                ta.setText("");
-
-//	                String num = cusNum.getText();
-	                String name = cusName.getText();
-	                String carNum = cusCarNum.getText();
-	                String carBrand = cusCarBrand.getText();
-	                String carType = cusCarType.getText();
-	                int zip = Integer.parseInt(cusZip.getText()); 
-	                String addr = cusAddr.getText();
-	                String tel = cusTel.getText();
-	                String date = cusDate.getText();
-	                int km = Integer.parseInt(cusKm.getText());
-	                
-	                insertMember(new MemberBean());
-
-//	                ta.append("입력 완료 \n");
-
-	                cusName.setText("");
-	                cusCarNum.setText("");
-	                cusCarBrand.setText("");
-	                cusCarType.setText("");
-	                cusZip.setText("");
-	                
+	            public void actionPerformed(ActionEvent e) {
+	            	MemberMgr mgr = new MemberMgr();
+	            	MemberBean bean = new MemberBean();
+	            	
+	            	bean.setCusName(cusName.getText());
+	            	bean.setCusCarNum(cusCarNum.getText());
+	            	bean.setCusCarBrand(cusCarBrand.getText());
+	            	bean.setCusCarType(cusCarType.getText());
+	            	bean.setCusKm (Integer.parseInt(cusKm.getText().toString()));
+	            	bean.setCusZip (Integer.parseInt(cusZip.getText().toString()));
+	            	bean.setCusAddr(cusAddr.getText());
+	            	bean.setCusTel(cusTel.getText());
+	            	bean.setCusDate(cusDate.getText());
+	            	
+	            	mgr.insertCusMgr(bean);
+	            	
 	            }
+	           
+	            
 	        });
-		
-//		 public void insertMember(MemberBean member) {
-//		
-//			 
-//		        try {
-//		            st = conn.createStatement();
-//		            int stmt = st.executeUpdate(
-//		                    "insert into customer values ('" + member.name + "', '" + member.birth + "', '" + member.tel + "');");
-//		        } catch (SQLException e) {
-//		            e.printStackTrace();
-//		        } finally {
-//		            try {
-//		                st.close();
-//		            } catch (SQLException e) {
-//		                e.printStackTrace();
-//		            }
-//		        }
-//		    }
 	}
-	 public void insertMember(MemberBean member) {
-		 
-		 Connection conn = null;
-		 ResultSet rs = null;
-		 Statement st = null;
-			
-		 
-	        try {
-	            st = conn.createStatement();
-	            int stmt = st.executeUpdate(
-	                    "insert into customer values ('" + member.name + "', '" + member.birth + "', '" + member.tel + "');");
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        } finally {
-	            try {
-	                st.close();
-	            } catch (SQLException e) {
-	                e.printStackTrace();
-	            }
-	        }
-	    }
 }

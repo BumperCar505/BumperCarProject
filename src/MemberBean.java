@@ -65,8 +65,7 @@ public class MemberBean {
 		this.cusZip = cusZip;
 	}
 	
-	
-	
+
 	public int getCusKm() {
 		return cusKm;
 	}

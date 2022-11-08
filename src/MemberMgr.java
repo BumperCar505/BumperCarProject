@@ -14,7 +14,6 @@ public class MemberMgr {
 		pool = DBConnectionMgr.getInstance();
 	}
 
-	
 	//한개의 레코드
 	public MemberBean select(int id){
 		Connection con = null;
@@ -78,11 +77,12 @@ public class MemberMgr {
 		MemberBean bean = new MemberBean();
 		try {
 			con = pool.getConnection();
-			sql = "select * from tblMember where cusNum = ? " ;
+			sql = "select * from customer where cusNum = ? " ;
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, cusNum);
 			rs = pstmt.executeQuery();
 			if(rs.next()){
+				bean.setCusNum(rs.getInt("cusNum"));
 				bean.setCusName(rs.getString("cusName"));
 				bean.setCusCarNum(rs.getString("cusCarNum"));
 				bean.setCusCarBrand(rs.getString("cusCarBrand"));
@@ -112,22 +112,9 @@ public class MemberMgr {
 //		MemberBean bean = new MemberBean();
 		try {
 			con = pool.getConnection();
-			sql = "insert into customer values(?,?,?,?,?,?,?,?,?) " ;
+			sql = "insert into customer(cusComNum, cusName, cusCarNum, cusCarBrand, cusCarType, cusZip, cusAddr, cusTel,cusKm,cusDate) values(1112233333,?,?,?,?,?,?,?,?,?) " ;
 			pstmt = con.prepareStatement(sql);
-//			pstmt.setInt(1, );
-//			rs = pstmt.executeQuery();
-//			if(rs.next()){
-			
-//			추가할 때는 bean을 사용할 필요없다. pstmt.setString을 사용.
-//				bean.setCusName(rs.getString("cusName"));
-//				bean.setCusCarNum(rs.getString("cusCarNum"));
-//				bean.setCusCarBrand(rs.getString("cusCarBrand"));
-//				bean.setCusCarType(rs.getString("cusCarType"));
-//				bean.setCusZip(rs.getInt("cusZip"));
-//				bean.setCusAddr(rs.getString("cusAddr"));
-//				bean.setCusTel(rs.getString("cusTel"));
-//				bean.setCusDate(rs.getString("cusDate"));
-//				bean.setCusKm(rs.getInt("cusKm"));
+
 //			데이터베이스에 값을 넣어줘야 하니까.set을 사용해야 한다.
 			
 			pstmt.setString(1, bean.getCusName());
@@ -137,10 +124,11 @@ public class MemberMgr {
 			pstmt.setInt(5, bean.getCusZip());
 			pstmt.setString(6, bean.getCusAddr());
 			pstmt.setString(7, bean.getCusTel());
-			pstmt.setString(8, bean.getCusDate());
-			pstmt.setInt(9, bean.getCusKm());
+			pstmt.setInt(8, bean.getCusKm());
+			pstmt.setString(9, bean.getCusDate());
 			
 			
+			pstmt.execute();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -153,7 +141,7 @@ public class MemberMgr {
 	
 //	cusMgr 수정
 	
-	public boolean updateCusMgr(MemberBean bean){
+	public MemberBean updateCusMgr(MemberBean bean){
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
@@ -173,35 +161,77 @@ public class MemberMgr {
 			pstmt.setString(8, bean.getCusDate());
 			pstmt.setInt(9, bean.getCusKm());
 			int cnt = pstmt.executeUpdate();
-			if(cnt==1) flag = true; //flag 전환
+			if(cnt==1) flag = true; 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			pool.freeConnection(con, pstmt);
 		}
-		return flag;
+		return bean;
+	}
+	
+//	선택한 열 값 가져오기 위해
+	public MemberBean select_(int cusNum){
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		MemberBean bean = new MemberBean();
+		try {
+			con = pool.getConnection();
+			sql = "select * from customer where cusNum=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, cusNum);
+			rs = pstmt.executeQuery();
+			if(rs.next()){
+				bean.setCusNum(rs.getInt("cusNum"));
+				bean.setCusName(rs.getString("cusName"));
+				bean.setCusCarNum(rs.getString("cusCarNum"));
+				bean.setCusCarBrand(rs.getString("cusCarBrand"));
+				bean.setCusCarType(rs.getString("cusCarType"));
+				bean.setCusZip(rs.getInt("cusZip"));
+				bean.setCusAddr(rs.getString("cusAddr"));
+				bean.setCusTel(rs.getString("cusTel"));
+				bean.setCusDate(rs.getString("cusDate"));
+				bean.setCusKm(rs.getInt("cusKm"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return bean;
 	}
 	
 //	cusMgr 삭제
-	public boolean deleteCusMgr(MemberBean bean){
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		String sql = null;
-		boolean flag = false;
-		try {
-			con = pool.getConnection();
-			sql = "DELETE from customer WHERE cusNum=? " ;
-			pstmt = con.prepareStatement(sql);
-			
-			pstmt.setInt(1, bean.getCusNum());
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			pool.freeConnection(con, pstmt);
-		}
-		return flag;
-	}
+//	public MemberBean deleteCusMgr(MemberBean bean){
+//		Connection con = null;
+//		PreparedStatement pstmt = null;
+//		String sql = null;
+//		
+//		try {
+//			con = pool.getConnection();
+////			프로시저 명령어
+////			프로시저 날려야 
+////			지금 maintenance테이블과 pk,fk로 묶여있어서 이렇게 안하면 데이터 삭제가 안됨.
+////			pstmt.execute("SET foreign_key_checks =0");
+//			sql =  "SET foreign_key_checks =0 DELETE from customer WHERE cusNum = ? SET foreign_key_checks = 1 ";
+//			pstmt = con.prepareStatement(sql);
+//
+//			
+//			
+//			
+//			pstmt.setInt(1, bean.getCusNum());
+//			pstmt.executeUpdate();
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} finally {
+//			pool.freeConnection(con, pstmt);
+//		}
+//
+//		return bean;
+//	}
 	
 	
 	
