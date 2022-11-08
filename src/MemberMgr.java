@@ -15,8 +15,8 @@ public class MemberMgr {
 	}
 
 	
-	//한개의 레코드
-	
+
+	// techListEdit
 	public MemberBean select(int techNum){
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -45,6 +45,46 @@ public class MemberMgr {
 	}
 	
 	
+	// UnitStockMgr edit - select로 값 받아오기
+	public MemberBean select2(String editIndex){
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		MemberBean bean = new MemberBean();
+		try {
+			con = pool.getConnection();
+			sql = "SELECT unit.unitNum, unit.unitName, unit.unitPrice, unit.unitVendor, stock.stckQty, stock.stckBuyDate "
+					+ "FROM unit "
+					+ "JOIN stock "
+					+ "ON unit.unitNum = stock.stckUnitNum "
+					+ "where stock.stckUnitNum = ? "
+					+ "AND stock.stckComNum = ? ";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, editIndex);
+//			pstmt.setString(2, "1112233333");
+			pstmt.setString(2, "1112233333");
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()){
+				bean.setUnitNum(rs.getString("unit.unitNum"));
+				bean.setUnitName(rs.getString("unit.unitName"));
+				bean.setUnitPrice(rs.getInt("unit.unitPrice"));
+				bean.setUnitVendor(rs.getString("unit.unitVendor"));
+				bean.setStckQty(rs.getInt("stock.stckQty"));
+				bean.setStckBuyDate(rs.getString("stock.stckBuyDate"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return bean;
+	}
+	
+	
+	
+	// techListEdit_edit 수정기능
 	public boolean update(MemberBean bean,int index){
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -69,24 +109,63 @@ public class MemberMgr {
 		}
 		return flag;
 	}
-	//"select MAX(techNum) from technician; ";
-	// 마지막 techNum 찾기
 	
-	  public MemberBean lastNum(){ Connection con = null; PreparedStatement pstmt =
-	  null; ResultSet rs = null; String sql = null; MemberBean bean = new
-	  MemberBean(); try { con = pool.getConnection(); sql =
-	  "select MAX(techNum) from technician "; 
-	  sql = "select * from technician ORDER BY ROWID LIMIT 1 "; 
-	  pstmt = con.prepareStatement(sql); rs = pstmt.executeQuery();
+	// UnitstockMgr_edit 수정기능
+		public boolean update2(MemberBean bean,String index){
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			String sql = null;
+			boolean flag = false;
+			try {
+				con = pool.getConnection();
+				sql = "UPDATE stock "
+						+ "SET stckQty=?, stckBuyDate=? "
+						+ "WHERE stckUnitNum = ? ";
+				pstmt = con.prepareStatement(sql);
+				
+				pstmt.setInt(1, bean.getStckQty());
+				pstmt.setString(2, bean.getStckBuyDate());
+				pstmt.setString(3, index);
+				
+				int cnt = pstmt.executeUpdate();
+				if(cnt==1) flag = true;
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(con, pstmt);
+			}
+			return flag;
+		}
+	
+	
+
+	// 마지막 techNum 찾기
+	  public MemberBean lastNum(){ 
+		  Connection con = null; 
+		  PreparedStatement pstmt = null; 
+		  ResultSet rs = null; 
+		  String sql = null; 
+		  MemberBean bean = new MemberBean(); 
+		  try { con = pool.getConnection(); 
+	  		sql = "select MAX(techNum) from technician "; 
+	  		sql = "select * from technician ORDER BY ROWID LIMIT 1 "; 
+	  		pstmt = con.prepareStatement(sql); rs = pstmt.executeQuery();
 	  
-	  if(rs.next()){ bean.setTechNum(rs.getInt("MAX(techNum)")); }
-	  
-	  
-	  } catch (Exception e) { e.printStackTrace(); } finally {
-	  pool.freeConnection(con, pstmt, rs); } return bean; }
+	  		if(rs.next()){
+	  			bean.setTechNum(rs.getInt("MAX(techNum)")); 
+	  		}
+		  } 
+		  catch (Exception e) {
+			  e.printStackTrace(); 
+		  } 
+		  finally {
+			  pool.freeConnection(con, pstmt, rs); 
+		  } 
+		  return bean; 
+	  }
 	 
 	
-	// 추가 기능
+	// 추가 기능 - TechListedit
 	public MemberBean add(MemberBean bean){
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -94,7 +173,7 @@ public class MemberMgr {
 		
 		try {
 			con = pool.getConnection();
-			sql = "INSERT INTO technician (techNum, techComNum, techName, techTel, techLv) VALUES (NULL, '8885577777', ?, ?, ?) ";
+			sql = "INSERT INTO technician (techNum, comNum, techName, techTel, techLv) VALUES (NULL, '8885577777', ?, ?, ?) ";
 			pstmt = con.prepareStatement(sql);
 
 			pstmt.setString(1, bean.getTechName());

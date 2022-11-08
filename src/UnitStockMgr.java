@@ -37,11 +37,11 @@ public class UnitStockMgr extends JFrame {
 	private JButton btnBackUnitStockMain;
 	
 	private String driver  = "com.mysql.cj.jdbc.Driver";
-    private String url = "jdbc:mysql://127.0.0.1:3306/cardb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul";
+    private String url = "jdbc:mysql://127.0.0.1:3306/cardb5?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul";
 	private Connection con = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
-	private String header[] = {"unitNum","부품번호","부품명","벤더", "재고수량"};  // 테이블 컬럼 값들
+	private String header[] = {"부품번호","부품명","벤더", "재고수량"};  // 테이블 컬럼 값들
 	private DefaultTableModel model = new DefaultTableModel(header, 0);
 
 	// Launch the application.
@@ -150,8 +150,19 @@ public class UnitStockMgr extends JFrame {
 		// 수정 버튼 누르면 실행됨 -> 새 폼 띄우기 
 		btnEditUnitStock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				UnitStockMgr_edit edit = new UnitStockMgr_edit();
-				edit.setVisible(true);
+				
+				int row = table.getSelectedRow();
+				int column = 0;
+				
+				if(row == -1){
+		            JOptionPane.showConfirmDialog(null, "셀을 선택하지 않으셨습니다.", "삭제", JOptionPane.DEFAULT_OPTION);
+		        }
+				else {
+					String editIndex = (String) table.getValueAt(row, column);
+					UnitStockMgr_edit edit = new UnitStockMgr_edit(editIndex);
+					edit.setVisible(true);
+					dispose();
+				}
 						
 			}
 		});
@@ -160,9 +171,9 @@ public class UnitStockMgr extends JFrame {
 				btnDelUnitStock.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
-						int index = table.getSelectedRow();
+						int row = table.getSelectedRow();
 						
-						if(index == -1){
+						if(row == -1){
 				            JOptionPane.showConfirmDialog(null, "셀을 선택하지 않으셨습니다.", "삭제", JOptionPane.DEFAULT_OPTION);
 				        }
 						
@@ -171,7 +182,7 @@ public class UnitStockMgr extends JFrame {
 				        		int result = DialogManager.createMsgDialog("<html><h3>삭제하시겠습니까?</h3>", "/img/question6.png", "삭제", JOptionPane.YES_NO_OPTION);
 		   
 					            if (result == 0) {
-					            	model.removeRow(index);
+					            	model.removeRow(row);
 					            	DialogManager.createMsgDialog("<html><h3>삭제되었습니다.</h3>", "/img/success1.png", "삭제", JOptionPane.CLOSED_OPTION);
 					            } else if (result == 1) {
 					            	   
@@ -201,31 +212,22 @@ public class UnitStockMgr extends JFrame {
 				PreparedStatement pstmt = null;
 				ResultSet rs = null;
 				String sql = null;
-//				MemberBean bean = new MemberBean();
-				
-				
-				
-				for (i = 0; i < index.l;i++)
-				{
-					
-					select unit.unitNum, unit.unitName, unit.unitVendor, stock.stckQty
-					from unit
-					join stock
-					on  unit.unitNum = stock.stckUnitNum
-					where unit.unitNum = in;
-				}
-				
-				
- 
+				MemberBean bean = new MemberBean();
+
 				try {
 					Class.forName(driver);
 					con = DriverManager.getConnection(url, "root", "1234");
-					sql = "select * from unit ";
+					sql = "SELECT unit.unitNum, unit.unitName, unit.unitVendor, stock.stckQty "
+							+ "FROM stock " 
+							+ "LEFT JOIN unit ON stock.stckUnitNum = unit.unitNum "
+							+ "WHERE stock.stckComNum = ? ";
 					pstmt = con.prepareStatement(sql);
+//					pstmt.setString(1, bean.getStckComNum()); // 실제 -> 사업자번호 값 받아오기
+					pstmt.setString(1, "1112233333"); // 테스트용
+			
 					rs = pstmt.executeQuery();
-
 						while(rs.next()){            // 각각 값을 가져와서 테이블값들을 추가
-		                 model.addRow(new Object[]{rs.getString("unitNum"), rs.getString("unitName"), rs.getString("unitVendor"),rs.getString("stckQty")});
+		                 model.addRow(new Object[]{rs.getString("unit.unitNum"), rs.getString("unit.unitName"), rs.getString("unit.unitVendor"),rs.getString("stock.stckQty")});
 		                }
 						
 					} catch (Exception e) {
@@ -245,7 +247,6 @@ public class UnitStockMgr extends JFrame {
 			}
 	
 	
-}
 
 
 
