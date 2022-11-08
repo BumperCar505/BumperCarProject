@@ -88,7 +88,8 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 		PreparedStatement psmt = null;
 		ResultSet rs = null;
 		try {
-			String query = "SELECT id, pw FROM login WHERE seperator = ? AND id = ? AND pw = ? ";
+			String query = "SELECT logComNum, pw FROM login "
+					+ "WHERE seperator = ? AND logComNum = ? AND pw = ? ";
 			con = mgr.getConnection();
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, "com");
@@ -97,7 +98,7 @@ public class ComLogin extends JFrame implements ActionListener, CaretListener {
 			rs = psmt.executeQuery();
 			
 			if(rs.next()) {
-				String rsId = rs.getString("id");
+				String rsId = rs.getString("logComNum");
 				String rsPwd = rs.getString("pw");
 				
 				if(rsId.equals(id) == true && rsPwd.equals(pwd) == true) {
