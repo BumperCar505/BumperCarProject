@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
@@ -223,9 +224,8 @@ public class ComManageComment extends JFrame implements ActionListener {
 		}
 	}
 	
-	// 
 	private void refreshAllDatas() {
-		setTableColumn(searchDbReviews());
+		setTableColumn(getDbReviews());
 		setTableTextCenter(tableCommentList);
 		resizeTableRow(tableCommentList);
 		resizeTableColumn(tableCommentList);
@@ -234,7 +234,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 	}
 	
 	private void refreshAllDatas(Calendar startDate, Calendar endDate) {
-		setTableColumn(searchDbReviews(startDate, endDate));
+		setTableColumn(getDbReviews(startDate, endDate));
 		setTableTextCenter(tableCommentList);
 		resizeTableRow(tableCommentList);
 		resizeTableColumn(tableCommentList);
@@ -242,8 +242,44 @@ public class ComManageComment extends JFrame implements ActionListener {
 		setAvgScore(getDbAvgReviewScore(startDate, endDate));
 	}
 	
+	private List<HashMap<String, String>> getDbDatas(Connection conn, PreparedStatement psmt, String[] getColumnNames) {
+		List<HashMap<String, String>> datas = new ArrayList<HashMap<String,String>>();
+		HashMap<String, String> data = new HashMap<String, String>();
+		ResultSet rs = null;
+		
+		try {
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				for(int i = 0; i < getColumnNames.length; ++i) {
+					data.put(getColumnNames[i], rs.getString(getColumnNames[i]));
+				}
+				
+				datas.add(data);
+			}
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(this, ex.getMessage());
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(this, ex.getMessage());
+		} finally {
+			try {
+				if(rs != null) {rs.close();}
+				if(psmt != null) {psmt.close();}
+				if(conn != null) {conn.close();}
+			} catch(SQLException ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(this, ex.getMessage());
+			}
+		}
+		
+		return datas;
+	}
+	
 	// 조회된 데이터가(모든 컬럼) List<Vector<String>> 타입으로 반환됩니다.
-	private List<Vector<String>> searchDbReviews() {
+	private List<Vector<String>> getDbReviews() {
 		// DB에서 데이터 전체 조회
 		DBConnectionMgr mgr = DBConnectionMgr.getInstance();
 		Connection conn = null;
@@ -310,7 +346,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 	}
 	
 	// 리뷰를 기간 한정해서 조회
-	private List<Vector<String>> searchDbReviews(Calendar startDate, Calendar endDate) {
+	private List<Vector<String>> getDbReviews(Calendar startDate, Calendar endDate) {
 		SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
 		String sDate = simpleDateFormat.format(startDate.getTime());
 		String eDate = simpleDateFormat.format(endDate.getTime());
@@ -681,7 +717,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 		tableCommentList.getTableHeader().setReorderingAllowed(false);
 		
 		// 처음 창 로딩시 전체 데이터 DB에서 조회
-		setTableColumn(searchDbReviews());
+		setTableColumn(getDbReviews());
 		setTableTextCenter(tableCommentList);
 		resizeTableRow(tableCommentList);
 		resizeTableColumn(tableCommentList);
