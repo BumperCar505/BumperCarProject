@@ -158,7 +158,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 			int result = DialogManager.createMsgDialog("정말로 선택한 댓글을 숨길까요?", "\\img\\question6.png",
 					"알림", JOptionPane.YES_NO_OPTION);
 			if(result == 0) {
-				hideDbReviews(selectedNumbers);
+				hideDbReviews("1112233333", selectedNumbers); // 임시값 수정필요
 				
 				if(checkBox.isSelected()) {
 					getLimitedReviews();
@@ -207,7 +207,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 			int result = DialogManager.createMsgDialog("정말로 선택한 댓글을 보이게할까요?", "\\img\\question6.png",
 					"알림", JOptionPane.YES_NO_OPTION);
 			if(result == 0) {
-				showDbReviews(selectedNumbers);
+				showDbReviews("1112233333", selectedNumbers); // 임시값 수정필요
 				
 				if(checkBox.isSelected()) {
 					getLimitedReviews();
@@ -225,42 +225,44 @@ public class ComManageComment extends JFrame implements ActionListener {
 	
 	// 
 	private void refreshAllDatas() {
-		setTableColumn(getDbReviews());
+		setTableColumn(getDbReviews("1112233333")); // 추후 직접 값을 넣어주는 방식으로 변경해야한다.
 		setTableTextCenter(tableCommentList);
 		resizeTableRow(tableCommentList);
 		resizeTableColumn(tableCommentList);
 		resizeTableHeader(tableCommentList); // 반드시 이게 마지막으로 설정되어야 함
-		setAvgScore(getDbAvgReviewScore());
+		setAvgScore(getDbAvgReviewScore("1112233333")); // 임시값 반드시 수정 필요
 	}
 	
 	private void refreshAllDatas(Calendar startDate, Calendar endDate) {
-		setTableColumn(getDbReviews(startDate, endDate));
+		setTableColumn(getDbReviews("1112233333", startDate, endDate)); // 임시값 반드시 수정 필요
 		setTableTextCenter(tableCommentList);
 		resizeTableRow(tableCommentList);
 		resizeTableColumn(tableCommentList);
 		resizeTableHeader(tableCommentList); // 반드시 이게 마지막으로 설정되어야 함
-		setAvgScore(getDbAvgReviewScore(startDate, endDate));
+		setAvgScore(getDbAvgReviewScore("1112233333", startDate, endDate)); // 임시값 수정 필요
 	}
 	
 	// 조회된 데이터가(모든 컬럼) List<Vector<String>> 타입으로 반환됩니다.
-	private List<Vector<String>> getDbReviews() {
+	private List<Vector<String>> getDbReviews(String rvwComNum) {
 		// DB에서 데이터 전체 조회
 		DBConnectionMgr mgr = DBConnectionMgr.getInstance();
 		Connection conn = null;
 		PreparedStatement psmt = null;
 		ResultSet rs = null;
 		List<Vector<String>> datas = new ArrayList<Vector<String>>();
-		String query = "SELECT re.rvwNum, re.rvwStar, re.rvwCont, re.rvwDate, re.rvwDelete, "
+		String query = "SELECT re.rvwNum, re.rvwStar, re.rvwCont, re.rvwDate, re.deleted_yn, "
 				+ "cus.cusName, ser.srvName "
 				+ "FROM review AS re "
 				+ "INNER JOIN maintenance AS main ON re.rvwMainNum = main.mainNum "
 				+ "INNER JOIN customer AS cus ON main.mainCusNum = cus.cusNum "
 				+ "INNER JOIN service AS ser ON main.mainSrvNum = ser.srvNum "
-				+ "ORDER BY re.rvwNum ASC";
+				+ "WHERE re.rvwComNum = ? "
+				+ "ORDER BY re.rvwNum ASC ";
 		
 		try {
 			conn = mgr.getConnection();
 			psmt = conn.prepareStatement(query);
+			psmt.setString(1, rvwComNum);
 			rs = psmt.executeQuery();
 			
 			while(rs.next()) {
@@ -268,7 +270,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 				int star = rs.getInt("rvwStar");
 				String comment = rs.getString("rvwCont");
 				String visitedDate = rs.getString("rvwDate");
-				String delete = rs.getString("rvwDelete");
+				String delete = rs.getString("deleted_yn");
 				String cusName = rs.getString("cusName");
 				String srvName = rs.getString("srvName");
 				
@@ -310,7 +312,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 	}
 	
 	// 리뷰를 기간 한정해서 조회
-	private List<Vector<String>> getDbReviews(Calendar startDate, Calendar endDate) {
+	private List<Vector<String>> getDbReviews(String rvwComNum, Calendar startDate, Calendar endDate) {
 		SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
 		String sDate = simpleDateFormat.format(startDate.getTime());
 		String eDate = simpleDateFormat.format(endDate.getTime());
@@ -320,13 +322,14 @@ public class ComManageComment extends JFrame implements ActionListener {
 		PreparedStatement psmt = null;
 		ResultSet rs = null;
 		List<Vector<String>> datas = new ArrayList<Vector<String>>();
-		String query = "SELECT re.rvwNum, re.rvwStar, re.rvwCont, re.rvwDate, re.rvwDelete, "
+		String query = "SELECT re.rvwNum, re.rvwStar, re.rvwCont, re.rvwDate, re.deleted_yn, "
 				+ "cus.cusName, ser.srvName "
 				+ "FROM review AS re "
 				+ "INNER JOIN maintenance AS main ON re.rvwMainNum = main.mainNum "
 				+ "INNER JOIN customer AS cus ON main.mainCusNum = cus.cusNum "
 				+ "INNER JOIN service AS ser ON main.mainSrvNum = ser.srvNum "
 				+ "WHERE re.rvwDate >= ? AND re.rvwDate <= ? "
+				+ "AND re.rvwComNum = ? "
 				+ "ORDER BY re.rvwNum ASC";
 		
 		try {
@@ -334,6 +337,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 			psmt = conn.prepareStatement(query);
 			psmt.setString(1, sDate);
 			psmt.setString(2, eDate);
+			psmt.setString(3, rvwComNum);
 			rs = psmt.executeQuery();
 			
 			while(rs.next()) {
@@ -341,7 +345,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 				int star = rs.getInt("rvwStar");
 				String comment = rs.getString("rvwCont");
 				String visitedDate = rs.getString("rvwDate");
-				String delete = rs.getString("rvwDelete");
+				String delete = rs.getString("deleted_yn");
 				String cusName = rs.getString("cusName");
 				String srvName = rs.getString("srvName");
 				
@@ -382,18 +386,20 @@ public class ComManageComment extends JFrame implements ActionListener {
 		return datas;
 	}
 
-	private double getDbAvgReviewScore() {
+	private double getDbAvgReviewScore(String rvwComNum) {
 		// DB에서 평균점수 조회
 		DBConnectionMgr mgr = DBConnectionMgr.getInstance();
 		Connection conn = null;
 		PreparedStatement psmt = null;
 		ResultSet rs = null;
-		String query = "SELECT AVG(rvwStar) AS avgValue FROM review WHERE rvwDelete != 'Y'";
+		String query = "SELECT AVG(rvwStar) AS avgValue FROM review "
+				+ "WHERE deleted_yn != 'Y' AND rvwComNum = ? ";
 		double avgValue = 0.0;
 		
 		try {
 			conn = mgr.getConnection();
 			psmt = conn.prepareStatement(query);
+			psmt.setString(1, rvwComNum);
 			rs = psmt.executeQuery();
 			
 			if(rs.next()) {
@@ -419,7 +425,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 		return avgValue;
 	}
 	
-	private double getDbAvgReviewScore(Calendar startDate, Calendar endDate) {
+	private double getDbAvgReviewScore(String rvwComNum, Calendar startDate, Calendar endDate) {
 		// DB에서 기간한정해서 평균점수 조회
 		SimpleDateFormat simpleDateFormat =  new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
 		String sDate = simpleDateFormat.format(startDate.getTime());
@@ -431,7 +437,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 		ResultSet rs = null;
 		String query = "SELECT AVG(rvwStar) AS avgValue FROM review "
 				+ "WHERE rvwDate >= ? AND rvwDate <= ? "
-				+ "AND rvwDelete != 'Y'";
+				+ "AND deleted_yn != 'Y' AND rvwComNum = ? ";
 		double avgValue = 0.0;
 		
 		try {
@@ -439,6 +445,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 			psmt = conn.prepareStatement(query);
 			psmt.setString(1, sDate);
 			psmt.setString(2, eDate);
+			psmt.setString(3, rvwComNum);
 			rs = psmt.executeQuery();
 			
 			if(rs.next()) {
@@ -464,13 +471,14 @@ public class ComManageComment extends JFrame implements ActionListener {
 		return avgValue;
 	}
 	
-	private boolean hideDbReviews(int[] selectedNumbers) {
+	private boolean hideDbReviews(String rvwComNum, int[] selectedNumbers) {
 		// DB에 저장되어있는 리뷰중 선택한 리뷰들을 코멘트와 별점 안보이게 처리
 		boolean flag = false;
 		DBConnectionMgr mgr = DBConnectionMgr.getInstance();
 		Connection conn = null;
 		PreparedStatement psmt = null;
-		String query = "UPDATE review SET rvwDelete = 'Y' WHERE rvwNum = ? ";
+		String query = "UPDATE review SET deleted_yn = 'Y' WHERE rvwNum = ? "
+				+ "AND rvwComNum = ? ";
 		
 		try {
 			conn = mgr.getConnection();
@@ -478,6 +486,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 			
 			for(int i = 0; i < selectedNumbers.length; ++i) {
 				psmt.setInt(1, selectedNumbers[i]);
+				psmt.setString(2, rvwComNum);
 				int result = psmt.executeUpdate();
 				
 				if(result == 1) {
@@ -503,13 +512,14 @@ public class ComManageComment extends JFrame implements ActionListener {
 		return flag;
 	}
 	
-	private boolean showDbReviews(int[] selectedNumbers) {
+	private boolean showDbReviews(String rvwComNum, int[] selectedNumbers) {
 		// DB에 저장되어있는 리뷰중 선택한 리뷰들을 코멘트와 별점 보이게 변경
 		boolean flag = false;
 		DBConnectionMgr mgr = DBConnectionMgr.getInstance();
 		Connection conn = null;
 		PreparedStatement psmt = null;
-		String query = "UPDATE review SET rvwDelete = 'N' WHERE rvwNum = ? ";
+		String query = "UPDATE review SET deleted_yn = 'N' WHERE rvwNum = ? "
+				+ "AND rvwComNum = ? ";
 		
 		try {
 			conn = mgr.getConnection();
@@ -517,6 +527,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 			
 			for(int i = 0; i < selectedNumbers.length; ++i) {
 				psmt.setInt(1, selectedNumbers[i]);
+				psmt.setString(2, rvwComNum);
 				int result = psmt.executeUpdate();
 				
 				if(result == 1) {
@@ -681,7 +692,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 		tableCommentList.getTableHeader().setReorderingAllowed(false);
 		
 		// 처음 창 로딩시 전체 데이터 DB에서 조회
-		setTableColumn(getDbReviews());
+		setTableColumn(getDbReviews("1112233333")); // 추후 직접 값을 넣어주는 방식으로 변경해야함
 		setTableTextCenter(tableCommentList);
 		resizeTableRow(tableCommentList);
 		resizeTableColumn(tableCommentList);
@@ -717,7 +728,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 		
 		lblScore = new JLabel("평균 별점 : 4.0");
 		lblScore.setBounds(425, 74, 160, 42);
-		setAvgScore(getDbAvgReviewScore());
+		setAvgScore(getDbAvgReviewScore("1112233333")); // 임시 값 반드시 수정필요
 		contentPane.add(lblScore);
 		
 		btnSearchComment = new JButton("검색하기");
