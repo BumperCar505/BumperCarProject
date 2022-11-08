@@ -1,12 +1,12 @@
 // 로그인 유저 정보만 포함하기때문에 암호는 없음
 public class LoginManager {
 	private String seperator;
-	private String comNum;
+	private String logComNum;
 	private boolean loginStatus;
 	
 	private LoginManager() {
 		seperator = null;
-		comNum = null;
+		logComNum = null;
 		loginStatus = false;
 	}
 	
@@ -22,18 +22,18 @@ public class LoginManager {
 		return seperator;
 	}
 	
-	public String getComNum() {
-		return comNum;
+	public String getLogComNum() {
+		return logComNum;
 	}
 	
 	public boolean getLoginStatus() { 
 		return loginStatus;
 	}
 	
-	public boolean login(String seperator, String comNum) {
-		if(this.seperator == null && comNum == null) {
+	public boolean login(String seperator, String logComNum) {
+		if(this.seperator == null && logComNum == null) {
 			this.seperator = seperator;
-			this.comNum = comNum;
+			this.logComNum = logComNum;
 			this.loginStatus = true;
 			return true;
 		} else {
@@ -42,9 +42,9 @@ public class LoginManager {
 	}
 	
 	public boolean logout() {
-		if(seperator != null && comNum != null) {
+		if(seperator != null && logComNum != null) {
 			seperator = null;
-			comNum = null;
+			logComNum = null;
 			loginStatus = false;
 			return true;
 		} else {
