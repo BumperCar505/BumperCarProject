@@ -151,6 +151,9 @@ public class ComSrvList extends JFrame implements ActionListener {
 				DialogManager.createMsgDialog("삭제가 취소되었습니다.", "\\img\\information5.png",
 						"알림", JOptionPane.PLAIN_MESSAGE);
 			}
+		} else if(obj == btnBackMain) {
+			new ComMyPage();
+			this.dispose();
 		}
 	}
 	
@@ -238,6 +241,7 @@ public class ComSrvList extends JFrame implements ActionListener {
 		btnBackMain.setBounds(670, 918, Size.BTN_B_W, Size.BTN_B_H);
 		btnBackMain.setBorder(new BevelBorder(BevelBorder.RAISED, Color.red, Color.red, 
 				Color.red, Color.red));
+		btnBackMain.addActionListener(this);
 		contentPane.add(btnBackMain);
 		
 		lblYellowCat = new JLabel("");
