@@ -30,7 +30,7 @@ public class PlanInfo extends JLabel {
 	Calendar cal = Calendar.getInstance();
 	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-	public PlanInfo(int mainNum, String cusName, String cusCarNum, String srvName, String cusTel, BookMain bMain, String mainStartDate, String mainEndDate, int year, int month,
+	public PlanInfo(int mainNum, String cusName, String cusCarNum, String srvName, String cusTel, BookMain bMain, String mainStartDay, String mainStartTime, String mainEndDay, String mainEndTime, int year, int month,
 			int days, PlanCount planCount) {
 //		this.get_schedule_no = schedule_no;
 		this.get_maintenance_num = mainNum;
@@ -41,6 +41,8 @@ public class PlanInfo extends JLabel {
 //		setBackground(getColor(schedule_no));
 		if (month < 10) {
 			mon = "0" + (month + 1);
+		} else {
+			mon = String.valueOf(month + 1);
 		}
 		if (days < 10) {
 			day = "0" + days;
@@ -55,7 +57,7 @@ public class PlanInfo extends JLabel {
 		}
 		cal.setTime(this_date);
 		int dayofweek = cal.get(Calendar.DAY_OF_WEEK);
-		if (mainStartDate.equals(thisDay) || dayofweek == 1) {// dayofweek가 1이라는게 그날이 일요일이라는것
+		if (mainStartDay.equals(thisDay) || dayofweek == 1) {// dayofweek가 1이라는게 그날이 일요일이라는것
 			setText(cusName + "-" + srvName);
 		} else {
 			setText("  ");
@@ -71,13 +73,13 @@ public class PlanInfo extends JLabel {
 	}
 
 	public void move(int mainNum) {
-		Connection con = bMain.getConn();
+		Connection conn = bMain.getConn();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 //		bMain.mainFrame.showPage(MainFrame.SCHEDULE);// 패널누르면 일정등록페이지
 //		schedule = (BookSchedule) bMain.mainFrame.getPages(MainFrame.SCHEDULE);
 
-		String sql = "SELECT customer.cusName, customer.cusCarNum, customer.cusCarBrand, customer.cusCarType, customer.cusTel, service.srvName, mainStartDate, mainEndDate "
+		String sql = "SELECT customer.cusName, customer.cusCarNum, customer.cusCarBrand, customer.cusCarType, customer.cusTel, service.srvName, mainStartDay, mainStartTime, mainEndDay, mainEndTime "
 				+ "FROM maintenance "
 				+ "JOIN customer "
 				+ "ON customer.cusNum = maintenance.mainCusNum "
@@ -87,7 +89,7 @@ public class PlanInfo extends JLabel {
 		
 
 		try {
-			pstmt = con.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, get_maintenance_num);
 
 			rs = pstmt.executeQuery();
@@ -98,9 +100,11 @@ public class PlanInfo extends JLabel {
 			String cusCarType = rs.getString("cusCarType");
 			String cusTel = rs.getString("cusTel");
 			String srvName = rs.getString("srvName");
-			String mainStartDate = rs.getString("mainStartDate");
-			String mainEndDate = rs.getString("mainEndDate");
-			detail.setSchedule(mainNum, cusName, cusCarNum, cusCarBrand, cusCarType, cusTel, srvName, mainStartDate, mainEndDate);
+			String mainStartDay = rs.getString("mainStartDay");
+			String mainStartTime = rs.getString("mainStartTime");
+			String mainEndDay = rs.getString("mainEndDay");
+			String mainEndTime = rs.getString("mainEndTime");
+			detail.setSchedule(mainNum, cusName, cusCarNum, cusCarBrand, cusCarType, cusTel, srvName, mainStartDay, mainStartTime, mainEndDay, mainEndTime);
 
 		} catch (SQLException e) {
 			e.printStackTrace();

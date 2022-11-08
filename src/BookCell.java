@@ -22,12 +22,14 @@ import java.awt.event.MouseAdapter;
 
 // 날짜 정보가 들어있는 
 public class BookCell extends JPanel {
+	
+	private final DBManager dbManager = new DBManager();
 
 	BookCalendar bookCalendar;
 	BookSchedule schedule;
 	BookDetail detail;
 	BookMain bMain;
-	PlanCount planCount;
+	PlanCount planCount = new PlanCount();
 	ArrayList<JLabel> plan_list = new ArrayList<JLabel>();
 	JLabel la_day, plan_count;
 	String printDay;
@@ -41,16 +43,21 @@ public class BookCell extends JPanel {
 		lday.add(la_day);
 		
 		plan_count = new JLabel();
-		plan_count.setPreferredSize(new Dimension(110, 13));
+//		plan_count.setPreferredSize(new Dimension(180, 13));
+//		plan_count.setPreferredSize(null);
+		
+		plan_count.setFont(new Font("NanumBarunGothic", Font.BOLD, 16));
 		p_center = new JPanel();
 		
 		setLayout(new BorderLayout());
 		add(lday, BorderLayout.NORTH);
+//		add(p_center);
+//		p_center.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 1));
 		add(p_center);
-		p_center.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 1));
 		
-		setPreferredSize(new Dimension(60, 60));
+//		setPreferredSize(new Dimension(180, 100));
 
+		
 	}
 	
 
@@ -59,9 +66,9 @@ public class BookCell extends JPanel {
 		this.month = month;
 		this.days = days;
 		
-//		if (year > 0) {
-//			setSchedule();
-//		}
+		if (year > 0) {
+			setSchedule();
+		}
 	}
 	
 	public void setCellColor(Color color) { p_center.setBackground(color); }
@@ -86,7 +93,7 @@ public class BookCell extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				// cell 클릭
 				JFrame f = new JFrame((month+1) + "월 " + days + "일");
-				f.setLayout(null);
+				f.getContentPane().setLayout(null);
 				f.setSize(500,500);
 				f.setLocationRelativeTo(null);
 				
@@ -95,13 +102,13 @@ public class BookCell extends JPanel {
 				l.setBounds(193, 10, 98, 36);
 				l.setText((month+1) + "월 " + days + "일");
 				l.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
-				f.add(l);
+				f.getContentPane().add(l);
 //				f.add(l, BorderLayout.NORTH);
 				
 				JButton btnAdd = new JButton("추가");
 				btnAdd.setBounds(192, 401, 100, 50);
 				btnAdd.setFont(new Font("NanumBarunGothic", Font.BOLD, 16));
-				f.add(btnAdd);
+				f.getContentPane().add(btnAdd);
 				
 				f.show();
 				
@@ -134,10 +141,12 @@ public class BookCell extends JPanel {
 	}
 	
 	public void setSchedule() {
-		Connection conn = bMain.getConn();
+		Connection conn = dbManager.getConn();
+//		Connection conn = null;
+
 		
-		String sql = "SELECT mainNum, customer.cusName, service.srvName, mainStartDay, mainStartDate "
-				+ "FROM maintenace "
+		String sql = "SELECT mainNum, customer.cusName, customer.cusCarNum, customer.cusTel, service.srvName, mainStartDay, mainStartTime, mainEndDay, mainEndTime "
+				+ "FROM maintenance "
 				+ "JOIN customer "
 				+ "ON customer.cusNum = maintenance.mainCusNum "
 				+ "JOIN service "
@@ -167,13 +176,16 @@ public class BookCell extends JPanel {
 					String cusCarNum = rs.getString("cusCarNum");
 					String srvName = rs.getString("srvName");
 					String cusTel = rs.getString("cusTel");
-					String mainStartDate = rs.getString("mainStartDate");
-					String mainEndDate = rs.getString("mainEndDate");
+					String mainStartDay = rs.getString("mainStartDay");
+					String mainStartTime = rs.getString("mainStartTime");
+					String mainEndDay = rs.getString("mainEndDay");
+					String mainEndTime = rs.getString("mainEndTime");
 					// DB
 					
-					PlanInfo tmpLabel = new PlanInfo(mainNum, cusName, cusCarNum, srvName, cusTel, bMain, mainStartDate, mainEndDate, year, month,
+					PlanInfo tmpLabel = new PlanInfo(mainNum, cusName, cusCarNum, srvName, cusTel, bMain, mainStartDay, mainStartTime, mainEndDay, mainEndTime, year, month,
 							 days, planCount);
 					
+				
 					plan_list.add(tmpLabel);
 					if (plan_list.size() < 3) {
 						p_center.add(tmpLabel);
@@ -196,10 +208,12 @@ public class BookCell extends JPanel {
 					String cusCarNum = rs.getString("cusCarNum");
 					String srvName = rs.getString("srvName");
 					String cusTel = rs.getString("cusTel");
-					String mainStartDate = rs.getString("mainStartDate");
-					String mainEndDate = rs.getString("mainEndDate");
+					String mainStartDay = rs.getString("mainStartDay");
+					String mainStartTime = rs.getString("mainStartTime");
+					String mainEndDay = rs.getString("mainEndDay");
+					String mainEndTime = rs.getString("mainEndTime");
 					// DB
-					PlanInfo tmpLabel = new PlanInfo(mainNum, cusName, cusCarNum, srvName, cusTel, bMain, mainStartDate, mainEndDate, year, month,
+					PlanInfo tmpLabel = new PlanInfo(mainNum, cusName, cusCarNum, srvName, cusTel, bMain, mainStartDay, mainStartTime, mainEndDay, mainEndTime, year, month,
 							 days, planCount);
 					plan_list.add(tmpLabel);
 					p_center.add(tmpLabel);
@@ -208,7 +222,12 @@ public class BookCell extends JPanel {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		} finally {
-			bMain.closeDB(pstmt, rs);
+			dbManager.closeDB(pstmt, rs);
+			dbManager.closeDB();
+//			if (rs != null) { rs.close(); }
+//			if (pstmt != null) { pstmt.close(); }
+//			if (conn != null) { conn.close(); }
+			
 		}
 		
 	}

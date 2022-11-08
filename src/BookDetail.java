@@ -6,12 +6,18 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.ParseException;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
+import javax.swing.SwingConstants;
+
 
 public class BookDetail extends JFrame {
 
@@ -26,7 +32,15 @@ public class BookDetail extends JFrame {
 	JButton btnBook;
 	
 	int mainNum;
-
+	
+	String[] status = { "     예약됨", "     예약취소", "     정비중", "     정비완료" };
+	ImageIcon[] images = {
+			new ImageIcon("/img/statusYellow.png"),
+			new ImageIcon("/img/statusGray.png"),
+			new ImageIcon("/img/statusGray.png"),
+			new ImageIcon("/img/statusGray.png")
+	};
+	
 	/**
 	 * Launch the application.
 	 */
@@ -47,88 +61,96 @@ public class BookDetail extends JFrame {
 	 * Create the frame.
 	 */
 	public BookDetail() {
+		
+		
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 592, 900);
+		setBounds(100, 100, 620, 900);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnStatus = new JButton("");
-		btnStatus.setBounds(31, 776, Size.BTN_S_W, Size.BTN_S_H);
-		contentPane.add(btnStatus);
+		JLabel statusLabel = new JLabel();
+		statusLabel.setBounds(78, 788, 21, 21);
+//		statusLabel.setIcon(new ImageIcon(BookDetail.class.getResource("/img/statusBlue.png")));
+		contentPane.add(statusLabel);
+		//		lblNewLabel_7.setVerticalAlignment(SwingConstants.CENTER);
+//		statusLabel.setIcon(new ImageIcon(BookDetail.class.getResource("/img/statusYellow.png")));
 		
-		btnBook = new JButton("");
-		btnBook.setBounds(212, 776, 150, 50);
+		btnBook = new JButton();
+		btnBook.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
+		btnBook.setBounds(240, 775, 150, 50);
 		contentPane.add(btnBook);
 		
 		JButton btnBookCancel = new JButton("예약 취소");
-		btnBookCancel.setFont(new Font("Lucida Grande", Font.PLAIN, 21));
-		btnBookCancel.setBounds(393, 776, 150, 50);
+		btnBookCancel.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
+		btnBookCancel.setBounds(408, 775, 150, 50);
 		contentPane.add(btnBookCancel);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(31, 118, 512, 637);
+		panel.setBounds(46, 118, 512, 637);
+//		panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("고객명");
-		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 21));
+		lblNewLabel.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
 		lblNewLabel.setBounds(37, 33, 144, 36);
 		panel.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("차번호");
-		lblNewLabel_1.setFont(new Font("Lucida Grande", Font.PLAIN, 21));
+		lblNewLabel_1.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
 		lblNewLabel_1.setBounds(37, 109, 144, 36);
 		panel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("브랜드");
-		lblNewLabel_2.setFont(new Font("Lucida Grande", Font.PLAIN, 21));
+		lblNewLabel_2.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
 		lblNewLabel_2.setBounds(37, 185, 144, 36);
 		panel.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("전화번호");
-		lblNewLabel_3.setFont(new Font("Lucida Grande", Font.PLAIN, 21));
+		lblNewLabel_3.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
 		lblNewLabel_3.setBounds(37, 337, 144, 36);
 		panel.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_4 = new JLabel("서비스");
-		lblNewLabel_4.setFont(new Font("Lucida Grande", Font.PLAIN, 21));
+		lblNewLabel_4.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
 		lblNewLabel_4.setBounds(37, 409, 144, 36);
 		panel.add(lblNewLabel_4);
 		
 		JLabel lblNewLabel_5 = new JLabel("예약 시간");
-		lblNewLabel_5.setFont(new Font("Lucida Grande", Font.PLAIN, 21));
+		lblNewLabel_5.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
 		lblNewLabel_5.setBounds(37, 489, 144, 36);
 		panel.add(lblNewLabel_5);
 		
 		cusName = new JTextField();
-		cusName.setFont(new Font("Lucida Grande", Font.PLAIN, 21));
+		cusName.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
 		cusName.setBounds(202, 26, 289, 50);
 		panel.add(cusName);
 //		cusName.setColumns(10);
 		
 		cusCarNum = new JTextField();
-		cusCarNum.setFont(new Font("Lucida Grande", Font.PLAIN, 21));
+		cusCarNum.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
 		cusCarNum.setColumns(10);
 		cusCarNum.setBounds(202, 102, 289, 50);
 		panel.add(cusCarNum);
 		
 		cusCarBrand = new JTextField();
-		cusCarBrand.setFont(new Font("Lucida Grande", Font.PLAIN, 21));
+		cusCarBrand.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
 		cusCarBrand.setColumns(10);
 		cusCarBrand.setBounds(202, 178, 289, 50);
 		panel.add(cusCarBrand);
 		
 		cusCarType = new JTextField();
-		cusCarType.setFont(new Font("Lucida Grande", Font.PLAIN, 21));
+		cusCarType.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
 		cusCarType.setColumns(10);
 		cusCarType.setBounds(202, 254, 289, 50);
 		panel.add(cusCarType);
 		
 		cusTel = new JTextField();
-		cusTel.setFont(new Font("Lucida Grande", Font.PLAIN, 21));
+		cusTel.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
 		cusTel.setColumns(10);
 		cusTel.setBounds(202, 330, 289, 50);
 		panel.add(cusTel);
@@ -138,23 +160,23 @@ public class BookDetail extends JFrame {
 		panel.add(srvName);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("차종");
-		lblNewLabel_2_1.setFont(new Font("Dialog", Font.PLAIN, 21));
+		lblNewLabel_2_1.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
 		lblNewLabel_2_1.setBounds(37, 261, 144, 36);
 		panel.add(lblNewLabel_2_1);
 		
 		JLabel lblNewLabel_5_1 = new JLabel("정비 완료 시간");
-		lblNewLabel_5_1.setFont(new Font("Dialog", Font.PLAIN, 21));
+		lblNewLabel_5_1.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
 		lblNewLabel_5_1.setBounds(37, 565, 144, 36);
 		panel.add(lblNewLabel_5_1);
 		
 		cusBookTime = new JTextField();
-		cusBookTime.setFont(new Font("Dialog", Font.PLAIN, 21));
+		cusBookTime.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
 		cusBookTime.setColumns(10);
 		cusBookTime.setBounds(202, 482, 289, 50);
 		panel.add(cusBookTime);
 		
 		completedTime = new JTextField();
-		completedTime.setFont(new Font("Dialog", Font.PLAIN, 21));
+		completedTime.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
 		completedTime.setColumns(10);
 		completedTime.setBounds(202, 558, 289, 50);
 		panel.add(completedTime);
@@ -163,18 +185,50 @@ public class BookDetail extends JFrame {
 		lblNewLabel_6.setIcon(new ImageIcon(BookDetail.class.getResource("/img/YellowCat.png")));
 		lblNewLabel_6.setBounds(176, 45, 223, 63);
 		contentPane.add(lblNewLabel_6);
+		
+		JComboBox statusBox = new JComboBox(status);
+		statusBox.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
+
+		statusBox.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JComboBox cb = (JComboBox) e.getSource();
+//				int index = cb.getSelectedIndex();
+//				statusLabel.setIcon(images[index]);
+				if ("     예약됨".equals(cb.getSelectedItem())) {
+					statusLabel.setIcon(new ImageIcon(BookDetail.class.getResource("/img/statusYellow.png")));
+				} else if ("     예약취소".equals(cb.getSelectedItem())) {
+					statusLabel.setIcon(new ImageIcon(BookDetail.class.getResource("/img/statusGray.png")));
+				} else if ("     정비중".equals(cb.getSelectedItem())) {
+					statusLabel.setIcon(new ImageIcon(BookDetail.class.getResource("/img/statusBlue.png")));
+				} else if ("     정비완료".equals(cb.getSelectedItem())) {
+					statusLabel.setIcon(new ImageIcon(BookDetail.class.getResource("/img/statusBlue.png")));
+				} 
+			}
+		});
+		
+		
+		statusBox.setBounds(69, 775, 150, 50);
+		
+//		statusBox.addItem(statusSymbol);
+//		statusBox.addItem(statusText);
+//		statusBox.setRenderer();
+		contentPane.add(statusBox);
+		
+		
 	}
 	
 	public void setSchedule(int mainNum, String cusName, String cusCarNum, String cusCarBrand, String cusCarType, String cusTel,
-			String srvName, String mainStartDate, String mainEndDate) {
+			String srvName, String mainStartDay, String mainStartTime, String mainEndDay, String mainEndTime) {
 		this.mainNum = mainNum;
 		this.cusName.setText(cusName);
 		this.cusCarBrand.setText(cusCarBrand);
 		this.cusCarType.setText(cusCarType);
 		this.cusTel.setText(cusTel);
 		// 콤보박스 선택값
-		cusBookTime.setText(mainStartDate);
-		completedTime.setText(mainEndDate);
+		cusBookTime.setText(mainStartDay + mainStartTime);
+		completedTime.setText(mainEndDay + mainEndTime);
 		
 
 //		if (writer_no != bMain.userInfo.getMember_no()) {

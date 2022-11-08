@@ -133,7 +133,7 @@ public class BookCalendar extends JFrame {
 		});
 		
 		JButton btnBackCusMain = new JButton("돌아가기");
-		btnBackCusMain.setFont(new Font("NanumBarunGothic", Font.PLAIN, 21));
+		btnBackCusMain.setFont(new Font("NanumBarunGothic", Font.BOLD, 21));
 		btnBackCusMain.setBounds(687, 914, Size.BTN_B_W, Size.BTN_B_H);
 		contentPane.add(btnBackCusMain);
 		
@@ -171,7 +171,8 @@ public class BookCalendar extends JFrame {
 	
 	public void setCal() {
 		for (int i = 0; i < cell_list.size(); i++) {
-			BookCell tmpCell = cell_list.get(i);
+			BookCell tmpCell = new BookCell();
+			tmpCell = cell_list.get(i);
 			tmpCell.labelDel();
 		}
 		days = 0;
