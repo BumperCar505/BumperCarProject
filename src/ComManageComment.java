@@ -56,6 +56,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 	private JCheckBox checkBox;
 	private final int FONT_SIZE = 21;
 	private Vector<String> headerNames = new Vector<>(Arrays.asList("번호", "고객명", "방문날짜", "서비스내용", "별점", "코멘트"));
+	private LoginManager loginManager;
 	
 	// model1 : 시작일, model2 : 종료일
 	private UtilDateModel model1, model2;
@@ -158,7 +159,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 			int result = DialogManager.createMsgDialog("정말로 선택한 댓글을 숨길까요?", "\\img\\question6.png",
 					"알림", JOptionPane.YES_NO_OPTION);
 			if(result == 0) {
-				hideDbReviews("1112233333", selectedNumbers); // 임시값 수정필요
+				hideDbReviews(loginManager.getLogComNum(), selectedNumbers);
 				
 				if(checkBox.isSelected()) {
 					getLimitedReviews();
@@ -207,7 +208,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 			int result = DialogManager.createMsgDialog("정말로 선택한 댓글을 보이게할까요?", "\\img\\question6.png",
 					"알림", JOptionPane.YES_NO_OPTION);
 			if(result == 0) {
-				showDbReviews("1112233333", selectedNumbers); // 임시값 수정필요
+				showDbReviews(loginManager.getLogComNum(), selectedNumbers);
 				
 				if(checkBox.isSelected()) {
 					getLimitedReviews();
@@ -225,21 +226,21 @@ public class ComManageComment extends JFrame implements ActionListener {
 	
 	// 
 	private void refreshAllDatas() {
-		setTableColumn(getDbReviews("1112233333")); // 추후 직접 값을 넣어주는 방식으로 변경해야한다.
+		setTableColumn(getDbReviews(loginManager.getLogComNum()));
 		setTableTextCenter(tableCommentList);
 		resizeTableRow(tableCommentList);
 		resizeTableColumn(tableCommentList);
 		resizeTableHeader(tableCommentList); // 반드시 이게 마지막으로 설정되어야 함
-		setAvgScore(getDbAvgReviewScore("1112233333")); // 임시값 반드시 수정 필요
+		setAvgScore(getDbAvgReviewScore(loginManager.getLogComNum()));
 	}
 	
 	private void refreshAllDatas(Calendar startDate, Calendar endDate) {
-		setTableColumn(getDbReviews("1112233333", startDate, endDate)); // 임시값 반드시 수정 필요
+		setTableColumn(getDbReviews(loginManager.getLogComNum(), startDate, endDate));
 		setTableTextCenter(tableCommentList);
 		resizeTableRow(tableCommentList);
 		resizeTableColumn(tableCommentList);
 		resizeTableHeader(tableCommentList); // 반드시 이게 마지막으로 설정되어야 함
-		setAvgScore(getDbAvgReviewScore("1112233333", startDate, endDate)); // 임시값 수정 필요
+		setAvgScore(getDbAvgReviewScore(loginManager.getLogComNum(), startDate, endDate));
 	}
 	
 	// 조회된 데이터가(모든 컬럼) List<Vector<String>> 타입으로 반환됩니다.
@@ -672,6 +673,9 @@ public class ComManageComment extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public ComManageComment() {
+		loginManager = LoginManager.getInstance();
+		loginManager.login("com", "1112233333"); // 가상 로그인 추후 삭제바람
+		
 		setTitle("다고쳐카센터 - 코멘트관리");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, Size.SCREEN_W, Size.SCREEN_H);
@@ -692,7 +696,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 		tableCommentList.getTableHeader().setReorderingAllowed(false);
 		
 		// 처음 창 로딩시 전체 데이터 DB에서 조회
-		setTableColumn(getDbReviews("1112233333")); // 추후 직접 값을 넣어주는 방식으로 변경해야함
+		setTableColumn(getDbReviews(loginManager.getLogComNum()));
 		setTableTextCenter(tableCommentList);
 		resizeTableRow(tableCommentList);
 		resizeTableColumn(tableCommentList);
@@ -728,7 +732,7 @@ public class ComManageComment extends JFrame implements ActionListener {
 		
 		lblScore = new JLabel("평균 별점 : 4.0");
 		lblScore.setBounds(425, 74, 160, 42);
-		setAvgScore(getDbAvgReviewScore("1112233333")); // 임시 값 반드시 수정필요
+		setAvgScore(getDbAvgReviewScore(loginManager.getLogComNum()));
 		contentPane.add(lblScore);
 		
 		btnSearchComment = new JButton("검색하기");
