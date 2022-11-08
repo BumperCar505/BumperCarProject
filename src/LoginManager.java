@@ -31,10 +31,10 @@ public class LoginManager {
 	}
 	
 	public boolean login(String seperator, String logComNum) {
-		if(this.seperator == null && logComNum == null) {
-			this.seperator = seperator;
-			this.logComNum = logComNum;
-			this.loginStatus = true;
+		if(LoginManagerHolder.member.seperator == null && LoginManagerHolder.member.logComNum == null) {
+			LoginManagerHolder.member.seperator = seperator;
+			LoginManagerHolder.member.logComNum = logComNum;
+			LoginManagerHolder.member.loginStatus = true;
 			return true;
 		} else {
 			return false;
