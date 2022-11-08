@@ -244,14 +244,13 @@ public class ComManageComment extends JFrame implements ActionListener {
 	
 	private List<HashMap<String, String>> getDbDatas(Connection conn, PreparedStatement psmt, String[] getColumnNames) {
 		List<HashMap<String, String>> datas = new ArrayList<HashMap<String,String>>();
-		HashMap<String, String> data = new HashMap<String, String>();
 		ResultSet rs = null;
 		
 		try {
 			rs = psmt.executeQuery();
 			
 			while(rs.next()) {
-				
+				HashMap<String, String> data = new HashMap<String, String>();
 				for(int i = 0; i < getColumnNames.length; ++i) {
 					data.put(getColumnNames[i], rs.getString(getColumnNames[i]));
 				}
@@ -663,6 +662,18 @@ public class ComManageComment extends JFrame implements ActionListener {
 					
 					// 리뷰 전체 들고오는 테스트 코드
 					// frame.setTableColumn(frame.searchDbReviews());  
+					DBConnectionMgr mgr = DBConnectionMgr.getInstance();
+					Connection conn = mgr.getConnection();
+					String query = "SELECT re.rvwNum, re.rvwStar, re.rvwCont, re.rvwDate, re.rvwDelete, "
+							+ "cus.cusName, ser.srvName "
+							+ "FROM review AS re "
+							+ "INNER JOIN maintenance AS main ON re.rvwMainNum = main.mainNum "
+							+ "INNER JOIN customer AS cus ON main.mainCusNum = cus.cusNum "
+							+ "INNER JOIN service AS ser ON main.mainSrvNum = ser.srvNum "
+							+ "ORDER BY re.rvwNum ASC ";
+					PreparedStatement psmt = conn.prepareStatement(query);
+					frame.getDbDatas(conn, psmt, new String[] {"rvwNum", "rvwStar", "rvwCont", "rvwDate",
+							"rvwDelete", "cusName", "srvName"});
 					
 					// 기간 한정해서 들고오는 부분 테스트 코드
 					// Calendar startDate = Calendar.getInstance();
