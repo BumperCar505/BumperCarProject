@@ -141,7 +141,7 @@ public class MemberMgr {
 	
 //	cusMgr 수정
 	
-	public MemberBean updateCusMgr(MemberBean bean){
+	public boolean updateCusMgr(MemberBean bean, int cusNum){
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
@@ -167,7 +167,7 @@ public class MemberMgr {
 		} finally {
 			pool.freeConnection(con, pstmt);
 		}
-		return bean;
+		return flag;
 	}
 	
 //	선택한 열 값 가져오기 위해

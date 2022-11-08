@@ -33,13 +33,11 @@ import java.util.Vector;
 
 
 
-public class RegTec extends JFrame {
+public class RegTech extends JFrame {
 	private DBConnectionMgr pool;
 
 	private JPanel contentPane;
 	private JTextField textField;
-	
-	private JTextField techComNum;
 
 	private JTextField techName;
 	private JTextField techTel;
@@ -66,7 +64,7 @@ public class RegTec extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RegTec frame = new RegTec();
+					RegTech frame = new RegTech();
 //					frame.setVisible(true);
 				
 				} catch (Exception e) {
@@ -77,7 +75,7 @@ public class RegTec extends JFrame {
 	}
 
 	
-	public RegTec() {
+	public RegTech() {
 		
 		
 		
@@ -108,6 +106,11 @@ public class RegTec extends JFrame {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(949, 139, 684, 745);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(64, 113, 564, 576);
+		panel_1.add(panel_2);
+		contentPane.setLayout(null);
 
 	
 		
@@ -118,23 +121,10 @@ public class RegTec extends JFrame {
 		panel_1.add(textField);
 		textField.setColumns(10);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(64, 113, 564, 576);
-		panel_1.add(panel_2);
-		contentPane.setLayout(null);
+	
 		
 		
-		
-		
-		
-//		입력하는 부분들
-		
-		techComNum= new JTextField();
-		techComNum.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
-		techComNum.setColumns(10);
-		techComNum.setBounds(26, 10, 206, 31);
-		panel.add(techComNum);
-		
+//		정보 입력하는 텍스트 필드 모음
 		techName = new JTextField();
 		techName.setBounds(26, 99, 206, 31);
 		techName.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
@@ -181,7 +171,7 @@ public class RegTec extends JFrame {
 //		우측 표 삽입
 	
 	// 여기서 부터
-		String header[]= { "사업자 등록 번호", "정비사 이름", "정비사전화번호", "정비사 직급"};
+		String header[]= {"정비사 이름", "정비사전화번호", "정비사 직급"};
 //
 //
 		DefaultTableModel model = new DefaultTableModel(header,0);
@@ -196,41 +186,12 @@ public class RegTec extends JFrame {
 		contentPane.add(listTech);
 		JLabel lblRegTec = new JLabel("");
 		lblRegTec.setFont(new Font("나눔바른고딕", Font.BOLD, 15));
-//		
-//		lblRegTec.setBorder(LineBorderRegTec1);    //원하는 라벨에 사용
-//		lblRegTec.setBounds(57, 93, 535, 565);
-//		contentPane.add(lblRegTec);
-//		여기까지
-//		
-//		table.getColumnModel().getColumn(0).setPreferredWidth(39);
-//		table.getColumnModel().getColumn(0).setMinWidth(20);
-//		table.getColumnModel().getColumn(3).setResizable(false);
-//		table.setRowHeight(40);
-//		scrollpane.setLayout(null);
-		
-//		DefaultTableModel tm = new DefaultTableModel(String, Object);
-		
-		
-		
-//		새로운 도전
-		
-//		data = new Vector<>();
-//		title = new Vector<>();
-//		title.add("정비사 이름");
-//		title.add("정비사 전화번호");
-//		title.add("정비사 직급");
-//		
-//		model = new DefaultTableModel();
-//		Vector result = selectAll();
-//		model.setDataVector(result, title);
-//	
-		
-		
+
 		
 //		고양이 이미지 삽입
 		JLabel lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setBounds(655, 22, 357, 146);
-		lblNewLabel_3.setIcon(new ImageIcon(RegTec.class.getResource("/img/YellowCat.png")));
+		lblNewLabel_3.setIcon(new ImageIcon(RegTech.class.getResource("/img/YellowCat.png")));
 		contentPane.add(lblNewLabel_3);
 	
 		
@@ -276,26 +237,25 @@ public class RegTec extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String inputStr[] = new String[4];
+				String inputStr[] = new String[3];
 				
-				inputStr[0] = techComNum.getText();
-				inputStr[1] = techName.getText();
-				inputStr[2] = techTel.getText();
-				inputStr[3] = techLv.getText();
+				inputStr[0] = techName.getText();
+				inputStr[1] = techTel.getText();
+				inputStr[2] = techLv.getText();
 				 
 				
 				model.addRow(inputStr);
 				
 //				등록하고 난 뒤 다시 칸 비워주기
-				techComNum.setText("");
+				
 				techName.setText("");
 				techTel.setText("");
 				techLv.setText("");
+//			
 				
-				String techCN = techComNum.getText();
-				String techNM = techName.getText();
-				String techTT = techTel.getText();
-				String techLL = techLv.getText();
+//				String techNN = techName.getText();
+//				String techTT = techTel.getText();
+//				String techLL = techLv.getText();
 				
 				
 
@@ -306,6 +266,7 @@ public class RegTec extends JFrame {
 		
 	
 //		삭제 버튼 작동하기
+//		여기서는 삭제 하시겠습니까 알림창 뜨지 않는다.
 		btnTechDel.addActionListener(new ActionListener() {
 			
 			@Override
@@ -325,150 +286,55 @@ public class RegTec extends JFrame {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
+
+//				        데이터 techData에 넣어줌. 이렇게 하면 되겠지..??? 
+						RegTechData techData = new RegTechData();
+						techData.setTechName(techName.getText());
+						techData.setTechTel(techTel.getText());
+						techData.setTechLv(techLv.getText());
+						
 						setVisible(false); 
 						new SrvReg();
-
-					}
-				});
+				            	
+				            	
+						
+			}
+		});
 	}
 
-
-	
-	
-//	db연결 가즈아~!!
-//      private void insertTec(String techComNum, String techName, String techTel, String techLv) throws Exception {
-//
-//		
-//		
-//		DBConnectionMgr MGR = DBConnectionMgr.getInstance();
-//		Connection conn = null;
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//		String sql = "INSERT INTO technician (techComNum,techName, techTel, techLv) VALUES (?,?,?,?) " ;
-//		
-//
-//		
-//		try {
-//			conn = MGR.getConnection();
-//			pstmt = conn.prepareStatement(sql);
-//			pstmt.setString(1, techComNum);
-//			pstmt.setString(2, techName);
-//			pstmt.setString(3, techTel);
-//			pstmt.setString(4, techLv);
-//			pstmt.executeUpdate();
-//			
-//			
-//			
-//		}
-//		catch (SQLException e) {
-//			System.out.println(e.getMessage());
-//		}
-//		finally {
-//			if(conn != null) {conn.close();}
-//			if(rs != null) {rs.close();}
-//			if(pstmt != null) {pstmt.close();}
-//			
-//		}
-//		
-//	}
-	
-	
-//	여기서
-	
-//	public Connection getConnection()
-//
-//	 {
-//
-//	  try {
-//	
-//	   conn=DriverManager.getConnection(url,"root","1234");
-//
-//	  } catch (SQLException e) {
-//
-//	   System.out.println("connection failed");
-//
-//	   e.printStackTrace();
-//
-//	  }
-//
-//	  return conn;
-//
-//	 }
-//
-//	
-//	public void insertData(String ) {
-//		try {
-//			String sql = "INSERT INTO CRUD_TABLE(name, age) values(?, ?)";
-//			// PrparedStatment객체 생성, 인자로 sql문이 주어짐
-//			pstmt = conn.prepareStatement(sql);
-//			pstmt.setString(1, data.name);
-//			pstmt.setInt(2, data.age);
-//			// executeUpdate : insert, delete, update와 같이 값을 받아오지 않는 쿼리문 실행
-//			ps.executeUpdate();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			dbClose();
-//		}
-//	}
-	
 		
-		public void DBconnection() {
+//		데이터 넘겨주기
+		class RegTechData {
+			private String techName;
+			private String techTel;
+			private String techLv;
 			
-		
-			try {
-		 
-//		 String driver="com.mysql.cj.jdbc.Driver";
-//		 Class.forName("mysql.jdbc.driver.mysqlDriver");
-		 Class.forName("com.mysql.cj.jdbc.Driver");
-		 String user = "root";
-		 String url="jdbc:mysql://127.0.0.1:3306/cardb";
-		 String pw = "1234";
-		
-		 conn = DriverManager.getConnection(url, user, pw);
-		 System.out.println("연결성공");
-
-		}
-		catch (ClassNotFoundException cnfe) {
-			System.out.println("DB 드라이버 로딩 실패 :" + cnfe.toString());
-		} catch (SQLException sqle) {
-			System.out.println("DB 접속실패 : " + sqle.toString());
-		} catch (Exception e) {
-			System.out.println("Unkonwn error");
-			e.printStackTrace();
-		 }
-		finally {
+			public String getTechName() {
+				return techName;
+			}
+			public void setTechName(String techName) {
+				this.techName = techName;
+			}
 			
+			public String getTechTel() {
+				return techTel;
+			}
+			public void setTechTel(String techTel) {
+				this.techTel = techTel;
+			}
+			
+			public String getTechLv() {
+				return techLv;
+			}
+			public void setTechLv(String techLv) {
+				this.techLv = techLv;
+			}
 		}
-	
-	}
+//		은비언니가 받을 때는 new RegTech(RegTecData regTec) // maybe...
 
-	 
+}
 
-			public void insertData(String techComNum, String techName, String techTel, String techLv) {
-				
-////				Connection conn = DBconnection();
-				try {
-					String sql = "INSERT INTO technician (techComNum,techName, techTel, techLv) VALUES (?, ?, ?, ?) " ;
-					// PrparedStatment객체 생성, 인자로 sql문이 주어짐
-					pstmt = conn.prepareStatement(sql);
-					pstmt.setString(1, techComNum);
-					pstmt.setString(2, techName);
-					pstmt.setString(3, techTel);
-					pstmt.setString(4, techLv);
-					pstmt.executeUpdate();
-					
-					
-					pstmt.executeUpdate();
-				} catch (SQLException e) {
-					System.out.println(e.getMessage());
-				} finally {
-					
-				}
-//			
-}
-}
-//	
+
 
 
 	

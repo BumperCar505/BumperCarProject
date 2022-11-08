@@ -20,7 +20,7 @@ import com.mysql.cj.xdevapi.Statement;
 
 import javax.swing.ImageIcon;
 
-public class CusMgr_edit {
+public class CusMgr_edit extends JFrame{
 
 	private JFrame frame;
 	private JTextField cusName;
@@ -34,11 +34,12 @@ public class CusMgr_edit {
 	private JTextField cusDate;
 	private JLabel lblCusTel;
 	private JLabel lblNewLabel_2;
-	private JLabel contentPane;
+	private JPanel contentPane;
+	
 	
 	MemberMgr mgr;
 	MemberBean bean;
-	int a = 1;
+	int aa = 0;
 	
 	
 	public static void main(String[] args) {
@@ -46,7 +47,7 @@ public class CusMgr_edit {
 			public void run() {
 				try {
 //					CusMgr_edit window = new CusMgr_edit();
-//					CusMgr_edit();
+					
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -58,20 +59,23 @@ public class CusMgr_edit {
 	/**
 	 * Create the application.
 	 */
-//public CusMgr_edit() {
-//
-//		
-////		frame.setVisible(true);
-//		
-//		initialize();
-//}
+		public CusMgr_edit(int a) {
+			setBounds(100, 100, 592, 764);
+			contentPane = new JPanel();
+		
+		 
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @wbp.parser.entryPoint
 	 */
-	private void CusMgr_edit(int a) {
-//		setVisible(true);
-		frame.setVisible(true);
+
+		
+		/**
+		  * @wbp.parser.entryPoint
+		  */
+
+		
 		frame = new JFrame();
 		
 		frame.setBounds(100, 100, Size.SCREEN_W, Size.SCREEN_H);
@@ -93,16 +97,16 @@ public class CusMgr_edit {
 		cusName = new JTextField();
 		cusName.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
 		cusName.setBounds(304, 10, 246, 54);
-		panel.add(cusName = new JTextField(bean.getName(), 10));
-//		panel.add(cusName);
-//		cusName.setColumns(10);
+//		panel.add(cusName = new JTextField(bean.getName(), 10));
+		panel.add(cusName);
+		cusName.setColumns(10);
 		
 		
 		cusCarNum = new JTextField();
 		cusCarNum.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
 		cusCarNum.setColumns(10);
 		cusCarNum.setBounds(304, 96, 246, 54);
-		panel.add(cusName = new JTextField(bean.getCusName(), 10));
+//		panel.add(cusName = new JTextField(bean.getCusName(), 10));
 		panel.add(cusCarNum);
 		
 		cusCarBrand = new JTextField();
@@ -110,7 +114,7 @@ public class CusMgr_edit {
 		cusCarBrand.setColumns(10);
 		cusCarBrand.setBounds(304, 176, 246, 54);
 		panel.add(cusCarBrand);
-		panel.add(cusCarBrand = new JTextField(bean.getCusCarBrand(), 10));
+//		panel.add(cusCarBrand = new JTextField(bean.getCusCarBrand(), 10));
 		
 		cusCarType = new JTextField();
 		cusCarType.setFont(new Font("나눔바른고딕", Font.BOLD, 21));
@@ -148,11 +152,14 @@ public class CusMgr_edit {
 		cusDate.setBounds(304, 632, 365, 54);
 		panel.add(cusDate);
 		
+		
+		//데이터넣기
 		MemberMgr mgr = new MemberMgr();
-		MemberBean bean = mgr.select(a);
+		MemberBean bean = mgr.select_(a);
 		
+		aa = a;
 		
-//		bean.setCusKm (Integer.parseInt(cusKm.getText().toString()));
+
 		cusName.setText(bean.getCusName());
 		cusCarNum.setText(bean.getCusCarNum());
 		cusCarBrand.setText(bean.getCusCarBrand());
@@ -214,17 +221,9 @@ public class CusMgr_edit {
 		lblNewLabel_2.setBounds(231, 38, 235, 80);
 		frame.getContentPane().add(lblNewLabel_2);
 		
-
 		
-//		btnCusEditSave.addActionListener(new ActionListener() {
-//		
-//		@Override
-//		public void actionPerformed(ActionEvent e) {
-//			frame.setVisible(false); 
-//			new CusMgr();
-//			
-//		}
-//	});
+
+	
 		
 //		저장 버튼 눌렀을 때 적혀져 있는 것들이 db에 저장되도록 
 		btnCusEditSave.addActionListener(new ActionListener() {
@@ -243,7 +242,7 @@ public class CusMgr_edit {
 	            	bean.setCusTel(cusTel.getText());
 	            	bean.setCusDate(cusDate.getText());
 	            	
-	            	mgr.updateCusMgr(bean);
+	            	mgr.updateCusMgr(bean,aa);
 	            	
 	            	frame.setVisible(false); 
 	    			new CusMgr();
@@ -253,6 +252,7 @@ public class CusMgr_edit {
 		
 		
 	}
+
 
 		
 	
