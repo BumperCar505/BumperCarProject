@@ -6,8 +6,13 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URLDecoder;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -175,7 +180,7 @@ public class ComSrvList extends JFrame implements ActionListener {
 		// Num, Service Name, Provide Technician, Service Price
 		Object[] columns = {"번호", "서비스 명", "제공 정비사", "서비스 가격"};
 		Object[][] rowNames = {
-				{"1", "타이어 교체", "김하하, 박나나", "공임비2"},
+				{"1", "타이어 교체", "김하하, 박나나", "공임비2"}, // 공임비 = 정비사 공임 + 부품가격
 				{"2", "엔진오일 교체", "김하하, 조마마", "공임비1"},
 		};
 		
